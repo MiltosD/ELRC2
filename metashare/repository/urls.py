@@ -68,5 +68,5 @@ urlpatterns = patterns('metashare.repository.views',
                        url(r'report_extended', 'report_extended'),
                        url(r'addtodb/$', 'addtodb', name='addtodb'),
                        url(r'get_data/(?P<filename>.+\.zip)', 'get_data', name='get_data'),
-                       # url(r'^processing/', include('metashare.processing.urls')),
+                       url(r'^processing/', include('metashare.processing.urls')),
                        )

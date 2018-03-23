@@ -5,7 +5,7 @@ import logging
 from celery import shared_task
 from django.core.mail import send_mail
 from metashare.processing.celery_app import app
-from metashare.settings import CAMEL_IP
+from metashare.settings import CAMEL_IP, CAMEL_PORT
 
 # Setup logging support.
 LOGGER = logging.getLogger(__name__)
@@ -27,5 +27,5 @@ def test_celery(num):
 
 @app.task(name="process_new")
 def process_new(input_id, zipfile, service_id):
-    camel_url = "http://{}/ILSP/elrc/{}/{}!{}/{}/".format(CAMEL_IP, input_id, input_id, zipfile, service_id)
+    camel_url = "http://{}:{}/ILSP/elrc/{}/{}!{}/{}/".format(CAMEL_IP, CAMEL_PORT, input_id, input_id, zipfile, service_id)
     return camel_url

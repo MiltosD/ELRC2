@@ -237,6 +237,12 @@
 
     <field name="publicationStatusFilter_exact" type="string" indexed="true"
       stored="true" multiValued="false" />
+
+    <field name="processabilityFilter" type="text_en" indexed="true"
+      stored="true" multiValued="false" />
+
+    <field name="processabilityFilter_exact" type="string" indexed="true"
+      stored="true" multiValued="false" />
     
     <field name="audioConversationalTypeFilter_exact" type="string" indexed="true"
       stored="true" multiValued="true" />

@@ -283,7 +283,7 @@ def get_resource_encodings(res_obj):
 def is_processable(res_obj):
     valid_formats = {'HTML', 'Plain text', 'PDF', 'DOCX', 'DOC'}
     data_formats = set(get_resource_dataformats(res_obj))
-    return bool(valid_formats & data_formats)
+    return "YES" if bool(valid_formats & data_formats) else "NO"
 
 
 def get_lr_stat_action_count(obj_identifier, stats_action):

@@ -17,7 +17,7 @@ def get_resource_name(res_id):
 
 
 @register.filter(name='get_resource_url')
-def get_resource_name(res_id):
+def get_resource_url(res_id):
     resource = resourceInfoType_model.objects.get(id=res_id)
     return resource.get_absolute_url()
 

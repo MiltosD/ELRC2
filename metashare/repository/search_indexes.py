@@ -22,7 +22,6 @@ from metashare.settings import LOG_HANDLER
 from metashare.storage.models import StorageObject, INGESTED, PUBLISHED, INTERNAL
 from metashare.stats.model_utils import DOWNLOAD_STAT, VIEW_STAT
 
-
 # Setup logging support.
 LOGGER = logging.getLogger(__name__)
 LOGGER.addHandler(LOG_HANDLER)
@@ -41,6 +40,7 @@ def update_lr_index_entry(res_obj):
     haystack_connections[router_name] \
         .get_unified_index().get_index(resourceInfoType_model) \
         .update_object(res_obj)
+
 
 # pylint: disable-msg=C0103
 class resourceInfoType_modelIndex(SearchIndex, indexes.Indexable):
@@ -867,4 +867,4 @@ class resourceInfoType_modelIndex(SearchIndex, indexes.Indexable):
         return obj.publication_status()
 
     def prepare_processabilityFilter(self, obj):
-        return is_processable(obj)
+        return is_processable(obj)[0]

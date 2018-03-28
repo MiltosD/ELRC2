@@ -4,6 +4,7 @@ Methods for model data conversion between different representations.
 
 import logging
 
+import os
 from django.db.models import OneToOneField, Sum
 
 from metashare.repository.dataformat_choices import MIMETYPEVALUE_TO_MIMETYPELABEL
@@ -11,7 +12,7 @@ from metashare.repository.models import resourceInfoType_model, \
     corpusInfoType_model, lexicalConceptualResourceInfoType_model, \
     languageDescriptionInfoType_model, toolServiceInfoType_model
 from metashare.repository.templatetags.replace import pretty_camel
-from metashare.settings import LOG_HANDLER
+from metashare.settings import LOG_HANDLER, PROCESSING_MAXIMUM_UPLOAD_SIZE
 from metashare.stats.models import LRStats
 
 # Setup logging support.
@@ -281,9 +282,21 @@ def get_resource_encodings(res_obj):
 
 
 def is_processable(res_obj):
+    """
+    Determine if a resource is processable (and at which extent) by ELRC services
+    by checking a. if it contains valid formats, b. is less than or equal to 30mb
+    This function is mainly to be used to build the solr facet.
+    Returns: tuple
+    """
+
     valid_formats = {'HTML', 'Plain text', 'PDF', 'DOCX', 'DOC'}
     data_formats = set(get_resource_dataformats(res_obj))
-    return "YES" if bool(valid_formats & data_formats) else "NO"
+    download_path = res_obj.storage_object.get_download()
+    existing_and_size_permitted = False
+    if download_path and os.stat(download_path).st_size <= PROCESSING_MAXIMUM_UPLOAD_SIZE:
+        existing_and_size_permitted = True
+    return ("YES" if (bool(valid_formats & data_formats) and existing_and_size_permitted) else "NO",
+            "full" if valid_formats & data_formats == len(valid_formats) else "partial")
 
 
 def get_lr_stat_action_count(obj_identifier, stats_action):

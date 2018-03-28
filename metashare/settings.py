@@ -186,7 +186,7 @@ INSTALLED_APPS = (
     'metashare.repository',
     'metashare.bcp47',
     # PROCESSING
-    #'metashare.processing',
+    'metashare.processing',
     'celery',
     'progressbarupload',
     'metashare.edelivery',

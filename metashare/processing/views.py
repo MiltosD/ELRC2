@@ -117,8 +117,6 @@ def get_data(request):
         send_failure_mail.delay(processing_id)
     else:
         build_link.delay(processing_id)
-    # import_resource_task = import_resource.delay(processing_id, data_file)
-
     return HttpResponse("Request received", status=200)
 
 

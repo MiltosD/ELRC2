@@ -7,7 +7,8 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "metashare.settings")
 from celery import Celery
 
 app = Celery('processing',
-             broker='amqp://{}:{}@{}'.format(settings.RABBIT_USER, settings.RABBIT_PASS, settings.CAMEL_IP),)
+             broker='amqp://{}:{}@{}'.format(settings.RABBIT_USER, settings.RABBIT_PASS, settings.CAMEL_IP),
+             backend='rpc://{}:{}@{}'.format(settings.RABBIT_USER, settings.RABBIT_PASS, settings.CAMEL_IP),)
 
 app.config_from_object('django.conf:settings')
 

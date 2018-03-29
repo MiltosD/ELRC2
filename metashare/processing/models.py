@@ -64,12 +64,12 @@ class Processing(models.Model):
     """
     # Where the data to be processed came from
     source = models.CharField(verbose_name="Data Source",
-                              choices=(("ELRC_resource", "ELRC_Resource"), ("user_upload", "User Upload")),
+                              choices=(("elrc_resource", "ELRC Resource"), ("user_upload", "User Upload")),
                               max_length=13)
 
     service = models.CharField(verbose_name='Processing Service', max_length=30, blank=True)
 
-    elrc_resource = models.OneToOneField(resourceInfoType_model,
+    elrc_resource = models.ForeignKey(resourceInfoType_model,
                                          verbose_name="ELRC Resource",
                                          related_name='processing_resources', blank=True, null=True)
     # derived_resource = models.OneToOneField(resourceInfoType_model, null=True)

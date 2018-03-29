@@ -288,7 +288,6 @@ def is_processable(res_obj):
     This function is mainly to be used to build the solr facet.
     Returns: tuple
     """
-
     valid_formats = {'HTML', 'Plain text', 'PDF', 'DOCX', 'DOC'}
     data_formats = set(get_resource_dataformats(res_obj))
     download_path = res_obj.storage_object.get_download()
@@ -296,7 +295,7 @@ def is_processable(res_obj):
     if download_path and os.stat(download_path).st_size <= PROCESSING_MAXIMUM_UPLOAD_SIZE:
         existing_and_size_permitted = True
     return ("YES" if (bool(valid_formats & data_formats) and existing_and_size_permitted) else "NO",
-            "full" if valid_formats & data_formats == len(valid_formats) else "partial")
+            True if valid_formats & data_formats == data_formats else False)
 
 
 def get_lr_stat_action_count(obj_identifier, stats_action):

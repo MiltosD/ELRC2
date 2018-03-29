@@ -9,8 +9,9 @@ import xmltodict
 from django.http import HttpResponse, JsonResponse, Http404
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from metashare.processing.tasks import process_new, _monitor_processing, send_failure_mail, build_link
+from metashare.processing.tasks import process_new, _monitor_processing, send_failure_mail, build_link, process_existing
 from metashare.repository.decorators import require_membership
+from metashare.repository.models import resourceInfoType_model
 from metashare.settings import LOG_HANDLER, ROOT_PATH, PROCESSING_INPUT_PATH, PROCESSING_MAXIMUM_UPLOAD_SIZE, \
     PROCESSING_OUTPUT_PATH
 from os.path import split, getsize
@@ -25,7 +26,37 @@ def _get_service_by_id(available_services, s_id):
     for service in available_services['service']:
         if service['id'] == s_id:
             return service
-            break
+
+
+@require_membership("ecmembers")
+def process_repo_resource(request, resource_id):
+    xml = open("{}/processing/services-ELRC.xml".format(ROOT_PATH), 'r').read()
+    available_services = json.loads(json.dumps(xmltodict.parse(xml, encoding='utf-8')).replace("@", "")
+                                    .replace("#", ""))['services']
+
+    resource = resourceInfoType_model.objects.get(id=resource_id)
+    input_id = '{}'.format(uuid4().hex)
+
+    if request.method == "POST":
+        service_id = request.POST['service_select']
+        selected_service = _get_service_by_id(available_services, service_id)
+        response = dict()
+        response['status'] = "alert alert-success"
+        response['message'] = "Your processing request (id: {}) has been submitted. As soon as the process is " \
+                              "completed, you will be notified via email about the status of your request.".format(
+            input_id)
+        process_existing.delay(resource_id, selected_service['name'], input_id, service_id, request.user.id)
+
+        return JsonResponse({'info': available_services, 'msg': response})
+
+    available_services['resource'] = {
+        "id": resource.id,
+        "name": resource
+    }
+
+    return render_to_response('repository/processing/services.html', \
+                              {'info': available_services},
+                              context_instance=RequestContext(request))
 
 
 @require_membership("ecmembers")
@@ -37,11 +68,12 @@ def services(request):
     input_id = '{}'.format(uuid4().hex)
     zipped = "archive.zip"
     if request.method == "POST":
+        print request.POST
         response = {}
         upload_to = "{}/{}".format(PROCESSING_INPUT_PATH, input_id)
         service_id = request.POST['service_select']
         selected_service = _get_service_by_id(available_services, service_id)
-        if not request.FILES['filebutton'].size > PROCESSING_MAXIMUM_UPLOAD_SIZE:
+        if not request.FILES['zipfile'].size > PROCESSING_MAXIMUM_UPLOAD_SIZE:
             try:
                 if not os.path.isdir(upload_to):
                     os.makedirs(upload_to)
@@ -49,7 +81,7 @@ def services(request):
                 raise OSError, "Could not write to processing input path"
             destination = open('{}/{}'.format(upload_to, zipped), 'wb+')
 
-            for chunk in request.FILES['filebutton'].chunks():
+            for chunk in request.FILES['zipfile'].chunks():
                 destination.write(chunk)
             destination.close()
             import zipfile
@@ -74,7 +106,7 @@ def services(request):
                 zip_ok = False
             if not zipfile.is_zipfile(zfile_path) or \
                     not zip_ok or \
-                    not str(request.FILES['filebutton']).endswith(".zip"):
+                    not str(request.FILES['zipfile']).endswith(".zip"):
                 os.remove(zfile_path)
                 os.rmdir(os.path.abspath(os.path.join(zfile_path, os.pardir)))
                 response['status'] = "alert alert-warning"
@@ -99,7 +131,7 @@ def services(request):
 
     return render_to_response('repository/processing/services.html', \
                               {'info': available_services},
-                              context_instance=RequestContext(request))  # elif request.method == "GET":
+                              context_instance=RequestContext(request))
 
 
 def get_data(request):

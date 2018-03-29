@@ -7,19 +7,26 @@ import urllib2
 
 import time
 
+import os
 import requests
 from celery import states
 from celery.exceptions import Ignore
 from celery.result import AsyncResult
+from shutil import copyfile
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from metashare.processing.celery_app import app
 from metashare.processing.models import Processing
+from metashare.repository.models import resourceInfoType_model
 from metashare.settings import CAMEL_IP, CAMEL_PORT, UNITTESTING, MONITOR_TASK_IP, PROCESSING_OUTPUT_PATH, DJANGO_BASE, \
-    DJANGO_URL
+    DJANGO_URL, PROCESSING_INPUT_PATH
 
 # Setup logging support.
 LOGGER = logging.getLogger(__name__)
+
+from celery.utils.log import get_task_logger
+
+logger = get_task_logger(__name__)
 
 
 def _call_camel(input_id, zipfile, service_id):
@@ -113,6 +120,7 @@ def send_failure_mail(self, processing_id):
                  "Excuses here...".format(processing_object.user.username, processing_id)
     sender = "mdel@windowslive.com"
     to = [processing_object.user.email]
+    logger.info("Sending Failure email to {}".format(processing_object.user.username))
     send_mail(email_subject, email_body, sender, to, fail_silently=False)
     return True
 
@@ -135,11 +143,13 @@ def build_link(self, processing_id):
     to = [processing_object.user.email]
     if processing_object.status == "successful":
         email_subject = email_subject.format('Successful')
-        email_body = email_body.format(processing_object.user.username, processing_id, "been completed successfully", data_link)
+        email_body = email_body.format(processing_object.user.username, processing_id, "been completed successfully",
+                                       data_link)
     else:
         email_subject = email_subject.format('Partially Successful')
         email_body = email_body.format(processing_object.user.username, processing_id, "been partially completed",
                                        data_link)
+    logger.info("Sending Success email to {}".format(processing_object.user.username))
     send_mail(email_subject, email_body, sender, to, fail_silently=False)
     return True
 
@@ -147,10 +157,12 @@ def build_link(self, processing_id):
 @app.task(name="process-new", ignore_result=False, bind=True)
 def process_new(self, service_name, input_id, zipfile, service_id, user_id):
     # make the request to camel and create a new Processing object in 'PENDING' status
+    logger.info("Calling Camel for request {}".format(input_id))
     _call_camel(input_id, zipfile, service_id)
+    logger.info("Creating Processing object with id {}".format(input_id))
     processing_object = Processing.objects.create(
         source='user_upload',
-        service = service_name,
+        service=service_name,
         user=User.objects.get(id=user_id),
         job_uuid=input_id,
         status="pending",
@@ -159,6 +171,45 @@ def process_new(self, service_name, input_id, zipfile, service_id, user_id):
     monitor = monitor_processing(processing_object)
     if monitor == 'failed':
         self.update_state(state=states.FAILURE)
+        logger.error("Task with id {} has failed".format(input_id))
+        raise Ignore()
+    else:
+        return True
+
+
+@app.task(name="process-existing", ignore_result=False, bind=True)
+def process_existing(self, resource_id, service_name, input_id, service_id, user_id):
+    resource_object = resourceInfoType_model.objects.get(id=resource_id)
+    file_src = resource_object.storage_object.get_download()
+    file_dest = "{}/{}".format(PROCESSING_INPUT_PATH, input_id)
+
+    # create directory
+    try:
+        if not os.path.isdir(file_dest):
+            os.makedirs(file_dest)
+    except:
+        raise OSError, "Could not write to processing input path"
+
+    logger.info("Copying File to {}".format(file_dest))
+    copyfile(file_src, '{}/{}'.format(file_dest, "archive.zip"))
+
+    logger.info("Calling Camel for request {}".format(input_id))
+    _call_camel(input_id, "archive.zip", service_id)
+
+    logger.info("Creating Processing object with id {}".format(input_id))
+    processing_object = Processing.objects.create(
+        source='elrc_resource',
+        elrc_resource=resource_object,
+        service=service_name,
+        user=User.objects.get(id=user_id),
+        job_uuid=input_id,
+        status="pending",
+        active=True
+    )
+    monitor = monitor_processing(processing_object)
+    if monitor == 'failed':
+        self.update_state(state=states.FAILURE)
+        logger.error("Task with id {} has failed".format(input_id))
         raise Ignore()
     else:
         return True

@@ -6,9 +6,9 @@
 {% block extra_head %}
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
           integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    <script src="{{ STATIC_URL }}metashare/js/jquery.form.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}metashare/js/processing.js"></script>
     <script src="{{ STATIC_URL }}metashare/js/jquery-1.9.1.min.js"></script>
+    <script src="{{ STATIC_URL }}metashare/js/jquery.form.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <style>
         .btn {
@@ -27,10 +27,14 @@
         </p>
         <hr/>
         <div>
-            <form id="upload-form" action="" method="post" enctype="multipart/form-data" encoding="multipart/form-data">
+            <form id="processing-form" action="" method="post" enctype="multipart/form-data" encoding="multipart/form-data">
                 {% csrf_token %}
                 <div class="form-group required" id="service">
-                    <label class="control-label" for="service_select">Select Service</label><br/>
+                    <label class="control-label" for="service_select">Select Service
+                    {% if info.resource %}
+                        for resource <em>"{{ info.resource.name }}"</em> with id {{ info.resource.id }}
+                    {% endif %}
+                    </label><br/>
                     <select required name="service_select" id="service_select">
                         <option value="">-------</option>
                         {% for service in info.service %}
@@ -38,13 +42,19 @@
                         {% endfor %}
                     </select>
                 </div>
-                <!-- File Button -->
-                <div class="form-group required" id="fileupload">
-                    <label class="control-label" for="filebutton">Upload File</label>
-                    <input accept=".zip" id="filebutton" name="filebutton" class="input-file" type="file"
-                           required="">
-                    <span class="help-block contrib-help">Please upload a <strong>.zip file</strong> up to 30MB.</span>
-                </div>
+                <!-- File Button or resource-->
+                {% if not info.resource %}
+                    <div class="form-group required" id="fileupload">
+                        <label class="control-label" for="zipfile">Upload File</label>
+                        <input accept=".zip" id="zipfile" name="zipfile" class="input-file" type="file"
+                               required="">
+                        <span class="help-block contrib-help">Please upload a <strong>.zip file</strong> up to 30MB.</span>
+                    </div>
+                {% else %}
+                    <div class="form-group required" id="repo-resource">
+                        <input name="repo-resource-id" type="hidden" value="{{ info.resource.id }}" required>
+                    </div>
+                {% endif %}
                 <div id="progress-wrappper" style="display: none;">
                     <span>Uploading File. Please wait...</span>
                     <div class="progress" style="width:50%;">

@@ -3,13 +3,26 @@
  */
 
 $(document).ready(function () {
-    $('#upload-form').on('submit', function (event) {
+    $('#processing-form').on('submit', function (event) {
         event.preventDefault();
         var formData = new FormData($('form')[0]);
         $('#msg').removeClass();
         $('#msg').text('');
         $('#progress-wrappper').toggle();
-        fileSize = $("#filebutton")[0].files[0].size;
+
+        if (formData.get("repo-resource-id") != null){
+            $('#progress-wrappper').hide();
+            $('#processing-form').ajaxSubmit({
+                success: function (data) {
+                    $('#processing-form')[0].reset();
+                    $('#msg').addClass(data.msg.status);
+                    $('#msg').text(data.msg.message);
+                }
+            });
+            return true
+        }
+
+        var fileSize = $("#zipfile")[0].files[0].size;
 
         if(fileSize > 31457280){
             $('#msg').addClass("alert alert-warning");
@@ -39,7 +52,7 @@ $(document).ready(function () {
             contentType: false,
             success: function (data) {
                 resetProgress($('#progress-wrappper'));
-                $('#upload-form')[0].reset();
+                $('#processing-form')[0].reset();
                 $('#msg').addClass(data.msg.status);
                 $('#msg').text(data.msg.message);
             }

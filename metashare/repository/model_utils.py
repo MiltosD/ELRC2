@@ -288,7 +288,7 @@ def is_processable(res_obj):
     This function is mainly to be used to build the solr facet.
     Returns: tuple
     """
-    valid_formats = {'HTML', 'Plain text', 'PDF', 'DOCX', 'DOC'}
+    valid_formats = {'HTML', 'XHTML', 'Plain text', 'PDF', 'MS-Word doc', 'MS-Word docx'}
     data_formats = set(get_resource_dataformats(res_obj))
     download_path = res_obj.storage_object.get_download()
     existing_and_size_permitted = False

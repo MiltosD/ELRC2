@@ -6,11 +6,14 @@ from zipfile import BadZipfile
 
 import os
 import xmltodict
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse, Http404
 from django.shortcuts import render_to_response
 from django.template import RequestContext
+from metashare.processing.models import Processing
 from metashare.processing.tasks import process_new, _monitor_processing, send_failure_mail, build_link, process_existing
 from metashare.repository.decorators import require_membership
+from metashare.repository.model_utils import is_processable
 from metashare.repository.models import resourceInfoType_model
 from metashare.settings import LOG_HANDLER, ROOT_PATH, PROCESSING_INPUT_PATH, PROCESSING_MAXIMUM_UPLOAD_SIZE, \
     PROCESSING_OUTPUT_PATH
@@ -28,6 +31,12 @@ def _get_service_by_id(available_services, s_id):
             return service
 
 
+def _check_processability(resource):
+    if is_processable(resource)[0] == "YES":
+        return True
+    return False
+
+
 @require_membership("ecmembers")
 def process_repo_resource(request, resource_id):
     xml = open("{}/processing/services-ELRC.xml".format(ROOT_PATH), 'r').read()
@@ -35,12 +44,21 @@ def process_repo_resource(request, resource_id):
                                     .replace("#", ""))['services']
 
     resource = resourceInfoType_model.objects.get(id=resource_id)
+
     input_id = '{}'.format(uuid4().hex)
 
     if request.method == "POST":
+        response = dict()
+        # !IMPORANT
+        # Check again if the resource is processable, since the user may input the
+        # resource id directly in to the url, bypassing first check
+        if not _check_processability(resource):
+            response['status'] = "alert alert-danger"
+            response['message'] = "This resource is not processable"
+            return JsonResponse({'info': available_services, 'msg': response})
+
         service_id = request.POST['service_select']
         selected_service = _get_service_by_id(available_services, service_id)
-        response = dict()
         response['status'] = "alert alert-success"
         response['message'] = "Your processing request (id: {}) has been submitted. As soon as the process is " \
                               "completed, you will be notified via email about the status of your request.".format(
@@ -54,11 +72,24 @@ def process_repo_resource(request, resource_id):
         "name": resource
     }
 
-    return render_to_response('repository/processing/services.html', \
+    # !IMPORANT
+    # Check again if the resource is processable, since the user may input the
+    # resource id directly in to the url, bypassing first check. Disable form if
+    # the resource is not processable
+    if not _check_processability(resource):
+        response = dict()
+        response['status'] = "alert alert-danger"
+        response['message'] = "This resource is not processable"
+        response['disable_form'] = True
+        return render_to_response('repository/processing/services.html',
+                                  {'info': available_services, 'msg': response},
+                                  context_instance=RequestContext(request))
+    return render_to_response('repository/processing/services.html',
                               {'info': available_services},
                               context_instance=RequestContext(request))
 
 
+@login_required
 @require_membership("ecmembers")
 def services(request):
     xml = open("{}/processing/services-ELRC.xml".format(ROOT_PATH), 'r').read()
@@ -152,6 +183,7 @@ def get_data(request):
     return HttpResponse("Request received", status=200)
 
 
+@login_required
 @require_membership("ecmembers")
 def download_processed_data(request, processing_id):
     dl_path = "{}/{}zip/archive.zip".format(PROCESSING_OUTPUT_PATH, processing_id)
@@ -178,3 +210,23 @@ def download_processed_data(request, processing_id):
         except:
             raise Http404("The requested file does not exist or has been deleted.")
 
+
+@login_required
+@require_membership("ecmembers")
+def my_processings(request):
+    processings = Processing.objects.filter(user=request.user)
+    result = list()
+    for processing in processings:
+        result.append({
+            'processing_id': processing.id,
+            'processing_request_id': processing.job_uuid,
+            'service': processing.service,
+            'data_source': processing.source,
+            'elrc_resource': processing.elrc_resource,
+            'submission_date': processing.date_created.strftime('%d/%m/%Y'),
+            'status': processing.status,
+            'link_active': processing.active
+        })
+    return render_to_response('repository/processing/user_processings.html',
+                              {'processings': result},
+                              context_instance=RequestContext(request))

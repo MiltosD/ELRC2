@@ -28,6 +28,8 @@ from celery.utils.log import get_task_logger
 
 logger = get_task_logger(__name__)
 
+MONITOR_SLEEP = 4
+
 
 def _call_camel(input_id, zipfile, service_id):
     # Construct the request
@@ -91,13 +93,13 @@ def monitor_processing(processing_object):
     if monitor['archiveExtrSuccesfully'] == 1:
         while monitor['SuccesfullyProcessed'] == 0 and monitor['Errors'] == 0:
             monitor = _monitor_processing(processing_object.job_uuid)
-            time.sleep(3)
+            time.sleep(MONITOR_SLEEP)
         processing_object.status = "progress"
         processing_object.save()
 
         while monitor['SuccesfullyProcessed'] + monitor['Errors'] < monitor['Total']:
             monitor = _monitor_processing(processing_object.job_uuid)
-            time.sleep(3)
+            time.sleep(MONITOR_SLEEP)
 
         if monitor['SuccesfullyProcessed'] == monitor['Total']:
             processing_object.status = "successful"

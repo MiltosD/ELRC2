@@ -135,6 +135,11 @@
                             <li><a href="{% url 'edelivery_application' %}"
                                    title="Apply for eDelivery membership">Apply for ELRC-SHARE eDelivery membership</a>
                             </li>
+
+                            {% if user.is_superuser or user|is_member:"ecmembers" %}
+                                <li title="Process Data"><a href="/repository/processing">Process data using ELRC
+                                    services</a></li>
+                            {% endif %}
                             {% if user.is_superuser or user|is_member:"ecmembers" %}
                                 <li title="ELRC-SHARE RESTful API"><a
                                         href="/repository/api/v1/help/">ELRC-SHARE RESTful API</a>

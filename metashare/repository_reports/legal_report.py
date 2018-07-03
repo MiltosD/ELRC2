@@ -3,13 +3,11 @@ import datetime
 
 import xlsxwriter
 from django.core.exceptions import ObjectDoesNotExist
-from django.http import HttpResponse
 from django.utils.encoding import smart_str
+from metashare.report_utils.report_utils import _is_processed, _is_not_processed_or_related
 from metashare.repository import model_utils
-from metashare.repository.dataformat_choices import MIMETYPEVALUE_TO_MIMETYPELABEL
 from metashare.repository.fields import best_lang_value_retriever
-from metashare.repository.models import resourceInfoType_model, corpusInfoType_model, \
-    lexicalConceptualResourceInfoType_model, languageDescriptionInfoType_model, organizationInfoType_model
+from metashare.repository.models import resourceInfoType_model, organizationInfoType_model
 from metashare.repository.views import _get_resource_lang_info, _get_resource_sizes, _get_resource_lang_sizes, \
     _get_preferred_size, _get_resource_domain_info, status, _get_country, _get_resource_mimetypes, \
     _get_resource_linguality
@@ -17,7 +15,7 @@ from metashare.stats.model_utils import DOWNLOAD_STAT, VIEW_STAT
 from metashare.utils import prettify_camel_case_string
 
 
-def enh_report():
+def extended_report():
     '''
     Returns all resources in the repository as an excel file with
     predefined data to include.
@@ -80,6 +78,10 @@ def enh_report():
         worksheet.write('AH1', 'Legal Documentation', heading)
         worksheet.write('AI1', 'Allows Uses Besides DGT', heading)
         worksheet.write('AJ1', 'IPR Clearing Status', heading)
+        worksheet.write('AK1', 'IPR Comments', heading)
+        worksheet.write('AL1', 'Unique', heading)
+        # worksheet.write('AM1', 'Unique', heading)
+
         j = 1
         for i in range(len(resources)):
 
@@ -284,23 +286,31 @@ def enh_report():
                 for ip in dist.iprHolder.all():
                     subclass = ip.as_subclass()
                     if isinstance(ip.as_subclass(), organizationInfoType_model):
-                        print res.id
-                        ipr_holders.append("{} ({})".format(best_lang_value_retriever(subclass.organizationName),
-                                                            subclass.communicationInfo.email))
+                        ipr_holders.append(
+                            u"{} ({})".format(best_lang_value_retriever(subclass.organizationName).encode('utf-8'),
+                                              ", ".join(subclass.communicationInfo.email)))
                     else:
-                        ipr_holders.append("{} {} ({})".format(best_lang_value_retriever(subclass.givenName),
-                                                               best_lang_value_retriever(subclass.surname),
-                                                               subclass.communicationInfo.email))
-            worksheet.write(j, 32, ", ".join(ipr_holders))
+                        ipr_holders.append(
+                            u"{} {} ({})".format(best_lang_value_retriever(subclass.givenName).encode('utf-8'),
+                                                 best_lang_value_retriever(subclass.surname).encode('utf-8'),
+                                                 ", ".join(subclass.communicationInfo.email)))
+            worksheet.write(j, 32, u", ".join(ipr_holders))
 
             worksheet.write(j, 33, "YES" if res.storage_object.get_legal_documentation() else "NO")
 
             dgt = "YES" if True in set(
                 [d.allowsUsesBesidesDGT for d in res.distributioninfotype_model_set.all()]) else "NO"
-            ipr_status = prettify_camel_case_string(res.management_object.ipr_clearing)
+            ipr_status = prettify_camel_case_string(res.management_object.ipr_clearing) if \
+                res.management_object.ipr_clearing else ""
             worksheet.write(j, 34, dgt)
             worksheet.write(j, 35, ipr_status)
+            ipr_comments = res.management_object.comments
+            worksheet.write(j, 36, ipr_comments)
+            # resource_description = best_lang_value_retriever(res.identificationInfo.description)
+            # worksheet.write(j, 37, resource_description)
+            is_unique = "YES" if (_is_processed(res) or _is_not_processed_or_related(res)) else "NO"
 
+            worksheet.write(j, 37, is_unique)
             j += 1
             # worksheet.write(i + 1, 3, _get_resource_size_info(res))
         # worksheet.write(len(resources)+2, 3, "Total Resources", bold)

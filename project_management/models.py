@@ -119,7 +119,6 @@ class ManagementObject(models.Model):
 
     def save(self, *args, **kwargs):
         self._set_is_processed_version()
-        self._set_validated()
         self._set_partner()
         if not self.resource:
             self.resource = self.get_related_resource().__unicode__()

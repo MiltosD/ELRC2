@@ -257,7 +257,7 @@ def edit_profile(request):
                 in OrganizationManagers.objects.filter(name__in=profile.user.groups.values_list('name', flat=True))]}
     if request.user.is_superuser or request.user.has_perm('auth.access_api'):
         dictionary['API_KEY'] = REST_API_KEY
-    
+
     return render_to_response('accounts/edit_profile.html', dictionary,
       context_instance=RequestContext(request))
 

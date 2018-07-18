@@ -287,13 +287,11 @@ def extended_report():
                     subclass = ip.as_subclass()
                     if isinstance(ip.as_subclass(), organizationInfoType_model):
                         ipr_holders.append(
-                            u"{} ({})".format(best_lang_value_retriever(subclass.organizationName).encode('utf-8'),
-                                              u", ".join(subclass.communicationInfo.email)))
+                            u"{}".format(best_lang_value_retriever(subclass.organizationName).encode('utf-8')))
                     else:
                         ipr_holders.append(
-                            u"{} {} ({})".format(best_lang_value_retriever(subclass.givenName).encode('utf-8'),
-                                                 best_lang_value_retriever(subclass.surname).encode('utf-8'),
-                                                 u", ".join(subclass.communicationInfo.email)))
+                            u"{} {}".format(best_lang_value_retriever(subclass.givenName).encode('utf-8'),
+                                                 best_lang_value_retriever(subclass.surname).encode('utf-8')))
             worksheet.write(j, 32, u", ".join(ipr_holders))
 
             worksheet.write(j, 33, "YES" if res.storage_object.get_legal_documentation() else "NO")

@@ -1332,7 +1332,7 @@ class communicationInfoType_model(SchemaModel):
 
     __schema_name__ = 'communicationInfoType'
     __schema_fields__ = (
-      ( u'email', u'email', REQUIRED ),
+      ( u'email', u'email', OPTIONAL ),
       ( u'url', u'url', OPTIONAL ),
       ( u'address', u'address', OPTIONAL ),
       ( u'zipCode', u'zipCode', OPTIONAL ),
@@ -1345,7 +1345,7 @@ class communicationInfoType_model(SchemaModel):
 
     email = MultiTextField(max_length=100, widget=MultiFieldWidget(widget_id=11, max_length=100),
       verbose_name='Email', validators=[EMAILADDRESS_VALIDATOR],
-      help_text='The email address of a person or an organization',
+      help_text='The email address of a person or an organization', blank=True
       )
 
     url = MultiTextField(max_length=1000, widget=MultiFieldWidget(widget_id=12, max_length=150),

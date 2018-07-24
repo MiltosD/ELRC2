@@ -432,11 +432,29 @@
 								</xs:appinfo>
 							</xs:annotation>
 						</xs:enumeration>
+						<xs:enumeration value="GPL-2.0">
+							<xs:annotation>
+								<xs:documentation>GNU General Public License v2.0; cf. https://www.gnu.org/licenses/gpl-2.0.en.html</xs:documentation>
+								<xs:appinfo>
+									<label>GNU General Public License v2.0</label>
+									<recomUsage>software</recomUsage>
+								</xs:appinfo>
+							</xs:annotation>
+						</xs:enumeration>
 						<xs:enumeration value="GPL-3.0">
 							<xs:annotation>
 								<xs:documentation>GNU General Public License v3.0; cf. https://www.gnu.org/licenses/gpl-3.0.en.html</xs:documentation>
 								<xs:appinfo>
 									<label>GNU General Public License v3.0</label>
+									<recomUsage>software</recomUsage>
+								</xs:appinfo>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="LGPL-2.1">
+							<xs:annotation>
+								<xs:documentation>GNU Lesser General Public License v2.1; cf. https://www.gnu.org/licenses/lgpl-2.1.en.html</xs:documentation>
+								<xs:appinfo>
+									<label>GNU Lesser General Public License v2.1</label>
 									<recomUsage>software</recomUsage>
 								</xs:appinfo>
 							</xs:annotation>

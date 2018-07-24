@@ -55,9 +55,9 @@ licences = {
     u'NCGL-1.0': [0, 0, 0], u'NLOD-1.0': [0, 0, 0], u'AGPL-3.0': [0, 0, 0], u'Apache-2.0': [0, 0, 0],
     u'BSD-4-Clause': [0, 0, 0],
     u'BSD-3-Clause': [0, 0, 0],
-    u'BSD-2-Clause': [0, 0, 0], u'EPL-1.0': [0, 0, 0], u'GFDL-1.3': [0, 0, 0], u'GPL-3.0': [0, 0, 0],
-    u'LGPL-3.0': [0, 0, 0], u'EUPL-1.0': [0, 0, 0], u'EUPL-1.1': [0, 0, 0], u'EUPL-1.2': [0, 0, 0],
-    u'MIT': [0, 0, 0], u'publicDomain': [0, 0, 0],
+    u'BSD-2-Clause': [0, 0, 0], u'EPL-1.0': [0, 0, 0], u'GFDL-1.3': [0, 0, 0], u'GPL-2.0': [0, 0, 0],
+    u'GPL-3.0': [0, 0, 0], u'LGPL-2.1': [0, 0, 0], u'LGPL-3.0': [0, 0, 0], u'EUPL-1.0': [0, 0, 0], u'EUPL-1.1': [0, 0, 0],
+    u'EUPL-1.2': [0, 0, 0], u'MIT': [0, 0, 0], u'publicDomain': [0, 0, 0],
     u'underReview': [0, 0, 0], u'non-standard/Other_Licence/Terms': [0, 0, 0]}
 
 dsis = {

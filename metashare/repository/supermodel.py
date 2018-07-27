@@ -1108,6 +1108,7 @@ class SchemaModel(models.Model):
 
             # Check if the current _object instance is a duplicate.
             _duplicates = cls._check_for_duplicates(_object)
+
             _was_duplicate = len(_duplicates) > 0
 
             LOGGER.debug(u'_object: {0}, _was_duplicate: {1}, ' \
@@ -1116,12 +1117,17 @@ class SchemaModel(models.Model):
             # Add current _object instance to the _created list with correct
             # status: 'D' if it was a duplicate, 'C' otherwise.
 
+            # MDEL: CHECK resource name and in case of duplicate, add suffix
+            if isinstance(_object, metashare.repository.models.identificationInfoType_model) \
+                and _was_duplicate:
+                _object.resourceName['en'] += " [XML UPLOAD]"
+                _object.save()
+
             # MDEL: CATCH PROBLEMATIC BEHAVIOUR
             #       WE NEED THE LICENCE INFO TO BE CREATED 'C'
             if _was_duplicate \
                     and not isinstance(_object, metashare.repository.models.licenceInfoType_model):
                 _created.append((_object, 'D'))
-
                 # If we are allowed to perform cleanup, we do so and also
                 # replace our _object instance with the "original" object.
                 if cleanup:

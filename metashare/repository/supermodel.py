@@ -1115,7 +1115,11 @@ class SchemaModel(models.Model):
 
             # Add current _object instance to the _created list with correct
             # status: 'D' if it was a duplicate, 'C' otherwise.
-            if _was_duplicate:
+
+            # MDEL: CATCH PROBLEMATIC BEHAVIOUR
+            #       WE NEED THE LICENCE INFO TO BE CREATED 'C'
+            if _was_duplicate \
+                    and not isinstance(_object, metashare.repository.models.licenceInfoType_model):
                 _created.append((_object, 'D'))
 
                 # If we are allowed to perform cleanup, we do so and also

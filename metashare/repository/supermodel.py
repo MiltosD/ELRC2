@@ -1120,7 +1120,7 @@ class SchemaModel(models.Model):
             # MDEL: CHECK resource name and in case of duplicate, add suffix
             if isinstance(_object, metashare.repository.models.identificationInfoType_model) \
                 and _was_duplicate:
-                _object.resourceName['en'] += " [XML UPLOAD]"
+                _object.resourceName['en'] += " (new)"
                 _object.save()
 
             # MDEL: CATCH PROBLEMATIC BEHAVIOUR

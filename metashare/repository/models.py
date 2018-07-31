@@ -1803,6 +1803,7 @@ LICENCEINFOTYPE_LICENCE_CHOICES = _make_choices_from_list([
     u'LO-OL-v2',
     u'NCGL-1.0',
     u'NLOD-1.0',
+    u'CC-BY-SA-3.0',
     # International Software Licences
     u'AGPL-3.0',
     u'Apache-2.0',
@@ -1833,10 +1834,10 @@ def licenceinfotype_licence_optgroup_choices():
     and the second group is the rest.
     """
     indl = ('International/National Data Licences', LICENCEINFOTYPE_LICENCE_CHOICES['choices'][:18])
-    ndl = ('National Data Licences', LICENCEINFOTYPE_LICENCE_CHOICES['choices'][18:24])
-    isl = ('International Software Licences', LICENCEINFOTYPE_LICENCE_CHOICES['choices'][24:36])
-    isdl = ('International Software & Data Licences', LICENCEINFOTYPE_LICENCE_CHOICES['choices'][36:39])
-    other = ('Other', LICENCEINFOTYPE_LICENCE_CHOICES['choices'][39:])
+    ndl = ('National Data Licences', LICENCEINFOTYPE_LICENCE_CHOICES['choices'][18:25])
+    isl = ('International Software Licences', LICENCEINFOTYPE_LICENCE_CHOICES['choices'][25:37])
+    isdl = ('International Software & Data Licences', LICENCEINFOTYPE_LICENCE_CHOICES['choices'][37:40])
+    other = ('Other', LICENCEINFOTYPE_LICENCE_CHOICES['choices'][40:])
     optgroup = [indl, ndl, isl, isdl, other]
     return optgroup
 
@@ -1857,6 +1858,7 @@ LICENCES_DETAILS = {
     u'CC-BY-NC-SA-3.0': {"url": "https://creativecommons.org/licenses/by-nc-sa/3.0/", "version": "3.0"},
     u'CC-BY-ND-3.0': {"url": "https://creativecommons.org/licenses/by-nd/3.0/", "version": "3.0"},
     u'CC-BY-SA-3.0': {"url": "https://creativecommons.org/licenses/by-sa/3.0/", "version": "3.0"},
+    u'CC-BY-SA-2.5_Sl': {"url": "https://creativecommons.org/licenses/by-sa/2.5/si/deed.en", "version": "2.5"},
 
     u'CC0-1.0': {"url": "https://creativecommons.org/publicdomain/zero/1.0/", "version": "1.0"},
     u'dl-de/by-2-0': {"url": "https://www.govdata.de/dl-de/by-2-0", "version": "2.0"},

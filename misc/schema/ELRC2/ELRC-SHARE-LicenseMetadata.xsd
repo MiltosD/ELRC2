@@ -351,6 +351,15 @@
 								</xs:appinfo>
 							</xs:annotation>
 						</xs:enumeration>
+						<xs:enumeration value="CC-BY-SA-2.5_Sl">
+							<xs:annotation>
+								<xs:documentation>Creative Commons Attribution-ShareAlike 2.5 Slovenia; cf. https://creativecommons.org/licenses/by-sa/2.5/si/deed.en</xs:documentation>
+								<xs:appinfo>
+									<label>Creative Commons Attribution-ShareAlike 2.5 Slovenia</label>
+									<recomUsage>data</recomUsage>
+								</xs:appinfo>
+							</xs:annotation>
+						</xs:enumeration>
 						<xs:enumeration value="PDDL-1.0">
 							<xs:annotation>
 								<xs:documentation>Open Data Commons Public Domain Dedication and License; cf. https://opendatacommons.org/licenses/pddl/</xs:documentation>

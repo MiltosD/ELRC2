@@ -1803,7 +1803,7 @@ LICENCEINFOTYPE_LICENCE_CHOICES = _make_choices_from_list([
     u'LO-OL-v2',
     u'NCGL-1.0',
     u'NLOD-1.0',
-    u'CC-BY-SA-3.0',
+    u'CC-BY-SA-2.5_Sl',
     # International Software Licences
     u'AGPL-3.0',
     u'Apache-2.0',
@@ -1913,6 +1913,7 @@ LICENCES_TO_CONDITIONS = {
     u'CC-BY-NC-SA-3.0': [u'attribution', u'nonCommercialUse', u'shareAlike'],
     u'CC-BY-ND-3.0': [u'attribution', u'noDerivatives'],
     u'CC-BY-SA-3.0': [u'attribution', u'shareAlike'],
+    u'CC-BY-SA-2.5_Sl': [u'attribution', u'shareAlike'],
 
     u'dl-de/by-2-0': [u'attribution'],
     u'IODL-1.0': [u'attribution'],

@@ -1,696 +1,880 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- edited by ILSP/Athena R.C. -->
-<xs:schema xmlns:ms="http://www.elrc-share.eu/ELRC-SHARE_SCHEMA/v2.0/" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.elrc-share.eu/ELRC-SHARE_SCHEMA/v2.0/" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.0" xml:lang="en">
-	<xs:include schemaLocation="./ELRC-SHARE-SimpleTypes.xsd"/>
-	<xs:include schemaLocation="./ELRC-SHARE-RoleTypes.xsd"/>
-	<!-- definition of complex types -->
-	<xs:complexType name="distributionInfoType">
-		<xs:annotation>
-			<xs:appinfo>
-				<render-short>{availability}, licenses: {licenceInfo}</render-short>
-			</xs:appinfo>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="availability">
-				<xs:annotation>
-					<xs:documentation>Specifies the availability status of the resource; restrictionsOfUse can be further used to indicate the specific terms of availability</xs:documentation>
-					<xs:appinfo>
-						<relation>one-to-one</relation>
-					</xs:appinfo>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:maxLength value="40"/>
-						<xs:enumeration value="available">
-							<xs:annotation>
-								<xs:documentation>For resources available with no restrictions of use</xs:documentation>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="underReview">
-							<xs:annotation>
-								<xs:documentation>for resources that their availability is still pending</xs:documentation>
-							</xs:annotation>
-						</xs:enumeration>
-						<!--
+<xs:schema xmlns:ms="http://www.elrc-share.eu/ELRC-SHARE_SCHEMA/v2.0/" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://www.elrc-share.eu/ELRC-SHARE_SCHEMA/v2.0/" elementFormDefault="qualified"
+           attributeFormDefault="unqualified" version="2.0" xml:lang="en">
+    <xs:include schemaLocation="./ELRC-SHARE-SimpleTypes.xsd"/>
+    <xs:include schemaLocation="./ELRC-SHARE-RoleTypes.xsd"/>
+    <!-- definition of complex types -->
+    <xs:complexType name="distributionInfoType">
+        <xs:annotation>
+            <xs:appinfo>
+                <render-short>{availability}, licenses: {licenceInfo}</render-short>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="availability">
+                <xs:annotation>
+                    <xs:documentation>Specifies the availability status of the resource; restrictionsOfUse can be
+                        further used to indicate the specific terms of availability
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <relation>one-to-one</relation>
+                    </xs:appinfo>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="40"/>
+                        <xs:enumeration value="available">
+                            <xs:annotation>
+                                <xs:documentation>For resources available with no restrictions of use</xs:documentation>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="underReview">
+                            <xs:annotation>
+                                <xs:documentation>for resources that their availability is still pending
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <!--
                         <xs:enumeration value="availableThroughOtherDistributor">
                             <xs:annotation>
                                 <xs:documentation>For resources that are not available through META-SHARE</xs:documentation>
                             </xs:annotation>
                         </xs:enumeration>
 -->
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-			<xs:element name="PSI" type="xs:boolean" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Indicates that the resource falls under the Public Sector Information regulations</xs:documentation>
-					<xs:appinfo>
-						<relation>one-to-one</relation>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="allowsUsesBesidesDGT" type="xs:boolean">
-				<xs:annotation>
-					<xs:documentation>Whether the resource can be used for purposes other than those of the DGT
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="PSI" type="xs:boolean" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Indicates that the resource falls under the Public Sector Information
+                        regulations
                     </xs:documentation>
-					<xs:appinfo>
-						<relation>one-to-one</relation>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element ref="ms:licenceInfo" minOccurs="1" maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation>Groups information on licences for the resource; can be repeated to allow for different modes of access and restrictions of use (e.g. free for academic use, on-a-fee basis for commercial use, download of a sample for free use etc.)</xs:documentation>
-					<xs:appinfo>
-						<relation>many-to-many</relation>
-						<label>Licences</label>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="distributionMedium" minOccurs="0" maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation>Specifies the medium (channel) used for delivery or providing access to the resource</xs:documentation>
-					<xs:appinfo>
-						<recommended>true</recommended>
-						<relation>one-to-many</relation>
-					</xs:appinfo>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:maxLength value="30"/>
-						<xs:enumeration value="webExecutable"/>
-						<xs:enumeration value="dataDownloadable"/>
-						<xs:enumeration value="other"/>
-						<!--
-						<xs:enumeration value="paperCopy"/>
-						<xs:enumeration value="hardDisk"/>
-						<xs:enumeration value="bluRay"/>
-						<xs:enumeration value="DVD-R"/>
-						<xs:enumeration value="CD-ROM"/>
-						<xs:enumeration value="accessibleThroughInterface"/>
+                    <xs:appinfo>
+                        <relation>one-to-one</relation>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="allowsUsesBesidesDGT" type="xs:boolean">
+                <xs:annotation>
+                    <xs:documentation>Whether the resource can be used for purposes other than those of the DGT
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <relation>one-to-one</relation>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element ref="ms:licenceInfo" minOccurs="1" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Groups information on licences for the resource; can be repeated to allow for
+                        different modes of access and restrictions of use (e.g. free for academic use, on-a-fee basis
+                        for commercial use, download of a sample for free use etc.)
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <relation>many-to-many</relation>
+                        <label>Licences</label>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="distributionMedium" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Specifies the medium (channel) used for delivery or providing access to the
+                        resource
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <recommended>true</recommended>
+                        <relation>one-to-many</relation>
+                    </xs:appinfo>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="30"/>
+                        <xs:enumeration value="webExecutable"/>
+                        <xs:enumeration value="dataDownloadable"/>
+                        <xs:enumeration value="other"/>
+                        <!--
+                        <xs:enumeration value="paperCopy"/>
+                        <xs:enumeration value="hardDisk"/>
+                        <xs:enumeration value="bluRay"/>
+                        <xs:enumeration value="DVD-R"/>
+                        <xs:enumeration value="CD-ROM"/>
+                        <xs:enumeration value="accessibleThroughInterface"/>
 -->
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-			<xs:element name="downloadLocation" type="ms:httpURI" minOccurs="0" maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation>Any url where the resource can be downloaded from; please, use if the resource is "downloadable" and you have not uploaded the resource in the repository</xs:documentation>
-					<xs:appinfo>
-						<relation>one-to-many</relation>
-						<label>Download location</label>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="executionLocation" type="ms:httpURI" minOccurs="0" maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation>Any url where the service providing access to a resource is being executed; please use for resources that are "accessibleThroughInterface" or "webExecutable"</xs:documentation>
-					<xs:appinfo>
-						<relation>one-to-many</relation>
-						<label>Execution location</label>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="attributionText" minOccurs="0" maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation>The text that must be quoted for attribution purposes when using a resource - for cases where a resource is provided with a request for attribution; you can use a standard text such as "Resource X by Resource Creator Y used under licence Z"</xs:documentation>
-					<xs:appinfo>
-						<relation>one-to-many</relation>
-						<label>Attribution text</label>
-					</xs:appinfo>
-				</xs:annotation>
-				<xs:complexType>
-					<xs:simpleContent>
-						<xs:restriction base="ms:myString">
-							<xs:maxLength value="1000"/>
-						</xs:restriction>
-					</xs:simpleContent>
-				</xs:complexType>
-				<xs:unique name="uniqueLang12">
-					<xs:selector xpath="."/>
-					<xs:field xpath="@lang"/>
-				</xs:unique>
-			</xs:element>
-			<xs:element name="personalDataIncluded" type="xs:boolean">
-				<xs:annotation>
-					<xs:documentation>Specifies whether the resource contains or not personal data; this might mean that special handling of the resource is required (e.g. anonymisation)
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="downloadLocation" type="ms:httpURI" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Any url where the resource can be downloaded from; please, use if the resource is
+                        "downloadable" and you have not uploaded the resource in the repository
                     </xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="personalDataAdditionalInfo" type="xs:string" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>If the resource includes personal data, this field can be used for entering more information, e.g. whether special handling of the resource is required (e.g. anonymisation, further request for use etc.)
+                    <xs:appinfo>
+                        <relation>one-to-many</relation>
+                        <label>Download location</label>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="executionLocation" type="ms:httpURI" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Any url where the service providing access to a resource is being executed; please
+                        use for resources that are "accessibleThroughInterface" or "webExecutable"
                     </xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="sensitiveDataIncluded" type="xs:boolean">
-				<xs:annotation>
-					<xs:documentation>Specifies whether the resource contains or not sensitive data; this might mean that special handling of the resource is required (e.g. anonymisation)
+                    <xs:appinfo>
+                        <relation>one-to-many</relation>
+                        <label>Execution location</label>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="attributionText" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>The text that must be quoted for attribution purposes when using a resource - for
+                        cases where a resource is provided with a request for attribution; you can use a standard text
+                        such as "Resource X by Resource Creator Y used under licence Z"
                     </xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="sensitiveDataAdditionalInfo" type="xs:string" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>If the resource includes sensitive data, this field can be used for entering more information, e.g. whether special handling of the resource is required (e.g. anonymisation)
+                    <xs:appinfo>
+                        <relation>one-to-many</relation>
+                        <label>Attribution text</label>
+                    </xs:appinfo>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:simpleContent>
+                        <xs:restriction base="ms:myString">
+                            <xs:maxLength value="1000"/>
+                        </xs:restriction>
+                    </xs:simpleContent>
+                </xs:complexType>
+                <xs:unique name="uniqueLang12">
+                    <xs:selector xpath="."/>
+                    <xs:field xpath="@lang"/>
+                </xs:unique>
+            </xs:element>
+            <xs:element name="personalDataIncluded" type="xs:boolean">
+                <xs:annotation>
+                    <xs:documentation>Specifies whether the resource contains or not personal data; this might mean that
+                        special handling of the resource is required (e.g. anonymisation)
                     </xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="fee" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Specifies the costs that are required to access the resource, a fragment of the resource or to use a tool or service</xs:documentation>
-					<xs:appinfo>
-						<relation>one-to-one</relation>
-						<label>Fee</label>
-					</xs:appinfo>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:maxLength value="100"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-			<xs:element name="iprHolder" type="ms:actorInfoType" minOccurs="0" maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation>Groups information on a person or an organization who holds the full Intellectual Property Rights (Copyright, trademark etc.) that subsist in the resource. The IPR holder could be different from the creator that may have assigned the rights to the IPR holder (e.g. an author as a creator assigns her rights to the publisher who is the IPR holder) and the distributor that holds a specific licence (i.e. a permission) to distribute the work
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="personalDataAdditionalInfo" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>If the resource includes personal data, this field can be used for entering more
+                        information, e.g. whether special handling of the resource is required (e.g. anonymisation,
+                        further request for use etc.)
                     </xs:documentation>
-					<xs:appinfo>
-						<relation>many-to-many</relation>
-						<label>IPR holder</label>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
-	<!--
-	<xs:complexType name="membershipInfoType">
-		<xs:annotation>
-			<xs:documentation>The conditions imposed by the user being member of some association/institution (e.g., ELRA, LDC) distributing the resource. This indicates the availability conditions (and prices) for users who are members or not.</xs:documentation>
-			<xs:appinfo>
-				<render-short>member:{member} {membershipInstitution}</render-short>
-			</xs:appinfo>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="member" type="xs:boolean">
-				<xs:annotation>
-					<xs:documentation>Whether the user is a member or not</xs:documentation>
-					<xs:appinfo>
-						<relation>one-to-one</relation>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="membershipInstitution" maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation>This lists the different institutions releasing the resources and establishing membership conditions</xs:documentation>
-					<xs:appinfo>
-						<relation>one-to-many</relation>
-					</xs:appinfo>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:maxLength value="50"/>
-						<xs:enumeration value="ELRA"/>
-						<xs:enumeration value="LDC"/>
-						<xs:enumeration value="TST-CENTRALE"/>
-						<xs:enumeration value="other"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="sensitiveDataIncluded" type="xs:boolean">
+                <xs:annotation>
+                    <xs:documentation>Specifies whether the resource contains or not sensitive data; this might mean
+                        that special handling of the resource is required (e.g. anonymisation)
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="sensitiveDataAdditionalInfo" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>If the resource includes sensitive data, this field can be used for entering more
+                        information, e.g. whether special handling of the resource is required (e.g. anonymisation)
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="fee" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Specifies the costs that are required to access the resource, a fragment of the
+                        resource or to use a tool or service
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <relation>one-to-one</relation>
+                        <label>Fee</label>
+                    </xs:appinfo>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="100"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="iprHolder" type="ms:actorInfoType" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Groups information on a person or an organization who holds the full Intellectual
+                        Property Rights (Copyright, trademark etc.) that subsist in the resource. The IPR holder could
+                        be different from the creator that may have assigned the rights to the IPR holder (e.g. an
+                        author as a creator assigns her rights to the publisher who is the IPR holder) and the
+                        distributor that holds a specific licence (i.e. a permission) to distribute the work
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <relation>many-to-many</relation>
+                        <label>IPR holder</label>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <!--
+    <xs:complexType name="membershipInfoType">
+        <xs:annotation>
+            <xs:documentation>The conditions imposed by the user being member of some association/institution (e.g., ELRA, LDC) distributing the resource. This indicates the availability conditions (and prices) for users who are members or not.</xs:documentation>
+            <xs:appinfo>
+                <render-short>member:{member} {membershipInstitution}</render-short>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="member" type="xs:boolean">
+                <xs:annotation>
+                    <xs:documentation>Whether the user is a member or not</xs:documentation>
+                    <xs:appinfo>
+                        <relation>one-to-one</relation>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="membershipInstitution" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>This lists the different institutions releasing the resources and establishing membership conditions</xs:documentation>
+                    <xs:appinfo>
+                        <relation>one-to-many</relation>
+                    </xs:appinfo>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="50"/>
+                        <xs:enumeration value="ELRA"/>
+                        <xs:enumeration value="LDC"/>
+                        <xs:enumeration value="TST-CENTRALE"/>
+                        <xs:enumeration value="other"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
 -->
-	<xs:complexType name="licenceInfoType">
-		<xs:annotation>
-			<xs:appinfo>
-				<render-short>{licence}</render-short>
-			</xs:appinfo>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="licence">
-				<xs:annotation>
-					<xs:documentation>The licence of use for the resource; for an overview of licences, please visit: http://www.elrc-share.eu/info/#Licensing_LRs</xs:documentation>
-					<xs:appinfo>
-						<relation>one-to-many</relation>
-					</xs:appinfo>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:maxLength value="100"/>
-						<xs:enumeration value="CC-BY-4.0">
-							<xs:annotation>
-								<xs:documentation>Creative Commons Attribution 4.0; cf. https://creativecommons.org/licenses/by/4.0/</xs:documentation>
-								<xs:appinfo>
-									<label>Creative Commons Attribution 4.0</label>
-									<recomUsage>data</recomUsage>
-								</xs:appinfo>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="CC-BY-NC-4.0">
-							<xs:annotation>
-								<xs:documentation>Creative Commons Attribution Non Commercial 4.0; cf. https://creativecommons.org/licenses/by-nc/4.0/</xs:documentation>
-								<xs:appinfo>
-									<label>Creative Commons Attribution Non Commercial 4.0</label>
-									<recomUsage>data</recomUsage>
-								</xs:appinfo>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="CC-BY-NC-ND-4.0">
-							<xs:annotation>
-								<xs:documentation>Creative Commons Attribution Non Commercial No Derivatives 4.0; cf. https://creativecommons.org/licenses/by-nc-nd/4.0/</xs:documentation>
-								<xs:appinfo>
-									<label>Creative Commons Attribution Non Commercial No Derivatives 4.0</label>
-									<recomUsage>data</recomUsage>
-								</xs:appinfo>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="CC-BY-NC-SA-4.0">
-							<xs:annotation>
-								<xs:documentation>Creative Commons Attribution Non Commercial Share Alike 4.0; cf. https://creativecommons.org/licenses/by-nc-sa/4.0/</xs:documentation>
-								<xs:appinfo>
-									<label>Creative Commons Attribution Non Commercial Share Alike 4.0</label>
-									<recomUsage>data</recomUsage>
-								</xs:appinfo>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="CC-BY-ND-4.0">
-							<xs:annotation>
-								<xs:documentation>Creative Commons Attribution No Derivatives 4.0; cf. https://creativecommons.org/licenses/by-nd/4.0/</xs:documentation>
-								<xs:appinfo>
-									<label>Creative Commons Attribution No Derivatives 4.0</label>
-									<recomUsage>data</recomUsage>
-								</xs:appinfo>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="CC-BY-SA-4.0">
-							<xs:annotation>
-								<xs:documentation>Creative Commons Attribution Share Alike 4.0; cf. https://creativecommons.org/licenses/by-sa/4.0/</xs:documentation>
-								<xs:appinfo>
-									<label>Creative Commons Attribution Share Alike 4.0</label>
-									<recomUsage>data</recomUsage>
-								</xs:appinfo>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="CC0-1.0">
-							<xs:annotation>
-								<xs:documentation>Creative Commons Zero 1.0 Universal; cf. https://creativecommons.org/publicdomain/zero/1.0/</xs:documentation>
-								<xs:appinfo>
-									<label>Creative Commons Zero 1.0 Universal</label>
-									<recomUsage>data</recomUsage>
-								</xs:appinfo>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="CC-BY-3.0">
-							<xs:annotation>
-								<xs:documentation>Creative Commons Attribution 3.0 Unported; cf. https://creativecommons.org/licenses/by/3.0/</xs:documentation>
-								<xs:appinfo>
-									<label>Creative Commons Attribution 3.0 Unported</label>
-									<recomUsage>data</recomUsage>
-								</xs:appinfo>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="CC-BY-NC-3.0">
-							<xs:annotation>
-								<xs:documentation>Creative Commons Attribution Non Commercial 3.0 Unported; cf. https://creativecommons.org/licenses/by-nc/3.0/</xs:documentation>
-								<xs:appinfo>
-									<label>Creative Commons Attribution Non Commercial 3.0 Unported</label>
-									<recomUsage>data</recomUsage>
-								</xs:appinfo>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="CC-BY-NC-ND-3.0">
-							<xs:annotation>
-								<xs:documentation>Creative Commons Attribution Non Commercial No Derivatives 3.0 Unported; cf. https://creativecommons.org/licenses/by-nc-nd/3.0/</xs:documentation>
-								<xs:appinfo>
-									<label>Creative Commons Attribution Non Commercial No Derivatives 3.0 Unported</label>
-									<recomUsage>data</recomUsage>
-								</xs:appinfo>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="CC-BY-NC-SA-3.0">
-							<xs:annotation>
-								<xs:documentation>Creative Commons Attribution Non Commercial Share Alike 3.0 Unported; cf. https://creativecommons.org/licenses/by-nc-sa/3.0/</xs:documentation>
-								<xs:appinfo>
-									<label>Creative Commons Attribution Non Commercial Share Alike 3.0 Unported</label>
-									<recomUsage>data</recomUsage>
-								</xs:appinfo>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="CC-BY-ND-3.0">
-							<xs:annotation>
-								<xs:documentation>Creative Commons Attribution No Derivatives 3.0 Unported; cf. https://creativecommons.org/licenses/by-nd/3.0/</xs:documentation>
-								<xs:appinfo>
-									<label>Creative Commons Attribution No Derivatives 3.0 Unported</label>
-									<recomUsage>data</recomUsage>
-								</xs:appinfo>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="CC-BY-SA-3.0">
-							<xs:annotation>
-								<xs:documentation>Creative Commons Attribution Share Alike 3.0 Unported; cf. https://creativecommons.org/licenses/by-sa/3.0/</xs:documentation>
-								<xs:appinfo>
-									<label>Creative Commons Attribution Share Alike 3.0 Unported</label>
-									<recomUsage>data</recomUsage>
-								</xs:appinfo>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="CC-BY-SA-2.5_Sl">
-							<xs:annotation>
-								<xs:documentation>Creative Commons Attribution-ShareAlike 2.5 Slovenia; cf. https://creativecommons.org/licenses/by-sa/2.5/si/deed.en</xs:documentation>
-								<xs:appinfo>
-									<label>Creative Commons Attribution-ShareAlike 2.5 Slovenia</label>
-									<recomUsage>data</recomUsage>
-								</xs:appinfo>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="PDDL-1.0">
-							<xs:annotation>
-								<xs:documentation>Open Data Commons Public Domain Dedication and License; cf. https://opendatacommons.org/licenses/pddl/</xs:documentation>
-								<xs:appinfo>
-									<label>Open Data Commons Public Domain Dedication and License</label>
-									<recomUsage>data</recomUsage>
-								</xs:appinfo>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="ODC-BY-1.0">
-							<xs:annotation>
-								<xs:documentation>Open Data Commons Attribution License v1.0; cf. https://opendatacommons.org/licenses/by/1-0/</xs:documentation>
-								<xs:appinfo>
-									<label>Open Data Commons Attribution License v1.0</label>
-									<recomUsage>data</recomUsage>
-								</xs:appinfo>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="ODbL-1.0">
-							<xs:annotation>
-								<xs:documentation>Open Data Commons Open Database License v1.0; cf. https://opendatacommons.org/licenses/odbl/1-0/</xs:documentation>
-								<xs:appinfo>
-									<label>ODC Open Database License v1.0</label>
-									<recomUsage>data</recomUsage>
-								</xs:appinfo>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="AGPL-3.0">
-							<xs:annotation>
-								<xs:documentation>Affero General Public License v3.0; cf. http://www.gnu.org/licenses/agpl.txt</xs:documentation>
-								<xs:appinfo>
-									<label>Affero General Public License v1.0</label>
-									<recomUsage>software</recomUsage>
-								</xs:appinfo>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="Apache-2.0">
-							<xs:annotation>
-								<xs:documentation>Apache Lincse 2.0; cf. https://www.apache.org/licenses/LICENSE-2.0</xs:documentation>
-								<xs:appinfo>
-									<label>Apache License v2.0</label>
-									<recomUsage>software</recomUsage>
-								</xs:appinfo>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="BSD-4-Clause">
-							<xs:annotation>
-								<xs:documentation>BSD 4-Clause (Original or Old) License; cf. http://directory.fsf.org/wiki/License:BSD_4Clause</xs:documentation>
-								<xs:appinfo>
-									<label>BSD 4-Clause License (Original or Old)</label>
-									<recomUsage>software</recomUsage>
-								</xs:appinfo>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="BSD-3-Clause">
-							<xs:annotation>
-								<xs:documentation>BSD 3-Clause (New or Revised) License; cf. https://opensource.org/licenses/BSD-3-Clause</xs:documentation>
-								<xs:appinfo>
-									<label>BSD 3-Clause License (New or Revised)</label>
-									<recomUsage>software</recomUsage>
-								</xs:appinfo>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="BSD-2-Clause">
-							<xs:annotation>
-								<xs:documentation>BSD-2-Clause (Simplified) License; cf. https://opensource.org/licenses/BSD-2-Clause</xs:documentation>
-								<xs:appinfo>
-									<label>BSD-2-Clause (Simplified) License</label>
-									<recomUsage>software</recomUsage>
-								</xs:appinfo>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="GFDL-1.3">
-							<xs:annotation>
-								<xs:documentation>GNU Free Documentation License v1.3; cf. https://www.gnu.org/licenses/fdl-1.3.en.html</xs:documentation>
-								<xs:appinfo>
-									<label>GNU Free Documentation License v1.3</label>
-									<recomUsage>software</recomUsage>
-								</xs:appinfo>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="GPL-2.0">
-							<xs:annotation>
-								<xs:documentation>GNU General Public License v2.0; cf. https://www.gnu.org/licenses/gpl-2.0.en.html</xs:documentation>
-								<xs:appinfo>
-									<label>GNU General Public License v2.0</label>
-									<recomUsage>software</recomUsage>
-								</xs:appinfo>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="GPL-3.0">
-							<xs:annotation>
-								<xs:documentation>GNU General Public License v3.0; cf. https://www.gnu.org/licenses/gpl-3.0.en.html</xs:documentation>
-								<xs:appinfo>
-									<label>GNU General Public License v3.0</label>
-									<recomUsage>software</recomUsage>
-								</xs:appinfo>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="LGPL-2.1">
-							<xs:annotation>
-								<xs:documentation>GNU Lesser General Public License v2.1; cf. https://www.gnu.org/licenses/lgpl-2.1.en.html</xs:documentation>
-								<xs:appinfo>
-									<label>GNU Lesser General Public License v2.1</label>
-									<recomUsage>software</recomUsage>
-								</xs:appinfo>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="LGPL-3.0">
-							<xs:annotation>
-								<xs:documentation>GNU Lesser General Public License v3.0; cf. https://www.gnu.org/licenses/lgpl-3.0.en.html</xs:documentation>
-								<xs:appinfo>
-									<label>GNU Lesser General Public License v3.0</label>
-									<recomUsage>software</recomUsage>
-								</xs:appinfo>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="MIT">
-							<xs:annotation>
-								<xs:documentation>MIT License; cf. https://opensource.org/licenses/MIT</xs:documentation>
-								<xs:appinfo>
-									<label>MIT License</label>
-									<recomUsage>software</recomUsage>
-								</xs:appinfo>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="EPL-1.0">
-							<xs:annotation>
-								<xs:documentation>Eclipse Public License v1.0; cf. https://www.eclipse.org/legal/epl-v10.html</xs:documentation>
-								<xs:appinfo>
-									<label>Eclipse Public License v1.0</label>
-									<recomUsage>software</recomUsage>
-								</xs:appinfo>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="EUPL-1.0">
-							<xs:annotation>
-								<xs:documentation>European Union Public Licence v1.0; cf. http://ec.europa.eu/idabc/servlets/Doc027f.pdf?id=31096</xs:documentation>
-								<xs:appinfo>
-									<label>European Union Public Licence v1.0</label>
-									<recomUsage>software</recomUsage>
+    <xs:complexType name="licenceInfoType">
+        <xs:annotation>
+            <xs:appinfo>
+                <render-short>{licence}</render-short>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="licence">
+                <xs:annotation>
+                    <xs:documentation>The licence of use for the resource; for an overview of licences, please visit:
+                        http://www.elrc-share.eu/info/#Licensing_LRs
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <relation>one-to-many</relation>
+                    </xs:appinfo>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="100"/>
+                        <xs:enumeration value="CC-BY-4.0">
+                            <xs:annotation>
+                                <xs:documentation>Creative Commons Attribution 4.0; cf.
+                                    https://creativecommons.org/licenses/by/4.0/
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>Creative Commons Attribution 4.0</label>
                                     <recomUsage>data</recomUsage>
-								</xs:appinfo>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="EUPL-1.1">
-							<xs:annotation>
-								<xs:documentation>European Union Public Licence v1.1; cf. https://joinup.ec.europa.eu/sites/default/files/custom-page/attachment/eupl1.1.-licence-en_0.pdf</xs:documentation>
-								<xs:appinfo>
-									<label>European Union Public Licence v1.1</label>
-									<recomUsage>software</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="CC-BY-NC-4.0">
+                            <xs:annotation>
+                                <xs:documentation>Creative Commons Attribution Non Commercial 4.0; cf.
+                                    https://creativecommons.org/licenses/by-nc/4.0/
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>Creative Commons Attribution Non Commercial 4.0</label>
                                     <recomUsage>data</recomUsage>
-								</xs:appinfo>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="EUPL-1.2">
-							<xs:annotation>
-								<xs:documentation>European Union Public Licence v1.1; cf. https://joinup.ec.europa.eu/sites/default/files/custom-page/attachment/eupl_v1.2_en.pdf</xs:documentation>
-								<xs:appinfo>
-									<label>European Union Public Licence v1.2</label>
-									<recomUsage>software</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="CC-BY-NC-ND-4.0">
+                            <xs:annotation>
+                                <xs:documentation>Creative Commons Attribution Non Commercial No Derivatives 4.0; cf.
+                                    https://creativecommons.org/licenses/by-nc-nd/4.0/
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>Creative Commons Attribution Non Commercial No Derivatives 4.0</label>
                                     <recomUsage>data</recomUsage>
-								</xs:appinfo>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="LO-OL-v2">
-							<xs:annotation>
-								<xs:documentation>Licence Ouverte / Open licence – version 2.0, cf. https://www.etalab.gouv.fr/wp-content/uploads/2017/04/ETALAB-Licence-Ouverte-v2.0.pdf</xs:documentation>
-								<xs:appinfo>
-									<label>Licence Ouverte / Open licence – version 2.0</label>
-									<recomUsage>data PSI - France</recomUsage>
-								</xs:appinfo>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="dl-de/by-2-0">
-							<xs:annotation>
-								<xs:documentation>Data licence Germany – attribution – version 2.0, cf. https://www.govdata.de/dl-de/by-2-0</xs:documentation>
-								<xs:appinfo>
-									<label>Data licence Germany – attribution – version 2.0</label>
-									<recomUsage>data PSI - Germany</recomUsage>
-								</xs:appinfo>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="dl-de/zero-2-0">
-							<xs:annotation>
-								<xs:documentation>Data licence Germany - Zero - Version 2.0, cf. https://www.govdata.de/dl-de/zero-2-0</xs:documentation>
-								<xs:appinfo>
-									<label>Data licence Germany – Zero – version 2.0</label>
-									<recomUsage>data PSI - Germany</recomUsage>
-								</xs:appinfo>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="IODL-1.0">
-							<xs:annotation>
-								<xs:documentation>Italian Open Data Licence v1.0, cf. http://www.formez.it/iodl/</xs:documentation>
-								<xs:appinfo>
-									<label>Italian Open Data Licence v1.0</label>
-									<recomUsage>data PSI - Italy</recomUsage>
-								</xs:appinfo>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="NLOD-1.0">
-							<xs:annotation>
-								<xs:documentation>Norwegian Licence for Open Government Data - v1.0, cf. http://data.norge.no/nlod/en/1.0</xs:documentation>
-								<xs:appinfo>
-									<label>Norwegian Licence for Open Government Data - v1.0</label>
-									<recomUsage>data PSI - Norway</recomUsage>
-								</xs:appinfo>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="OGL-3.0">
-							<xs:annotation>
-								<xs:documentation>Open Government Licence v3.0, cf. http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/</xs:documentation>
-								<xs:appinfo>
-									<label>Open Government Licence v3.0</label>
-									<recomUsage>data PSI - UK</recomUsage>
-								</xs:appinfo>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="NCGL-1.0">
-							<xs:annotation>
-								<xs:documentation>Non-Commercial Government Licence v1.0, cf. http://www.nationalarchives.gov.uk/doc/non-commercial-government-licence/non-commercial-government-licence.htm</xs:documentation>
-								<xs:appinfo>
-									<label>Non-Commercial Government Licence v1.0</label>
-									<recomUsage>data PSI - UK</recomUsage>
-								</xs:appinfo>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="publicDomain">
-							<xs:annotation>
-								<xs:documentation>Used for resources that are free of all known legal restrictions</xs:documentation>
-								<xs:appinfo>
-									<label>Public Domain</label>
-								</xs:appinfo>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="underReview">
-							<xs:annotation>
-								<xs:documentation>Used for resources whose licence value is pending</xs:documentation>
-								<xs:appinfo>
-									<label>Under review</label>
-								</xs:appinfo>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="non-standard/Other_Licence/Terms">
-							<xs:annotation>
-								<xs:documentation>Resources with this value are distributed with a non-standard or proprietary licence. Resource providers are prompted to provide the licence text or url of the resource for further details about the restrictions and/or conditions of use and other obligations.</xs:documentation>
-								<xs:appinfo>
-									<label>Non standard Licence or Terms of use</label>
-								</xs:appinfo>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="openUnder-PSI">
-							<xs:annotation>
-								<xs:documentation>Used for resources that are PSI-compliant and no further information is required or available</xs:documentation>
-								<xs:appinfo>
-									<label>Open Under PSI</label>
-								</xs:appinfo>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="publicDomain">
-							<xs:annotation>
-								<xs:documentation>Used for resources that are free of all known legal restrictions</xs:documentation>
-								<xs:appinfo>
-									<label>Public Domain</label>
-								</xs:appinfo>
-							</xs:annotation>
-						</xs:enumeration>
-						<!--
-						<xs:enumeration value="Princeton-WordNet">
-							<xs:annotation>
-								<xs:documentation>WordNet v3.0 (Princeton WordNet) License; cf. https://wordnet.princeton.edu/wordnet/license/</xs:documentation>
-								<xs:appinfo>
-									<label>WordNet v3.0 (Princeton WordNet) License</label>
-									<recomUsage>data</recomUsage>
-								</xs:appinfo>
-							</xs:annotation>
-						</xs:enumeration>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="CC-BY-NC-SA-4.0">
+                            <xs:annotation>
+                                <xs:documentation>Creative Commons Attribution Non Commercial Share Alike 4.0; cf.
+                                    https://creativecommons.org/licenses/by-nc-sa/4.0/
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>Creative Commons Attribution Non Commercial Share Alike 4.0</label>
+                                    <recomUsage>data</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="CC-BY-ND-4.0">
+                            <xs:annotation>
+                                <xs:documentation>Creative Commons Attribution No Derivatives 4.0; cf.
+                                    https://creativecommons.org/licenses/by-nd/4.0/
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>Creative Commons Attribution No Derivatives 4.0</label>
+                                    <recomUsage>data</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="CC-BY-SA-4.0">
+                            <xs:annotation>
+                                <xs:documentation>Creative Commons Attribution Share Alike 4.0; cf.
+                                    https://creativecommons.org/licenses/by-sa/4.0/
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>Creative Commons Attribution Share Alike 4.0</label>
+                                    <recomUsage>data</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="CC0-1.0">
+                            <xs:annotation>
+                                <xs:documentation>Creative Commons Zero 1.0 Universal; cf.
+                                    https://creativecommons.org/publicdomain/zero/1.0/
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>Creative Commons Zero 1.0 Universal</label>
+                                    <recomUsage>data</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="CC-BY-3.0">
+                            <xs:annotation>
+                                <xs:documentation>Creative Commons Attribution 3.0 Unported; cf.
+                                    https://creativecommons.org/licenses/by/3.0/
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>Creative Commons Attribution 3.0 Unported</label>
+                                    <recomUsage>data</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="CC-BY-NC-3.0">
+                            <xs:annotation>
+                                <xs:documentation>Creative Commons Attribution Non Commercial 3.0 Unported; cf.
+                                    https://creativecommons.org/licenses/by-nc/3.0/
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>Creative Commons Attribution Non Commercial 3.0 Unported</label>
+                                    <recomUsage>data</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="CC-BY-NC-ND-3.0">
+                            <xs:annotation>
+                                <xs:documentation>Creative Commons Attribution Non Commercial No Derivatives 3.0
+                                    Unported; cf. https://creativecommons.org/licenses/by-nc-nd/3.0/
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>Creative Commons Attribution Non Commercial No Derivatives 3.0 Unported
+                                    </label>
+                                    <recomUsage>data</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="CC-BY-NC-SA-3.0">
+                            <xs:annotation>
+                                <xs:documentation>Creative Commons Attribution Non Commercial Share Alike 3.0 Unported;
+                                    cf. https://creativecommons.org/licenses/by-nc-sa/3.0/
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>Creative Commons Attribution Non Commercial Share Alike 3.0 Unported</label>
+                                    <recomUsage>data</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="CC-BY-ND-3.0">
+                            <xs:annotation>
+                                <xs:documentation>Creative Commons Attribution No Derivatives 3.0 Unported; cf.
+                                    https://creativecommons.org/licenses/by-nd/3.0/
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>Creative Commons Attribution No Derivatives 3.0 Unported</label>
+                                    <recomUsage>data</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="CC-BY-SA-3.0">
+                            <xs:annotation>
+                                <xs:documentation>Creative Commons Attribution Share Alike 3.0 Unported; cf.
+                                    https://creativecommons.org/licenses/by-sa/3.0/
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>Creative Commons Attribution Share Alike 3.0 Unported</label>
+                                    <recomUsage>data</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+
+                        <xs:enumeration value="CC-BY-2.0">
+                            <xs:annotation>
+                                <xs:documentation>Creative Commons Attribution 2.0 Generic; cf.
+                                    https://creativecommons.org/licenses/by/2.0/
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>Creative Commons Attribution 2.0 Generic</label>
+                                    <recomUsage>data</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="CC-BY-NC-2.0">
+                            <xs:annotation>
+                                <xs:documentation>Creative Commons Attribution Non Commercial 2.0 Generic; cf.
+                                    https://creativecommons.org/licenses/by-nc/2.0/
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>Creative Commons Attribution Non Commercial 2.0 Generic</label>
+                                    <recomUsage>data</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="CC-BY-NC-ND-2.0">
+                            <xs:annotation>
+                                <xs:documentation>Creative Commons Attribution Non Commercial No Derivatives 2.0
+                                    Generic; cf. https://creativecommons.org/licenses/by-nc-nd/2.0/
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>Creative Commons Attribution Non Commercial No Derivatives 2.0 Generic
+                                    </label>
+                                    <recomUsage>data</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="CC-BY-NC-SA-2.0">
+                            <xs:annotation>
+                                <xs:documentation>Creative Commons Attribution Non Commercial Share Alike 2.0 Generic;
+                                    cf. https://creativecommons.org/licenses/by-nc-sa/2.0/
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>Creative Commons Attribution Non Commercial Share Alike 2.0 Generic</label>
+                                    <recomUsage>data</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="CC-BY-ND-2.0">
+                            <xs:annotation>
+                                <xs:documentation>Creative Commons Attribution No Derivatives 2.0 Generic; cf.
+                                    https://creativecommons.org/licenses/by-nd/2.0/
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>Creative Commons Attribution No Derivatives 2.0 Generic</label>
+                                    <recomUsage>data</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="CC-BY-SA-2.0">
+                            <xs:annotation>
+                                <xs:documentation>Creative Commons Attribution Share Alike 2.0 Generic; cf.
+                                    https://creativecommons.org/licenses/by-sa/2.0/
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>Creative Commons Attribution Share Alike 2.0 Generic</label>
+                                    <recomUsage>data</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="CC-BY-SA-2.5_Sl">
+                            <xs:annotation>
+                                <xs:documentation>Creative Commons Attribution-ShareAlike 2.5 Slovenia; cf.
+                                    https://creativecommons.org/licenses/by-sa/2.5/si/deed.en
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>Creative Commons Attribution-ShareAlike 2.5 Slovenia</label>
+                                    <recomUsage>data</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="PDDL-1.0">
+                            <xs:annotation>
+                                <xs:documentation>Open Data Commons Public Domain Dedication and License; cf.
+                                    https://opendatacommons.org/licenses/pddl/
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>Open Data Commons Public Domain Dedication and License</label>
+                                    <recomUsage>data</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="ODC-BY-1.0">
+                            <xs:annotation>
+                                <xs:documentation>Open Data Commons Attribution License v1.0; cf.
+                                    https://opendatacommons.org/licenses/by/1-0/
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>Open Data Commons Attribution License v1.0</label>
+                                    <recomUsage>data</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="ODbL-1.0">
+                            <xs:annotation>
+                                <xs:documentation>Open Data Commons Open Database License v1.0; cf.
+                                    https://opendatacommons.org/licenses/odbl/1-0/
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>ODC Open Database License v1.0</label>
+                                    <recomUsage>data</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="AGPL-3.0">
+                            <xs:annotation>
+                                <xs:documentation>Affero General Public License v3.0; cf.
+                                    http://www.gnu.org/licenses/agpl.txt
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>Affero General Public License v1.0</label>
+                                    <recomUsage>software</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="Apache-2.0">
+                            <xs:annotation>
+                                <xs:documentation>Apache Lincse 2.0; cf. https://www.apache.org/licenses/LICENSE-2.0
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>Apache License v2.0</label>
+                                    <recomUsage>software</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="BSD-4-Clause">
+                            <xs:annotation>
+                                <xs:documentation>BSD 4-Clause (Original or Old) License; cf.
+                                    http://directory.fsf.org/wiki/License:BSD_4Clause
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>BSD 4-Clause License (Original or Old)</label>
+                                    <recomUsage>software</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="BSD-3-Clause">
+                            <xs:annotation>
+                                <xs:documentation>BSD 3-Clause (New or Revised) License; cf.
+                                    https://opensource.org/licenses/BSD-3-Clause
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>BSD 3-Clause License (New or Revised)</label>
+                                    <recomUsage>software</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="BSD-2-Clause">
+                            <xs:annotation>
+                                <xs:documentation>BSD-2-Clause (Simplified) License; cf.
+                                    https://opensource.org/licenses/BSD-2-Clause
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>BSD-2-Clause (Simplified) License</label>
+                                    <recomUsage>software</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="GFDL-1.3">
+                            <xs:annotation>
+                                <xs:documentation>GNU Free Documentation License v1.3; cf.
+                                    https://www.gnu.org/licenses/fdl-1.3.en.html
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>GNU Free Documentation License v1.3</label>
+                                    <recomUsage>software</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="GPL-2.0">
+                            <xs:annotation>
+                                <xs:documentation>GNU General Public License v2.0; cf.
+                                    https://www.gnu.org/licenses/gpl-2.0.en.html
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>GNU General Public License v2.0</label>
+                                    <recomUsage>software</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="GPL-3.0">
+                            <xs:annotation>
+                                <xs:documentation>GNU General Public License v3.0; cf.
+                                    https://www.gnu.org/licenses/gpl-3.0.en.html
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>GNU General Public License v3.0</label>
+                                    <recomUsage>software</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="LGPL-2.1">
+                            <xs:annotation>
+                                <xs:documentation>GNU Lesser General Public License v2.1; cf.
+                                    https://www.gnu.org/licenses/lgpl-2.1.en.html
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>GNU Lesser General Public License v2.1</label>
+                                    <recomUsage>software</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="LGPL-3.0">
+                            <xs:annotation>
+                                <xs:documentation>GNU Lesser General Public License v3.0; cf.
+                                    https://www.gnu.org/licenses/lgpl-3.0.en.html
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>GNU Lesser General Public License v3.0</label>
+                                    <recomUsage>software</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="MIT">
+                            <xs:annotation>
+                                <xs:documentation>MIT License; cf. https://opensource.org/licenses/MIT
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>MIT License</label>
+                                    <recomUsage>software</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="EPL-1.0">
+                            <xs:annotation>
+                                <xs:documentation>Eclipse Public License v1.0; cf.
+                                    https://www.eclipse.org/legal/epl-v10.html
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>Eclipse Public License v1.0</label>
+                                    <recomUsage>software</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="EUPL-1.0">
+                            <xs:annotation>
+                                <xs:documentation>European Union Public Licence v1.0; cf.
+                                    http://ec.europa.eu/idabc/servlets/Doc027f.pdf?id=31096
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>European Union Public Licence v1.0</label>
+                                    <recomUsage>software</recomUsage>
+                                    <recomUsage>data</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="EUPL-1.1">
+                            <xs:annotation>
+                                <xs:documentation>European Union Public Licence v1.1; cf.
+                                    https://joinup.ec.europa.eu/sites/default/files/custom-page/attachment/eupl1.1.-licence-en_0.pdf
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>European Union Public Licence v1.1</label>
+                                    <recomUsage>software</recomUsage>
+                                    <recomUsage>data</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="EUPL-1.2">
+                            <xs:annotation>
+                                <xs:documentation>European Union Public Licence v1.1; cf.
+                                    https://joinup.ec.europa.eu/sites/default/files/custom-page/attachment/eupl_v1.2_en.pdf
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>European Union Public Licence v1.2</label>
+                                    <recomUsage>software</recomUsage>
+                                    <recomUsage>data</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="LO-OL-v2">
+                            <xs:annotation>
+                                <xs:documentation>Licence Ouverte / Open licence – version 2.0, cf.
+                                    https://www.etalab.gouv.fr/wp-content/uploads/2017/04/ETALAB-Licence-Ouverte-v2.0.pdf
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>Licence Ouverte / Open licence – version 2.0</label>
+                                    <recomUsage>data PSI - France</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="dl-de/by-2-0">
+                            <xs:annotation>
+                                <xs:documentation>Data licence Germany – attribution – version 2.0, cf.
+                                    https://www.govdata.de/dl-de/by-2-0
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>Data licence Germany – attribution – version 2.0</label>
+                                    <recomUsage>data PSI - Germany</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="dl-de/zero-2-0">
+                            <xs:annotation>
+                                <xs:documentation>Data licence Germany - Zero - Version 2.0, cf.
+                                    https://www.govdata.de/dl-de/zero-2-0
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>Data licence Germany – Zero – version 2.0</label>
+                                    <recomUsage>data PSI - Germany</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="IODL-1.0">
+                            <xs:annotation>
+                                <xs:documentation>Italian Open Data Licence v1.0, cf. http://www.formez.it/iodl/
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>Italian Open Data Licence v1.0</label>
+                                    <recomUsage>data PSI - Italy</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="NLOD-1.0">
+                            <xs:annotation>
+                                <xs:documentation>Norwegian Licence for Open Government Data - v1.0, cf.
+                                    http://data.norge.no/nlod/en/1.0
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>Norwegian Licence for Open Government Data - v1.0</label>
+                                    <recomUsage>data PSI - Norway</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="OGL-3.0">
+                            <xs:annotation>
+                                <xs:documentation>Open Government Licence v3.0, cf.
+                                    http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>Open Government Licence v3.0</label>
+                                    <recomUsage>data PSI - UK</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="NCGL-1.0">
+                            <xs:annotation>
+                                <xs:documentation>Non-Commercial Government Licence v1.0, cf.
+                                    http://www.nationalarchives.gov.uk/doc/non-commercial-government-licence/non-commercial-government-licence.htm
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>Non-Commercial Government Licence v1.0</label>
+                                    <recomUsage>data PSI - UK</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="publicDomain">
+                            <xs:annotation>
+                                <xs:documentation>Used for resources that are free of all known legal restrictions
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>Public Domain</label>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="underReview">
+                            <xs:annotation>
+                                <xs:documentation>Used for resources whose licence value is pending</xs:documentation>
+                                <xs:appinfo>
+                                    <label>Under review</label>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="non-standard/Other_Licence/Terms">
+                            <xs:annotation>
+                                <xs:documentation>Resources with this value are distributed with a non-standard or
+                                    proprietary licence. Resource providers are prompted to provide the licence text or
+                                    url of the resource for further details about the restrictions and/or conditions of
+                                    use and other obligations.
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>Non standard Licence or Terms of use</label>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="openUnder-PSI">
+                            <xs:annotation>
+                                <xs:documentation>Used for resources that are PSI-compliant and no further information
+                                    is required or available
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>Open Under PSI</label>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="publicDomain">
+                            <xs:annotation>
+                                <xs:documentation>Used for resources that are free of all known legal restrictions
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>Public Domain</label>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <!--
+                        <xs:enumeration value="Princeton-WordNet">
+                            <xs:annotation>
+                                <xs:documentation>WordNet v3.0 (Princeton WordNet) License; cf. https://wordnet.princeton.edu/wordnet/license/</xs:documentation>
+                                <xs:appinfo>
+                                    <label>WordNet v3.0 (Princeton WordNet) License</label>
+                                    <recomUsage>data</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
 -->
-						<!--
-						<xs:enumeration value="NLM">
-							<xs:annotation>
-								<xs:documentation>U.S. National Library of Medicine (NLM) License Agreement for NLM Data; cf. https://www.nlm.nih.gov/databases/license/license.pdf</xs:documentation>
-								<xs:appinfo>
-									<label>License Agreement for NLM Data</label>
-									<recomUsage>data</recomUsage>
-								</xs:appinfo>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="f-DPPL-3.0">
-							<xs:annotation>
-								<xs:documentation>Free Digital Peer Publishing Licence (v3, en); cf. https://www.hbz-nrw.de/produkte/open-access/lizenzen/dppl/fdppl/f-DPPL_v3_en_11-2008</xs:documentation>
-								<xs:appinfo>
-									<label>Free Digital Peer Publishing Licence (v3)</label>
-									<recomUsage>data</recomUsage>
-								</xs:appinfo>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="M-DPPL-3.0">
-							<xs:annotation>
-								<xs:documentation>Modular Digital Peer Publishing Licence (v3, en); cf. https://www.hbz-nrw.de/produkte/open-access/lizenzen/dppl/mdppl/m-DPPL_v3_en_11-2008</xs:documentation>
-								<xs:appinfo>
-									<label>Modular Digital Peer Publishing Licence (v3)</label>
-									<recomUsage>data</recomUsage>
-								</xs:appinfo>
-							</xs:annotation>
-						</xs:enumeration>
+                        <!--
+                        <xs:enumeration value="NLM">
+                            <xs:annotation>
+                                <xs:documentation>U.S. National Library of Medicine (NLM) License Agreement for NLM Data; cf. https://www.nlm.nih.gov/databases/license/license.pdf</xs:documentation>
+                                <xs:appinfo>
+                                    <label>License Agreement for NLM Data</label>
+                                    <recomUsage>data</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="f-DPPL-3.0">
+                            <xs:annotation>
+                                <xs:documentation>Free Digital Peer Publishing Licence (v3, en); cf. https://www.hbz-nrw.de/produkte/open-access/lizenzen/dppl/fdppl/f-DPPL_v3_en_11-2008</xs:documentation>
+                                <xs:appinfo>
+                                    <label>Free Digital Peer Publishing Licence (v3)</label>
+                                    <recomUsage>data</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="M-DPPL-3.0">
+                            <xs:annotation>
+                                <xs:documentation>Modular Digital Peer Publishing Licence (v3, en); cf. https://www.hbz-nrw.de/produkte/open-access/lizenzen/dppl/mdppl/m-DPPL_v3_en_11-2008</xs:documentation>
+                                <xs:appinfo>
+                                    <label>Modular Digital Peer Publishing Licence (v3)</label>
+                                    <recomUsage>data</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
 -->
-						<!--
-						<xs:enumeration value="FreeOpenDataLicence_Belgium"/>
-						<xs:enumeration value="OpenDataLicenceAtAFairCost_Belgium"/>
-						<xs:enumeration value="FreeOpenDataLicenceForNon-CommercialRe-use_Belgium"/>
-						<xs:enumeration value="OpenDataLicenceAtAFairCostForCommercialRe-use_Belgium"/>
-						<xs:enumeration value="PSI-licence_Ireland"/>
-						<xs:enumeration value="NLSOpenDataLicence_Finland"/>
+                        <!--
+                        <xs:enumeration value="FreeOpenDataLicence_Belgium"/>
+                        <xs:enumeration value="OpenDataLicenceAtAFairCost_Belgium"/>
+                        <xs:enumeration value="FreeOpenDataLicenceForNon-CommercialRe-use_Belgium"/>
+                        <xs:enumeration value="OpenDataLicenceAtAFairCostForCommercialRe-use_Belgium"/>
+                        <xs:enumeration value="PSI-licence_Ireland"/>
+                        <xs:enumeration value="NLSOpenDataLicence_Finland"/>
 -->
-						<!--
-						<xs:enumeration value="proprietary">
-							<xs:annotation>
-								<xs:documentation>Value for "licence"; to be used for licences that have a proprietary status</xs:documentation>
-								<xs:appinfo>
-									<label>Proprietary</label>
-								</xs:appinfo>
-							</xs:annotation>
-						</xs:enumeration>
+                        <!--
+                        <xs:enumeration value="proprietary">
+                            <xs:annotation>
+                                <xs:documentation>Value for "licence"; to be used for licences that have a proprietary status</xs:documentation>
+                                <xs:appinfo>
+                                    <label>Proprietary</label>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
 -->
-						<!--
+                        <!--
                         <xs:enumeration value="IGCYL-NC_Spain"/>
                         <xs:enumeration value="ColorIURIS_Spain"/>
 -->
-						<!---
+                        <!---
                         <xs:enumeration value="MS-NoReD"/>
                         <xs:enumeration value="MS-NoReD-FF"/>
                         <xs:enumeration value="MS-NoReD-ND"/>
@@ -708,84 +892,93 @@
                         <xs:enumeration value="LGPL"/>
                         <xs:enumeration value="Princeton_Wordnet"/>
 -->
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-			<xs:element name="otherLicenceName" type="xs:string" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The name with which a licence is known; to be used for licences not included in the pre-defined list of recommended licences</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="otherLicence_TermsText" minOccurs="0" maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation>Used for inputting the text of licences that are not included in the pre-defined list or terms of use statements associated with a resource</xs:documentation>
-					<xs:appinfo>
-						<xs:label>Other licence text</xs:label>
-					</xs:appinfo>
-				</xs:annotation>
-				<xs:complexType>
-					<xs:simpleContent>
-						<xs:restriction base="ms:myString">
-							<xs:maxLength value="10000"/>
-						</xs:restriction>
-					</xs:simpleContent>
-				</xs:complexType>
-				<xs:unique name="uniqueLang13">
-					<xs:selector xpath="."/>
-					<xs:field xpath="@lang"/>
-				</xs:unique>
-			</xs:element>
-			<xs:element name="otherLicence_TermsURL" type="ms:httpURI" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Used to provide a hyperlink to a url containing the text of a licence not included in the predefined list or describing the terms of use for a language resource</xs:documentation>
-					<xs:appinfo>
-						<xs:label>Other licence URL</xs:label>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="restrictionsOfUse" minOccurs="0" maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation>Specifies terms and conditions of use (e.g. attribution, payment etc.) imposed by the licence
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="otherLicenceName" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The name with which a licence is known; to be used for licences not included in
+                        the pre-defined list of recommended licences
                     </xs:documentation>
-					<xs:appinfo>
-						<relation>one-to-many</relation>
-						<label>Conditions of Use</label>
-					</xs:appinfo>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:maxLength value="100"/>
-						<xs:enumeration value="nonCommercialUse"/>
-						<xs:enumeration value="commercialUse"/>
-						<xs:enumeration value="attribution"/>
-						<xs:enumeration value="shareAlike"/>
-						<xs:enumeration value="noDerivatives"/>
-						<xs:enumeration value="research"/>
-						<xs:enumeration value="education"/>
-						<xs:enumeration value="compensate"/>
-						<xs:enumeration value="other"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
-	<xs:element name="distributionInfo" type="ms:distributionInfoType">
-		<xs:annotation>
-			<xs:documentation>Groups information on the distribution of the resource</xs:documentation>
-			<xs:appinfo>
-				<relation>one-to-many</relation>
-				<label>Distribution</label>
-			</xs:appinfo>
-		</xs:annotation>
-	</xs:element>
-	<xs:element name="licenceInfo" type="ms:licenceInfoType">
-		<xs:annotation>
-			<xs:documentation>Groups information on licences for the resource; can be repeated to allow for different modes of access and conditions of use (e.g. free for academic use, on-a-fee basis for commercial use,
-                download of a sample for free use etc.)</xs:documentation>
-			<xs:appinfo>
-				<relation>one-to-one</relation>
-				<label>Licence</label>
-			</xs:appinfo>
-		</xs:annotation>
-	</xs:element>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="otherLicence_TermsText" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Used for inputting the text of licences that are not included in the pre-defined
+                        list or terms of use statements associated with a resource
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <xs:label>Other licence text</xs:label>
+                    </xs:appinfo>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:simpleContent>
+                        <xs:restriction base="ms:myString">
+                            <xs:maxLength value="10000"/>
+                        </xs:restriction>
+                    </xs:simpleContent>
+                </xs:complexType>
+                <xs:unique name="uniqueLang13">
+                    <xs:selector xpath="."/>
+                    <xs:field xpath="@lang"/>
+                </xs:unique>
+            </xs:element>
+            <xs:element name="otherLicence_TermsURL" type="ms:httpURI" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Used to provide a hyperlink to a url containing the text of a licence not included
+                        in the predefined list or describing the terms of use for a language resource
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <xs:label>Other licence URL</xs:label>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="restrictionsOfUse" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Specifies terms and conditions of use (e.g. attribution, payment etc.) imposed by
+                        the licence
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <relation>one-to-many</relation>
+                        <label>Conditions of Use</label>
+                    </xs:appinfo>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="100"/>
+                        <xs:enumeration value="nonCommercialUse"/>
+                        <xs:enumeration value="commercialUse"/>
+                        <xs:enumeration value="attribution"/>
+                        <xs:enumeration value="shareAlike"/>
+                        <xs:enumeration value="noDerivatives"/>
+                        <xs:enumeration value="research"/>
+                        <xs:enumeration value="education"/>
+                        <xs:enumeration value="compensate"/>
+                        <xs:enumeration value="other"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="distributionInfo" type="ms:distributionInfoType">
+        <xs:annotation>
+            <xs:documentation>Groups information on the distribution of the resource</xs:documentation>
+            <xs:appinfo>
+                <relation>one-to-many</relation>
+                <label>Distribution</label>
+            </xs:appinfo>
+        </xs:annotation>
+    </xs:element>
+    <xs:element name="licenceInfo" type="ms:licenceInfoType">
+        <xs:annotation>
+            <xs:documentation>Groups information on licences for the resource; can be repeated to allow for different
+                modes of access and conditions of use (e.g. free for academic use, on-a-fee basis for commercial use,
+                download of a sample for free use etc.)
+            </xs:documentation>
+            <xs:appinfo>
+                <relation>one-to-one</relation>
+                <label>Licence</label>
+            </xs:appinfo>
+        </xs:annotation>
+    </xs:element>
 </xs:schema>

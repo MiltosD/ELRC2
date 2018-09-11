@@ -187,7 +187,6 @@ class LrResource(ModelResource):
         processed = request.GET.getlist('processed')
         validated = request.GET.getlist('validated')
         cleared = request.GET.getlist('cleared')
-        id = request.GET.getlist('id')
 
         filters = {}
 
@@ -210,8 +209,6 @@ class LrResource(ModelResource):
             filters.update(dict(management_object__validated=True))
         if cleared:
             filters.update(dict(management_object__ipr_clearing__exact="cleared"))
-        if id:
-            filters.update(dict(id=id))
         return base_object_list.filter(**filters).distinct()
 
     def apply_sorting(self, obj_list, options=None):

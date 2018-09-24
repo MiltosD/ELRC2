@@ -102,9 +102,9 @@ class ToBeDeliveredFilter(SimpleListFilter):
         elif self.value() == 'ELRC Data D3.3':
             return queryset.filter(to_be_delivered_to_EC='ELRC Data D3.3')
         elif self.value() == 'ELRC Data D3.3.1':
-            return queryset.filter(delivered_to_EC='ELRC Data D3.3.1')
+            return queryset.filter(to_be_delivered_to_EC='ELRC Data D3.3.1')
         elif self.value() == 'ELRC Data D3.3.2':
-            return queryset.filter(delivered_to_EC='ELRC Data D3.3.2')
+            return queryset.filter(to_be_delivered_to_EC='ELRC Data D3.3.2')
         elif self.value() == 'ELRC Data D3.4':
             return queryset.filter(to_be_delivered_to_EC='ELRC Data D3.4')
         elif self.value() == "None":

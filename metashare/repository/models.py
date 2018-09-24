@@ -1736,9 +1736,11 @@ class distributionInfoType_model(SchemaModel):
     back_to_resourceinfotype_model = models.ForeignKey("resourceInfoType_model",  blank=True, null=True)
 
     def real_unicode_(self):
-        # pylint: disable-msg=C0301
-        formatargs = ['availability', 'licenceInfo', ]
-        formatstring = u'{}, licenses: {}'
+        formatargs = ['availability']
+        formatstring = u'{}'
+        if self.back_to_resourceinfotype_model:
+            formatargs.append('licenceInfo')
+            formatstring = u'{} - {}'
         return self.unicode_(formatstring, formatargs)
 
     def has_personal_data(self):

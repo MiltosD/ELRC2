@@ -18,6 +18,8 @@ class SchemaModelInline(InlineModelAdmin, RelatedAdminMixin, SchemaModelLookup):
     template = 'admin/edit_inline/stacked.html'
     collapse = False
 
+    cleared = False
+
     def __init__(self, parent_model, admin_site):
         super(SchemaModelInline, self).__init__(parent_model, admin_site)
         if self.collapse:
@@ -45,6 +47,33 @@ class SchemaModelInline(InlineModelAdmin, RelatedAdminMixin, SchemaModelLookup):
             return self.edit_response_close_popup_magic(obj)
         else:
             return super(SchemaModelInline, self).response_change(request, obj)
+
+    def has_delete_permission(self, request, obj=None):
+        if self.__class__.__name__ == "distributionInfo_model_inline" and self.cleared:
+            return False
+        return super(SchemaModelInline, self).has_delete_permission(request)
+
+    def get_fields(self, request, obj=None):
+        if self.__class__.__name__ == "distributionInfo_model_inline" \
+                and obj.management_object.ipr_clearing != 'cleared':
+            # return [field for field in self.model._meta.get_all_field_names() if field != 'id']
+            self.cleared = False
+        super(SchemaModelInline, self).get_fields(request, obj)
+
+    def get_readonly_fields(self, request, obj=None):
+        if self.__class__.__name__ == "distributionInfo_model_inline" \
+                and obj.management_object.ipr_clearing == 'cleared':
+            # return [field for field in self.model._meta.get_all_field_names() if field != 'id']
+            self.cleared = True
+            self.readonly_fields = ('distributionMedium',)
+
+            return ['PSI', 'allowsUsesBesidesDGT', 'attributionText', 'availability',
+                    'downloadLocation', 'executionLocation', 'fee', 'iprHolder',
+                    'licenceInfo', 'personalDataAdditionalInfo', 'personalDataIncluded',
+                    'sensitiveDataAdditionalInfo', 'sensitiveDataIncluded', 'back_to_resourceinfotype_model']
+
+        else:
+            return super(SchemaModelInline, self).get_readonly_fields(request, obj)
 
 
 class ReverseInlineFormSet(BaseModelFormSet):
@@ -185,7 +214,7 @@ class ReverseInlineModelAdmin(SchemaModelInline):
     versions.
     '''
     formset = ReverseInlineFormSet
-    
+
     def __init__(self,
                  parent_model,
                  parent_fk_name,

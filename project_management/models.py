@@ -8,7 +8,8 @@ DELIVERABLES = _make_choices_from_list(
      "ELRC Data D2.1", "ELRC Data D2.2",
      "ELRC Data D2.3", "ELRC Data D2.4",
      "ELRC Data D3.1", "ELRC Data D3.2",
-     "ELRC Data D3.3", "ELRC Data D3.4"
+     "ELRC Data D3.3", "ELRC Data D3.3.1",
+     "ELRC Data D3.3.2", "ELRC Data D3.4"
      ]
 )
 
@@ -48,12 +49,12 @@ class ManagementObject(models.Model):
     delivered_to_EC = models.CharField(
         verbose_name='Delivered to EC',
         choices=sorted(DELIVERABLES['choices']),
-        max_length=15, blank=True, null=True)
+        max_length=20, blank=True, null=True)
 
     to_be_delivered_to_EC = models.CharField(
         verbose_name='To be delivered to EC',
         choices=sorted(DELIVERABLES['choices']),
-        max_length=15, blank=True, null=True)
+        max_length=20, blank=True, null=True)
 
     is_processed_version = models.BooleanField(verbose_name="Is Processed Version", default=False, editable=False)
 

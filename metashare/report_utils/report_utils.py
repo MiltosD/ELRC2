@@ -279,7 +279,10 @@ def _get_country(res):
     if len(set(res_countries)) > 1 and res_countries[1]:
         res_country = res_countries[1]
     else:
-        res_country = res_countries[0]
+        try:
+            res_country = res_countries[0]
+        except IndexError:
+            return ""
     return res_country
 
 

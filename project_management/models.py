@@ -27,6 +27,10 @@ country_to_partner_map = {
     "Sweden": "TILDE", "United Kingdom": "ELDA", None: ""
 }
 
+FUNDING_PROJECTS = [
+    u'ELRC Data', u'CEF-ELRC', u'ELRC Network'
+]
+
 
 def _get_country(res):
     res_countries = []
@@ -95,7 +99,19 @@ class ManagementObject(models.Model):
 
     def _set_partner(self):
         resource_country = _get_country(self.resource)
-        self.partner_responsible = country_to_partner_map.get(resource_country)
+
+        # Set partner only if LR funding project is valid (cf. FUNDING_PROJECTS)
+        resource_funding_projects = []
+        try:
+            resource_funding_projects = \
+                [p.projectShortName['en'] for p in self.resource.resourceCreationInfo.fundingProject.all()]
+        except AttributeError:
+            pass
+        # check if at least one of the resources's funding project is a FUNDING_PROJECT
+        if set(FUNDING_PROJECTS).intersection(resource_funding_projects):
+            self.partner_responsible = country_to_partner_map.get(resource_country)
+        else:
+            self.partner_responsible = None
 
     def __unicode__(self):
         _unicode = u'{} (id: "{}")'.format(self.resource, self.id)

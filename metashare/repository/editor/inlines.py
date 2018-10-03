@@ -69,10 +69,12 @@ class SchemaModelInline(InlineModelAdmin, RelatedAdminMixin, SchemaModelLookup):
                     self.cleared = True
                     self.readonly_fields = ('distributionMedium',)
 
-                return ['PSI', 'allowsUsesBesidesDGT', 'attributionText', 'availability',
-                        'downloadLocation', 'executionLocation', 'fee', 'iprHolder',
-                        'licenceInfo', 'personalDataAdditionalInfo', 'personalDataIncluded',
-                        'sensitiveDataAdditionalInfo', 'sensitiveDataIncluded', 'back_to_resourceinfotype_model']
+                    return ['PSI', 'allowsUsesBesidesDGT', 'attributionText', 'availability',
+                            'downloadLocation', 'executionLocation', 'fee', 'iprHolder',
+                            'licenceInfo', 'personalDataAdditionalInfo', 'personalDataIncluded',
+                            'sensitiveDataAdditionalInfo', 'sensitiveDataIncluded', 'back_to_resourceinfotype_model']
+                else:
+                    return super(SchemaModelInline, self).get_readonly_fields(request, obj)
             except AttributeError:
                 return super(SchemaModelInline, self).get_readonly_fields(request, obj)
         else:

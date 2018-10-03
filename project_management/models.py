@@ -105,7 +105,7 @@ class ManagementObject(models.Model):
         try:
             resource_funding_projects = \
                 [p.projectShortName['en'] for p in self.resource.resourceCreationInfo.fundingProject.all()]
-        except AttributeError:
+        except:
             pass
         # check if at least one of the resources's funding project is a FUNDING_PROJECT
         if set(FUNDING_PROJECTS).intersection(resource_funding_projects):

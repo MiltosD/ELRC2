@@ -54,24 +54,27 @@ class SchemaModelInline(InlineModelAdmin, RelatedAdminMixin, SchemaModelLookup):
         return super(SchemaModelInline, self).has_delete_permission(request)
 
     def get_fields(self, request, obj=None):
-        if self.__class__.__name__ == "distributionInfo_model_inline" \
-                and obj.management_object.ipr_clearing != 'cleared':
-            # return [field for field in self.model._meta.get_all_field_names() if field != 'id']
-            self.cleared = False
+        if self.__class__.__name__ == "distributionInfo_model_inline":
+            try:
+                if obj.management_object.ipr_clearing != 'cleared':
+                    self.cleared = False
+            except AttributeError:
+                pass
         super(SchemaModelInline, self).get_fields(request, obj)
 
     def get_readonly_fields(self, request, obj=None):
-        if self.__class__.__name__ == "distributionInfo_model_inline" \
-                and obj.management_object.ipr_clearing == 'cleared':
-            # return [field for field in self.model._meta.get_all_field_names() if field != 'id']
-            self.cleared = True
-            self.readonly_fields = ('distributionMedium',)
+        if self.__class__.__name__ == "distributionInfo_model_inline":
+            try:
+                if obj.management_object.ipr_clearing == 'cleared':
+                    self.cleared = True
+                    self.readonly_fields = ('distributionMedium',)
 
-            return ['PSI', 'allowsUsesBesidesDGT', 'attributionText', 'availability',
-                    'downloadLocation', 'executionLocation', 'fee', 'iprHolder',
-                    'licenceInfo', 'personalDataAdditionalInfo', 'personalDataIncluded',
-                    'sensitiveDataAdditionalInfo', 'sensitiveDataIncluded', 'back_to_resourceinfotype_model']
-
+                return ['PSI', 'allowsUsesBesidesDGT', 'attributionText', 'availability',
+                        'downloadLocation', 'executionLocation', 'fee', 'iprHolder',
+                        'licenceInfo', 'personalDataAdditionalInfo', 'personalDataIncluded',
+                        'sensitiveDataAdditionalInfo', 'sensitiveDataIncluded', 'back_to_resourceinfotype_model']
+            except AttributeError:
+                return super(SchemaModelInline, self).get_readonly_fields(request, obj)
         else:
             return super(SchemaModelInline, self).get_readonly_fields(request, obj)
 

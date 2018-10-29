@@ -15,11 +15,26 @@ sqs = SearchQuerySet() \
     .facet("mediaTypeFilter") \
     .facet("licenceFilter") \
     .facet("restrictionsOfUseFilter") \
+    .facet("validatedFilter") \
+    .facet("useNlpSpecificFilter") \
     .facet("lingualityTypeFilter") \
     .facet("multilingualityTypeFilter") \
     .facet("modalityTypeFilter") \
     .facet("dataFormatFilter") \
     .facet("domainFilter") \
+    .facet("corpusAnnotationTypeFilter") \
+    .facet("languageDescriptionLDTypeFilter") \
+    .facet("languageDescriptionEncodingLevelFilter") \
+    .facet("languageDescriptionGrammaticalPhenomenaCoverageFilter") \
+    .facet("lexicalConceptualResourceLRTypeFilter") \
+    .facet("lexicalConceptualResourceEncodingLevelFilter") \
+    .facet("lexicalConceptualResourceLinguisticInformationFilter") \
+    .facet("toolServiceToolServiceTypeFilter") \
+    .facet("toolServiceToolServiceSubTypeFilter") \
+    .facet("toolServiceLanguageDependentTypeFilter") \
+    .facet("toolServiceInputOutputResourceTypeFilter") \
+    .facet("toolServiceInputOutputMediaTypeFilter") \
+    .facet("toolServiceAnnotationTypeFilter") \
     .facet("textTextGenreFilter") \
     .facet("textTextTypeFilter") \
     .facet("appropriatenessForDSIFilter") \
@@ -27,7 +42,6 @@ sqs = SearchQuerySet() \
     # .facet("availabilityFilter") \
     # .facet("bestPracticesFilter") \
     # .facet("languageVarietyFilter") \
-    # .facet("toolServiceToolServiceTypeFilter") \
 
 v1_api = Api(api_name='v1')
 v1_api.register(LrResource())

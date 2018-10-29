@@ -3,7 +3,7 @@ from metashare.processing.models import Processing
 
 
 @admin.register(Processing)
-class ManagementObjectAdmin(admin.ModelAdmin):
+class ProcessingObjectAdmin(admin.ModelAdmin):
     list_display = ('id', 'job_uuid', 'service', 'source', 'elrc_resource',
                     'date_created', 'user', 'active', 'status',)
 

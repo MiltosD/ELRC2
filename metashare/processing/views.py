@@ -223,7 +223,7 @@ def my_processings(request):
             'service': processing.service,
             'data_source': processing.source,
             'elrc_resource': processing.elrc_resource,
-            'submission_date': processing.date_created.strftime('%d/%m/%Y'),
+            'submission_date': processing.date_created.strftime('%Y/%m/%d'),
             'status': processing.status,
             'link_active': processing.active
         })

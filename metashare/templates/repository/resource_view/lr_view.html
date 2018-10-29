@@ -33,20 +33,20 @@
 				collapseSpeed: 0,
                 afterExpand: function() {
                     $(this).find('.details').css({display: 'inline'});
-                } 
+                }
 			});
 		});
-	
-		$(document).ready(function(){  
-		
+
+		$(document).ready(function(){
+
 			$('.my-list').hoverscroll({
 				vertical: false,
 	            fixedArrows: false,
 	            arrowsOpacity: 0.8,
 	            width: 273,
 	            height:24,
-        	});	
-		
+        	});
+
 			$(".tab_content").hide();
 			$(".fields li:first-child").addClass("active");
 			var selected_tab = $(".fields li.active").find("a").attr("href");
@@ -59,7 +59,7 @@
 				$(selected_tab).fadeIn();
 				return false;
 	  		});
-	  		
+
 			$(".textsubtab").hide();
 			$(".textsubfields li:first-child").addClass("active");
 			var selected_tab = $(".textsubfields li.active").find("a").attr("href");
@@ -72,7 +72,7 @@
 				$(selected_tab).fadeIn();
 				return false;
 	  		});
-	  		
+
 			$(".videosubtab").hide();
 			$(".videosubfields li:first-child").addClass("active");
 			var selected_tab = $(".videosubfields li.active").find("a").attr("href");
@@ -85,8 +85,8 @@
 				$(selected_tab).fadeIn();
 				return false;
 	  		});
-	  		
-	  		
+
+
 			$(".dataline.optional").hide();
 				$(".expandable").addClass("collapsed");
 				$(".expandable").click(function() {
@@ -97,17 +97,17 @@
 				}
 				else{
 					$(this).removeClass('expanded');
-					$(this).addClass('collapsed');	
+					$(this).addClass('collapsed');
 					$(this).nextAll().each( function() {
 					if ($(this).filter('.title').length) {
 					return false;
 					}
 					$(this).filter('.optional').hide();
 					});
-				
+
 				}
 				});
-				
+
 				$(".more").addClass("collapsed");
 				$(".otherlang").hide();
 				$(".more").click(function() {
@@ -117,17 +117,17 @@
 				}
 				else{
 					$(this).removeClass('expanded');
-					$(this).addClass('collapsed');	
+					$(this).addClass('collapsed');
 				}
-				
-				
+
+
 				$(this).next().toggle();
-			
+
 			});
-			
-			$(".contactcard").click(function() {				
+
+			$(".contactcard").click(function() {
 				$(this).next().toggle();
-				return false;				
+				return false;
 			});
 		});
 	</script>
@@ -143,25 +143,25 @@
                     <strong>{{ stat.count }}</strong>&nbsp;
                     <span>Last {{ stat.action }}: {{ stat.last }}</span>
                     </a>
-                    
+
                 {% endif %}
             {% endfor %}
-        </div>        
-		
+        </div>
+
 		<h2>{{ resourceName }}{% get_icon resourceType %}</h2>
-	 			
+
 		{% ifnotequal other_res_names|length 0 %}
 			<div class='more'>View resource name in all available languages</div>
 			<div class='otherlang'>
-			{% for name in other_res_names %}<h3>{{ name }}</h3>{% endfor %} 
+			{% for name in other_res_names %}<h3>{{ name }}</h3>{% endfor %}
 			</div>
 		{% endifnotequal %}
-			
+
 			{% if res_short_names %}
-				<h3 class="shortnames"><i>{% for name in res_short_names %}{{ name }}<img src="{% static "metashare/images/trenner.png" %}" class="trenner" />{% endfor %}</i></h3> 
+				<h3 class="shortnames"><i>{% for name in res_short_names %}{{ name }}<img src="{% static "metashare/images/trenner.png" %}" class="trenner" />{% endfor %}</i></h3>
 				<div style="clear:both"></div>
 			{% endif %}
-			
+
 			{% if not attribution_details|join:"" == '' %}
              <div class="attribution"><label>Attribution details:</label> {{ attribution_details|join:"<br /> " }}</div>
             {% endif %}
@@ -201,7 +201,7 @@
 					</h3>
 				{% endfor %}
 			{% endif %}
-			
+
 			{% if metaShareId and not 'NOT_DEFINED' in metaShareId %}
                 <h4 class="identifier">{{ metaShareId }}</h4>
             {% endif %}
@@ -213,14 +213,14 @@
 		 		{% endfor %}
 		 		</div>
 	 		{% endif %}
-	 		
+
 		<h4 style="text-align:justify; margin-top: 5px" class="readmore desc">{{ description|linebreaksbr }}</h4>
-		
+
 		{% ifnotequal other_descriptions|length 0 %}
 			<div class='more'>View resource description in all available languages</div>
 			<div class='otherlang'>
-			{% for desc in other_descriptions %}<h4 style="text-align:justify" class="readmore">{{ desc|linebreaksbr }}</h4>{% endfor %} 
-			</div> 
+			{% for desc in other_descriptions %}<h4 style="text-align:justify" class="readmore">{{ desc|linebreaksbr }}</h4>{% endfor %}
+			</div>
 		{% endifnotequal %}
 
         {% if dsi %}
@@ -228,8 +228,6 @@
                 <strong>DSI Relevance: </strong>{{ dsi|join:", " }}
             </div>
         {% endif %}
-
-        {% include "repository/resource_view/process_lr.html" with processing_info=processing_info %}
         <hr class="actions"/>
 		<div style="clear: both;">
 			<a href="javascript:history.back();"><button class="span-12 button middle_button">
@@ -249,6 +247,21 @@
 		    </a>
             {% endif %}
 			<div style="clear: both;"></div>
+            {% if resource.storage_object.get_download and request.download_permitted %}
+                {% if processable %}
+                    <div style="
+                    margin-top: 10px;
+                    font-weight: bold;
+                    font-size: 1.25em;
+                    color: {% if fully_processable %}#0d680dcc{% else %}#b68939{% endif %};
+                    ">
+                        This resource can be {% if fully_processable %}fully{% else %}partially{% endif %}
+                        processed by ELRC Services.
+                        Click <a href="/repository/processing/process/{{ resource.id }}">
+                        here
+                    </a> to select service</div>
+                {% endif %}
+            {% endif %}
 		</div>
 	</div>
 	<div class="details_box">
@@ -265,7 +278,7 @@
 			{% endfor %}
 		{% endif %}
 	</div>
-		
+
 	<div class="column middle">
 		<div class="fields">
 				<ul>
@@ -295,7 +308,7 @@
 					{% include "repository/resource_view/resource_type.html" with type=resourceType %}
 				</div>
 			{% endif %}
-			{% for type in mediaTypes %}				
+			{% for type in mediaTypes %}
 					<div id="{{forloop.counter}}" class="tab_content">
 						{% include "repository/resource_view/media_info.html" with type=type %}
 					</div>
@@ -310,25 +323,25 @@
 		{% if resource_creation_dict %}
 			{% include "repository/resource_view/resource_creation.html" %}
 		{% endif %}
-		  
+
 		{% include "repository/resource_view/metadata.html" %}
-		
+
 		{% if version_dict %}
 			{% include "repository/resource_view/version.html" %}
 		{% endif %}
-		
+
 		{% if validation_dicts %}
 			{% include "repository/resource_view/validation.html" %}
 		{% endif %}
-		
+
 		{% if usage_dict %}
 			{% include "repository/resource_view/usage.html" %}
 		{% endif %}
-		
+
 		{% if relation_dicts %}
 			{% include "repository/resource_view/relation.html" %}
 		{% endif %}
-		
+
 		{% if documentation_dict %}
 		<label class="component">Documentation</label>
 			{% for key, value in documentation_dict.items %}
@@ -346,10 +359,10 @@
 								<strong>Tool Documentation: </strong>{{value1}}
 							</label>
 						</div>
-					{% endif %}						
+					{% endif %}
 				{% endfor %}
 				{% for key1, value1 in value.items %}
-					{% for key2, value2 in value1.items %}				
+					{% for key2, value2 in value1.items %}
 						{% if "Documentation" in key2 %}
 							<div class="separation"><hr/></div>
 							{% if value2.Title %}
@@ -366,7 +379,7 @@
 				{% endfor %}
 			{% endfor %}
 		{% endif %}
-	
+
 	</div>
     </div>
 {% include "repository/resource_view/recomm_view.html" %}

@@ -1,6 +1,7 @@
 import logging
 import os
 import re
+from metashare.repository.model_utils import is_processable
 from unidecode import unidecode
 
 from haystack.indexes import CharField, IntegerField, SearchIndex
@@ -21,7 +22,6 @@ from metashare.settings import LOG_HANDLER
 from metashare.storage.models import StorageObject, INGESTED, PUBLISHED, INTERNAL
 from metashare.stats.model_utils import DOWNLOAD_STAT, VIEW_STAT
 
-
 # Setup logging support.
 LOGGER = logging.getLogger(__name__)
 LOGGER.addHandler(LOG_HANDLER)
@@ -40,6 +40,7 @@ def update_lr_index_entry(res_obj):
     haystack_connections[router_name] \
         .get_unified_index().get_index(resourceInfoType_model) \
         .update_object(res_obj)
+
 
 # pylint: disable-msg=C0103
 class resourceInfoType_modelIndex(SearchIndex, indexes.Indexable):
@@ -176,6 +177,10 @@ class resourceInfoType_modelIndex(SearchIndex, indexes.Indexable):
 
     publicationStatusFilter = LabeledCharField(
         label=_('Publication Status'), facet_id=57, parent_id=0,
+        faceted=True)
+
+    processabilityFilter = LabeledCharField(
+        label=_('Processable by ELRC'), facet_id=58, parent_id=0,
         faceted=True)
 
     # Start sub filters
@@ -860,3 +865,6 @@ class resourceInfoType_modelIndex(SearchIndex, indexes.Indexable):
         Collect the data to filter the resources on publication status
         """
         return obj.publication_status()
+
+    def prepare_processabilityFilter(self, obj):
+        return is_processable(obj)[0]

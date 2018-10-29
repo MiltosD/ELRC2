@@ -524,6 +524,7 @@ def view(request, resource_name=None, object_id=None):
     identifier = resource.identificationInfo.identifier
     islrn = resource.identificationInfo.ISLRN
     dsi = resource.identificationInfo.appropriatenessForDSI
+    is_processable = model_utils.is_processable(resource)
     resource_type = resource.resourceComponentType.as_subclass().resourceType
     media_types = set(model_utils.get_resource_media_types(resource))
     linguality_infos = set(model_utils.get_resource_linguality_infos(resource))
@@ -681,6 +682,8 @@ def view(request, resource_name=None, object_id=None):
         'identifier': identifier,
         'islrn': islrn,
         'dsi': dsi,
+        'processable': True if is_processable[0] == 'YES' else False,
+        'fully_processable': is_processable[1],
         'other_res_names': other_res_names,
         'other_descriptions': other_descriptions,
         'relation_dicts': relation_dicts,

@@ -161,7 +161,7 @@
         </input>
         <output>
             <description>TMX XML</description>
-            <data_format label="XCES">application/x-tmx+xml</data_format>
+            <data_format label="TMX">application/x-tmx+xml</data_format>
         </output>
         <chain position="0">None</chain>
     </service>
@@ -182,7 +182,7 @@
         </input>
         <output>
             <description>TMX XML</description>
-            <data_format label="XCES">application/x-tmx+xml</data_format>
+            <data_format label="TMX">application/x-tmx+xml</data_format>
         </output>
         <chain position="0">None</chain>
     </service>

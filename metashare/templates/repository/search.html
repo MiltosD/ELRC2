@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static from staticfiles %}
-
+{% load is_member %}
 {% block title %}
 Search and Browse &ndash; ELRC-SHARE
 {% endblock %}
@@ -86,7 +86,14 @@ function addStatus(filter){
     <h4>Filter by:</h4>
     <div id="searchFilters">
     {% for filter in filters %}
-      {% include "repository/filter.html" with filter=filter %}
+        {# hide filters from non privileged users #}
+        {% if filter.label == 'Processable by ELRC' or filter.label == 'Publication Status' %}
+            {% if user.is_superuser or user|is_member:"ecmembers" %}
+                {% include "repository/filter.html" with filter=filter %}
+            {% endif %}
+        {% else %}
+            {% include "repository/filter.html" with filter=filter %}
+        {% endif %}
     {% endfor %}
     </div>
   </div>

@@ -1,0 +1,189 @@
+<services>
+    <service name="File Format Conversion" id="1" mixed_content="true" codename="FFC_ID">
+        <description>The ELRC Repository file format converter extracts the textual content from files in a set of input
+            formats and converts this content in XML.
+        </description>
+        <input>
+            <description>A zipped collection of files (UTF-8 txt, UTF-8 HTML, pdf, docx, doc).</description>
+            <languages>CEF Languages</languages>
+            <data_format label="Plain Text">text/plain</data_format>
+            <data_format label="HTML">text/html</data_format>
+            <data_format label="PDF">application/pdf</data_format>
+            <data_format label="DOCX">application/vnd.openxmlformats-officedocument.wordprocessingml.document
+            </data_format>
+            <data_format label="DOC">application/msword</data_format>
+        </input>
+        <output>
+            <description>A zip archive with XML files (one for each document in the input collection) compatible with
+                the Corpus Encoding Standard . Each XML file contains a &lt;header&gt; element with metadata. A &lt;body&gt;
+                element contains the content of the document, segmented in paragraphs. This XML representation is used
+                by all other services in this table.
+            </description>
+            <data_format label="XCES">application/x-xces+xml</data_format>
+        </output>
+        <chain position="0">None</chain>
+    </service>
+    <service name="UTF-8 Conversion" id="2" mixed_content="true" codename="UTF8_ID">
+        <description>The ELRC Repository UTF-8 converter detects the encoding of the textual content of a file and
+            converts this content to UTF-8.
+        </description>
+        <input>
+            <description>A file (txt, html) to be converted.The encoding of this file. If the encoding is not provided
+                by the user, the input encoding is detected automatically.
+            </description>
+            <languages>CEF Languages</languages>
+            <data_format label="Plain Text">text/plain</data_format>
+            <data_format label="HTML">text/html</data_format>
+        </input>
+        <output>
+            <description>The input file converted to UTF-8.</description>
+            <data_format label="Plain Text">text/plain</data_format>
+            <data_format label="HTML">text/html</data_format>
+        </output>
+        <chain position="0">None</chain>
+    </service>
+    <service name="Language Identification" id="3" mixed_content="true" codename="LAI_ID">
+        <description>The ELRC Repository language identifier detects the language in a document and its paragraphs.
+        </description>
+        <input>
+            <description>A zipped collection of files (UTF-8 txt, UTF-8 HTML, pdf, docx, doc).</description>
+            <languages>CEF Languages</languages>
+            <data_format label="Plain Text">text/plain</data_format>
+            <data_format label="HTML">text/html</data_format>
+            <data_format label="PDF">application/pdf</data_format>
+            <data_format label="DOCX">application/vnd.openxmlformats-officedocument.wordprocessingml.document
+            </data_format>
+            <data_format label="DOC">application/msword</data_format>
+        </input>
+        <output>
+            <description>XCES XML</description>
+            <data_format label="XCES">application/x-xces+xml</data_format>
+        </output>
+        <chain position="0">None</chain>
+    </service>
+    <service name="(near) Deduplication" id="4" mixed_content="true" codename="DEDUP_ID">
+        <description>The ELRC Repository deduplicator examines a directory for (near) duplicate documents and removes
+            them. First, it uses the ELRC Repository language identifier. Then, it detects (near) duplicates based on
+            lists of quantized frequencies of words on document/paragraph level.
+        </description>
+        <input>
+            <description>A zipped directory containing collection of files (UTF-8 txt, UTF-8 HTML, pdf, docx,
+                doc).</description>
+            <languages>CEF Languages</languages>
+            <data_format label="Plain Text">text/plain</data_format>
+            <data_format label="HTML">text/html</data_format>
+            <data_format label="PDF">application/pdf</data_format>
+            <data_format label="DOCX">application/vnd.openxmlformats-officedocument.wordprocessingml.document
+            </data_format>
+            <data_format label="DOC">application/msword</data_format>
+        </input>
+        <output>
+            <description>XCES XML</description>
+            <data_format label="XCES">application/x-xces+xml</data_format>
+        </output>
+        <chain position="0">None</chain>
+    </service>
+    <service name="Text classification" id="5" mixed_content="true" codename="EUROVOC_ID">
+        <description>This service applies the Language Identification process and then, it exploits the JRC EuroVoc
+            Indexer JEX to automatically assign EuroVoc descriptors to each document.
+        </description>
+        <input>
+            <description>A zipped collection of files (UTF-8 txt, UTF-8 HTML, pdf, docx, doc).</description>
+            <languages>CEF Languages</languages>
+            <data_format label="Plain Text">text/plain</data_format>
+            <data_format label="HTML">text/html</data_format>
+            <data_format label="PDF">application/pdf</data_format>
+            <data_format label="DOCX">application/vnd.openxmlformats-officedocument.wordprocessingml.document
+            </data_format>
+            <data_format label="DOC">application/msword</data_format>
+        </input>
+        <output>
+            <description>XCES XML</description>
+            <data_format label="XCES">application/x-xces+xml</data_format>
+        </output>
+        <chain position="0">None</chain>
+    </service>
+    <service name="Domain check" id="6" mixed_content="true" codename="TOPIC_CHECK_ID">
+        <description>This service examines the content of each file against the domain definition and classifies a
+            file as belonging to this domain or not.
+        </description>
+        <input>
+            <description>A zipped collection of files (UTF-8 txt, UTF-8 HTML, pdf, docx, doc).</description>
+            <languages>CEF Languages</languages>
+            <data_format label="Plain Text">text/plain</data_format>
+            <data_format label="HTML">text/html</data_format>
+            <data_format label="PDF">application/pdf</data_format>
+            <data_format label="DOCX">application/vnd.openxmlformats-officedocument.wordprocessingml.document
+            </data_format>
+            <data_format label="DOC">application/msword</data_format>
+        </input>
+        <output>
+            <description>XCES XML</description>
+            <data_format label="XCES">application/x-xces+xml</data_format>
+        </output>
+        <chain position="0">None</chain>
+    </service>
+    <service name="Document Pairing" id="7" mixed_content="true" codename="PAIRDET_ID">
+        <description>The ELRC Repository pair detector examines documents in a directory with the aim of identifying
+            pairs of documents that could be considered parallel (i.e. pairs of documents that are translations of each
+            other). First, it uses the ELRC Repository deduplicator. Then, it identifies document pairs.
+        </description>
+        <input>
+            <description>A zipped collection of files (UTF-8 txt, UTF-8 HTML, pdf, docx, doc).</description>
+            <languages>CEF Languages</languages>
+            <data_format label="Plain Text">text/plain</data_format>
+            <data_format label="HTML">text/html</data_format>
+            <data_format label="PDF">application/pdf</data_format>
+            <data_format label="DOCX">application/vnd.openxmlformats-officedocument.wordprocessingml.document
+            </data_format>
+            <data_format label="DOC">application/msword</data_format>
+        </input>
+        <output>
+            <description>XCES XML</description>
+            <data_format label="XCES">application/x-xces+xml</data_format>
+        </output>
+        <chain position="0">None</chain>
+    </service>
+    <service name="Sentence Alignment" id="8" mixed_content="true" codename="SENTALIGN_ID">
+        <description>This service uses language identification as an internal preprocessing step if this information
+            is not available in the list of document pairs. The service then sentence splits both documents in each
+            document pair and aligns them to generate sentence pairs.
+        </description>
+        <input>
+            <description>A zipped collection of files (UTF-8 txt, UTF-8 HTML, pdf, docx, doc).</description>
+            <languages>CEF Languages</languages>
+            <data_format label="Plain Text">text/plain</data_format>
+            <data_format label="HTML">text/html</data_format>
+            <data_format label="PDF">application/pdf</data_format>
+            <data_format label="DOCX">application/vnd.openxmlformats-officedocument.wordprocessingml.document
+            </data_format>
+            <data_format label="DOC">application/msword</data_format>
+        </input>
+        <output>
+            <description>TMX XML</description>
+            <data_format label="XCES">application/x-tmx+xml</data_format>
+        </output>
+        <chain position="0">None</chain>
+    </service>
+    <service name="Parallel Corpus Generation" id="9" mixed_content="true" codename="PARALLERCORPUSGEN_ID">
+        <description>This service uses the Document Pairing and the Sentence Alignment services. It then applies a set
+            of criteria on sentence pairs with the purpose of filtering out specific types of pairs and of generating
+            precision-high multilingual LRs for training MT systems.
+        </description>
+        <input>
+            <description>A zipped collection of files (UTF-8 txt, UTF-8 HTML, pdf, docx, doc).</description>
+            <languages>CEF Languages</languages>
+            <data_format label="Plain Text">text/plain</data_format>
+            <data_format label="HTML">text/html</data_format>
+            <data_format label="PDF">application/pdf</data_format>
+            <data_format label="DOCX">application/vnd.openxmlformats-officedocument.wordprocessingml.document
+            </data_format>
+            <data_format label="DOC">application/msword</data_format>
+        </input>
+        <output>
+            <description>TMX XML</description>
+            <data_format label="XCES">application/x-tmx+xml</data_format>
+        </output>
+        <chain position="0">None</chain>
+    </service>
+</services>

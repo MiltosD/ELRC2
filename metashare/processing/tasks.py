@@ -119,8 +119,9 @@ def send_failure_mail(self, processing_id):
     # init email
     email_subject = "[ELRC-SHARE] Processing Result Failed"
     email_body = "Dear {},\n\nYour processing request (id: {}) has not been completed.\n" \
-                 "Excuses here...".format(processing_object.user.username, processing_id)
-    sender = "mdel@windowslive.com"
+                 "Please check that your data files are in the processable formats \n" \
+                 "and the zip archive does not contain subdirectories.".format(processing_object.user.username, processing_id)
+    sender = "no-reply@elrc-share.eu"
     to = [processing_object.user.email]
     logger.info("Sending Failure email to {}".format(processing_object.user.username))
     send_mail(email_subject, email_body, sender, to, fail_silently=False)
@@ -130,7 +131,7 @@ def send_failure_mail(self, processing_id):
 @app.task(name='build-link', ignore_result=False, bind=True)
 def build_link(self, processing_id):
     processing_object = Processing.objects.get(job_uuid=processing_id)
-    data_link = "http://194.177.192.69/repository/processing/download/{}/".format(processing_id)
+    data_link = "/repository/processing/download/{}/".format(processing_id)
 
     # init email
     email_subject = "[ELRC-SHARE] Processing Result {}"
@@ -141,7 +142,7 @@ def build_link(self, processing_id):
                  "the above link will become inactive.\n\n" \
                  "Thank you for using the ELRC-SHARE services\n\n" \
                  "The ELRC-SHARE Team"
-    sender = "mdel@windowslive.com"
+    sender = "no-reply@elrc-share.eu"
     to = [processing_object.user.email]
     if processing_object.status == "successful":
         email_subject = email_subject.format('Successful')

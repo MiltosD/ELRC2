@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load replace %}
 {% block title %}
     ELRC-SHARE &ndash; My Processing Requests
 {% endblock %}
@@ -21,7 +21,7 @@
     <style>
         .even {background-color: #f9f9f9;}
         #table-container{
-            background-color: #efecec;
+{#            background-color: #efecec;#}
             padding: 10px;
         }
     </style>
@@ -43,7 +43,8 @@
                             <th>Data Source</th>
                             <th>ELRC Resource</th>
                             <th>Status</th>
-                            <th>Link Active</th>
+                            <th>Expired</th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -52,10 +53,27 @@
                                 <td>{{ processing.submission_date }}</td>
                                 <td>{{ processing.processing_request_id }}</td>
                                 <td>{{ processing.service }}</td>
-                                <td>{{ processing.data_source }}</td>
-                                <td>{{ processing.elrc_resource }}</td>
+                                <td>{{ processing.data_source | rep }}</td>
+                                <td>
+                                    {% if processing.elrc_resource %}
+                                        <a href="{{ processing.elrc_resource_url }}" target="_blank">
+                                            {{ processing.elrc_resource }}
+                                        </a>
+                                    {% endif %}
+                                </td>
                                 <td>{{ processing.status }}</td>
-                                <td>{{ processing.link_active }}</td>
+                                <td>{% if processing.link_active and processing.status in 'successful,partial'%}
+                                        NO
+                                    {% elif processing.status in 'failed' %}
+                                        {# void output#}
+                                    {% else %}
+                                        YES
+                                    {% endif %}
+                                </td>
+                                <td>{% if processing.download %}
+                                        <a href="{{ processing.download }}">Download</a>
+                                    {% endif %}
+                                </td>
                             </tr>
                         {% endfor %}
                         </tbody>

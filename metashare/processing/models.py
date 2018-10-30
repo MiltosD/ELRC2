@@ -114,7 +114,7 @@ class Processing(models.Model):
         """
         is_active = self.get_activation()
         expiration_date = datetime.timedelta(days=PROCESSING_RETENTION_DAYS)
-        return not is_active and \
+        return is_active and \
                (self.date_created + expiration_date <= datetime_now())
 
     # ===========================================================================
@@ -130,12 +130,12 @@ class Processing(models.Model):
         # one user for this processing
         user = self.user
         is_member = user.is_superuser or member(user, 'ecmembers')
-        if self.activated:
+        if self.active:
             return True
-        elif not self.activated and is_member:
+        elif not self.active and is_member:
             # if the user in the meantime got manager permissions
             # make the processing object instance active
-            self.activated = True
+            self.active = True
             self.save()
             return True
         else:

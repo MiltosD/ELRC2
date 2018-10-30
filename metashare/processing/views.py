@@ -223,9 +223,12 @@ def my_processings(request):
             'service': processing.service,
             'data_source': processing.source,
             'elrc_resource': processing.elrc_resource,
+            'elrc_resource_url': processing.elrc_resource.get_absolute_url() if processing.elrc_resource else None,
             'submission_date': processing.date_created.strftime('%Y/%m/%d'),
             'status': processing.status,
-            'link_active': processing.active
+            'link_active': processing.active if processing.status not in ['failed', 'pending'] else None,
+            'download': "/repository/processing/download/{}/".format(processing.job_uuid) if processing.active
+                        and (processing.status == 'successful' or processing.status == 'partial') else False
         })
     return render_to_response('repository/processing/user_processings.html',
                               {'processings': result},

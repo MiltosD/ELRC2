@@ -131,7 +131,7 @@ def send_failure_mail(self, processing_id):
 @app.task(name='build-link', ignore_result=False, bind=True)
 def build_link(self, processing_id):
     processing_object = Processing.objects.get(job_uuid=processing_id)
-    data_link = "/repository/processing/download/{}/".format(processing_id)
+    data_link = "{}/repository/processing/download/{}/".format(DJANGO_URL, processing_id)
 
     # init email
     email_subject = "[ELRC-SHARE] Processing Result {}"

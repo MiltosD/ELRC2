@@ -31,10 +31,9 @@ app.conf.update(
     CELERY_IMPORTS=("metashare.processing.tasks",),
     SERVER_EMAIL='no-reply@elrc-share.eu',
     EMAIL_USE_TLS=True,
-    EMAIL_HOST='smtp.live.com',
-    EMAIL_PORT=587,
-    EMAIL_HOST_USER='mdel@windowslive.com',
-    EMAIL_HOST_PASSWORD='a2s9ap123',
+    EMAIL_HOST=settings.EMAIL_HOST,
+    EMAIL_PORT=settings.EMAIL_PORT,
+    EMAIL_HOST_USER=settings.EMAIL_HOST_USER
 )
 
 if __name__ == '__main__':

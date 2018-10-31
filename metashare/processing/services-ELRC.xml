@@ -144,46 +144,46 @@
         </output>
         <chain position="0">None</chain>
     </service>
-    <service name="Sentence Alignment" id="8" mixed_content="true" codename="SENTALIGN_ID">
-        <description>This service uses language identification as an internal preprocessing step if this information
-            is not available in the list of document pairs. The service then sentence splits both documents in each
-            document pair and aligns them to generate sentence pairs.
-        </description>
-        <input>
-            <description>A zipped collection of files (UTF-8 txt, UTF-8 HTML, pdf, docx, doc).</description>
-            <languages>CEF Languages</languages>
-            <data_format label="Plain Text">text/plain</data_format>
-            <data_format label="HTML">text/html</data_format>
-            <data_format label="PDF">application/pdf</data_format>
-            <data_format label="DOCX">application/vnd.openxmlformats-officedocument.wordprocessingml.document
-            </data_format>
-            <data_format label="DOC">application/msword</data_format>
-        </input>
-        <output>
-            <description>TMX XML</description>
-            <data_format label="TMX">application/x-tmx+xml</data_format>
-        </output>
-        <chain position="0">None</chain>
-    </service>
-    <service name="Parallel Corpus Generation" id="9" mixed_content="true" codename="PARALLERCORPUSGEN_ID">
-        <description>This service uses the Document Pairing and the Sentence Alignment services. It then applies a set
-            of criteria on sentence pairs with the purpose of filtering out specific types of pairs and of generating
-            precision-high multilingual LRs for training MT systems.
-        </description>
-        <input>
-            <description>A zipped collection of files (UTF-8 txt, UTF-8 HTML, pdf, docx, doc).</description>
-            <languages>CEF Languages</languages>
-            <data_format label="Plain Text">text/plain</data_format>
-            <data_format label="HTML">text/html</data_format>
-            <data_format label="PDF">application/pdf</data_format>
-            <data_format label="DOCX">application/vnd.openxmlformats-officedocument.wordprocessingml.document
-            </data_format>
-            <data_format label="DOC">application/msword</data_format>
-        </input>
-        <output>
-            <description>TMX XML</description>
-            <data_format label="TMX">application/x-tmx+xml</data_format>
-        </output>
-        <chain position="0">None</chain>
-    </service>
+{#    <service name="Sentence Alignment" id="8" mixed_content="true" codename="SENTALIGN_ID">#}
+{#        <description>This service uses language identification as an internal preprocessing step if this information#}
+{#            is not available in the list of document pairs. The service then sentence splits both documents in each#}
+{#            document pair and aligns them to generate sentence pairs.#}
+{#        </description>#}
+{#        <input>#}
+{#            <description>A zipped collection of files (UTF-8 txt, UTF-8 HTML, pdf, docx, doc).</description>#}
+{#            <languages>CEF Languages</languages>#}
+{#            <data_format label="Plain Text">text/plain</data_format>#}
+{#            <data_format label="HTML">text/html</data_format>#}
+{#            <data_format label="PDF">application/pdf</data_format>#}
+{#            <data_format label="DOCX">application/vnd.openxmlformats-officedocument.wordprocessingml.document#}
+{#            </data_format>#}
+{#            <data_format label="DOC">application/msword</data_format>#}
+{#        </input>#}
+{#        <output>#}
+{#            <description>TMX XML</description>#}
+{#            <data_format label="TMX">application/x-tmx+xml</data_format>#}
+{#        </output>#}
+{#        <chain position="0">None</chain>#}
+{#    </service>#}
+{#    <service name="Parallel Corpus Generation" id="9" mixed_content="true" codename="PARALLERCORPUSGEN_ID">#}
+{#        <description>This service uses the Document Pairing and the Sentence Alignment services. It then applies a set#}
+{#            of criteria on sentence pairs with the purpose of filtering out specific types of pairs and of generating#}
+{#            precision-high multilingual LRs for training MT systems.#}
+{#        </description>#}
+{#        <input>#}
+{#            <description>A zipped collection of files (UTF-8 txt, UTF-8 HTML, pdf, docx, doc).</description>#}
+{#            <languages>CEF Languages</languages>#}
+{#            <data_format label="Plain Text">text/plain</data_format>#}
+{#            <data_format label="HTML">text/html</data_format>#}
+{#            <data_format label="PDF">application/pdf</data_format>#}
+{#            <data_format label="DOCX">application/vnd.openxmlformats-officedocument.wordprocessingml.document#}
+{#            </data_format>#}
+{#            <data_format label="DOC">application/msword</data_format>#}
+{#        </input>#}
+{#        <output>#}
+{#            <description>TMX XML</description>#}
+{#            <data_format label="TMX">application/x-tmx+xml</data_format>#}
+{#        </output>#}
+{#        <chain position="0">None</chain>#}
+{#    </service>#}
 </services>

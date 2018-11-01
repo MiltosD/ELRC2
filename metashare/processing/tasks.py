@@ -118,10 +118,11 @@ def send_failure_mail(self, processing_id):
     processing_object = Processing.objects.get(job_uuid=processing_id)
     # init email
     email_subject = "[ELRC-SHARE] Processing Result Failed"
-    email_body = "Dear {},\n\nYour processing request (id: {}) has not been completed.\n" \
+    email_body = "Dear {},\n\nYour processing request for '{}', (id: {}), has not been completed.\n" \
                  "Please check that your data files are in the processable formats \n" \
                  "and the zip archive does not contain subdirectories.\n\n" \
-                 "The ELRC-SHARE Team".format(processing_object.user.username, processing_id)
+                 "The ELRC-SHARE Team".format(processing_object.user.username, processing_object.service,
+                                              processing_id)
     sender = "no-reply@elrc-share.eu"
     to = [processing_object.user.email]
     logger.info("Sending Failure email to {}".format(processing_object.user.username))
@@ -136,7 +137,7 @@ def build_link(self, processing_id):
 
     # init email
     email_subject = "[ELRC-SHARE] Processing Result {}"
-    email_body = "Dear {},\n\nYour processing request for {} (id: {}) has {}.\n" \
+    email_body = "Dear {},\n\nYour processing request for '{}', (id: {}), has {}.\n" \
                  "You can download the result of your request, within two (2) days, by clicking " \
                  "on the following link:\n\n" \
                  "{}\n\nPlease note that after 2 days your processing results will be deleted and " \

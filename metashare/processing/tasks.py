@@ -136,7 +136,7 @@ def build_link(self, processing_id):
 
     # init email
     email_subject = "[ELRC-SHARE] Processing Result {}"
-    email_body = "Dear {},\n\nYour processing request (id: {}) has {}.\n" \
+    email_body = "Dear {},\n\nYour processing request for {} (id: {}) has {}.\n" \
                  "You can download the result of your request, within two (2) days, by clicking " \
                  "on the following link:\n\n" \
                  "{}\n\nPlease note that after 2 days your processing results will be deleted and " \
@@ -147,11 +147,14 @@ def build_link(self, processing_id):
     to = [processing_object.user.email]
     if processing_object.status == "successful":
         email_subject = email_subject.format('Successful')
-        email_body = email_body.format(processing_object.user.username, processing_id, "been completed successfully",
+        email_body = email_body.format(processing_object.user.username, processing_object.service,
+                                       processing_id, "been completed successfully",
                                        data_link)
     else:
         email_subject = email_subject.format('Partially Successful')
-        email_body = email_body.format(processing_object.user.username, processing_id, "been partially completed",
+        email_body = email_body.format(processing_object.user.username,
+                                       processing_object.service,
+                                       processing_id, "been partially completed",
                                        data_link)
     logger.info("Sending Success email to {}".format(processing_object.user.username))
     send_mail(email_subject, email_body, sender, to, fail_silently=False)

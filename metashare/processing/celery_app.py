@@ -24,6 +24,7 @@ app.conf.update(
     CELERY_TASK_SERIALIZER='json',
     CELERY_RESULT_SERIALIZER='json',
     CELERYD_FORCE_EXECV=True,
+    CELERYD_TASK_TIME_LIMIT=3600,
     CELERY_SEND_TASK_ERROR_EMAILS=True,
     ADMINS=(
         ('Miltos Deligiannis', 'mdel@ilsp.gr'),

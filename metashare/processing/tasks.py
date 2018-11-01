@@ -28,7 +28,7 @@ from celery.utils.log import get_task_logger
 
 logger = get_task_logger(__name__)
 
-MONITOR_SLEEP = 4
+MONITOR_SLEEP = 6
 
 
 def _call_camel(input_id, zipfile, service_id):

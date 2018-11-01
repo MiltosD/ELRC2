@@ -120,7 +120,8 @@ def send_failure_mail(self, processing_id):
     email_subject = "[ELRC-SHARE] Processing Result Failed"
     email_body = "Dear {},\n\nYour processing request (id: {}) has not been completed.\n" \
                  "Please check that your data files are in the processable formats \n" \
-                 "and the zip archive does not contain subdirectories.".format(processing_object.user.username, processing_id)
+                 "and the zip archive does not contain subdirectories.\n\n" \
+                 "The ELRC-SHARE Team".format(processing_object.user.username, processing_id)
     sender = "no-reply@elrc-share.eu"
     to = [processing_object.user.email]
     logger.info("Sending Failure email to {}".format(processing_object.user.username))

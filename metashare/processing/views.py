@@ -6,7 +6,7 @@ from zipfile import BadZipfile
 
 import os
 import xmltodict
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponse, JsonResponse, Http404
 from django.shortcuts import render_to_response
 from django.template import RequestContext
@@ -231,5 +231,29 @@ def my_processings(request):
                         and (processing.status == 'successful' or processing.status == 'partial') else False
         })
     return render_to_response('repository/processing/user_processings.html',
+                              {'processings': result},
+                              context_instance=RequestContext(request))
+
+@login_required
+@user_passes_test(lambda u: u.is_superuser)
+def processing_jobs(request):
+    processings = Processing.objects.all()
+    result = list()
+    for processing in processings:
+        result.append({
+            'processing_id': processing.id,
+            'processing_request_id': processing.job_uuid,
+            'user': processing.user,
+            'service': processing.service,
+            'data_source': processing.source,
+            'elrc_resource': processing.elrc_resource,
+            'elrc_resource_url': processing.elrc_resource.get_absolute_url() if processing.elrc_resource else None,
+            'submission_date': processing.date_created.strftime('%Y/%m/%d'),
+            'status': processing.status,
+            'link_active': processing.active if processing.status not in ['failed', 'pending'] else None,
+            'download': "/repository/processing/download/{}/".format(processing.job_uuid) if processing.active
+                        and (processing.status == 'successful' or processing.status == 'partial') else False
+        })
+    return render_to_response('repository/processing/processing_jobs.html',
                               {'processings': result},
                               context_instance=RequestContext(request))

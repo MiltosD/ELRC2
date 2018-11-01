@@ -5,5 +5,6 @@ urlpatterns = patterns('metashare.processing.views',
                        url(r'^process/(?P<resource_id>\w+)/$', 'process_repo_resource'),
                        url(r'^data-transaction/$', 'get_data'),
                        url(r'^download/(?P<processing_id>\w+)/$', 'download_processed_data'),
-                       url(r'^my/$', 'my_processings')
+                       url(r'^my/$', 'my_processings'),
+                       url(r'^all/$', 'processing_jobs')
                        )

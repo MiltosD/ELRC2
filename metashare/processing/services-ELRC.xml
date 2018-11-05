@@ -164,7 +164,7 @@
             <data_format label="TMX">application/x-tmx+xml</data_format>
         </output>
         <chain position="0">None</chain>
-    </service>
+    </service>-->
     <service name="Parallel Corpus Generation" id="9" mixed_content="true" codename="PARALLERCORPUSGEN_ID">
         <description>This service uses the Document Pairing and the Sentence Alignment services. It then applies a set
             of criteria on sentence pairs with the purpose of filtering out specific types of pairs and of generating
@@ -185,5 +185,5 @@
             <data_format label="TMX">application/x-tmx+xml</data_format>
         </output>
         <chain position="0">None</chain>
-    </service>-->
+    </service>
 </services>

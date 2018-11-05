@@ -99,7 +99,6 @@ def services(request):
     input_id = '{}'.format(uuid4().hex)
     zipped = "archive.zip"
     if request.method == "POST":
-        print request.POST
         response = {}
         upload_to = "{}/{}".format(PROCESSING_INPUT_PATH, input_id)
         service_id = request.POST['service_select']

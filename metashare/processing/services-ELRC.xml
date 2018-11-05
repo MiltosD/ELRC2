@@ -61,7 +61,7 @@
         </output>
         <chain position="0">None</chain>
     </service>
-    <service name="(near) Deduplication" id="4" mixed_content="true" codename="DEDUP_ID">
+    <service name="Deduplication" id="4" mixed_content="true" codename="DEDUP_ID">
         <description>The ELRC Repository deduplicator examines a directory for (near) duplicate documents and removes
             them. First, it uses the ELRC Repository language identifier. Then, it detects (near) duplicates based on
             lists of quantized frequencies of words on document/paragraph level.
@@ -103,7 +103,7 @@
         </output>
         <chain position="0">None</chain>
     </service>-->
-    <service name="Domain check" id="6" mixed_content="true" codename="TOPIC_CHECK_ID">
+    <!--<service name="Domain check" id="6" mixed_content="true" codename="TOPIC_CHECK_ID">
         <description>This service examines the content of each file against the domain definition and classifies a
             file as belonging to this domain or not.
         </description>
@@ -122,7 +122,7 @@
             <data_format label="XCES">application/x-xces+xml</data_format>
         </output>
         <chain position="0">None</chain>
-    </service>
+    </service> -->
     <service name="Document Pairing" id="7" mixed_content="true" codename="PAIRDET_ID">
         <description>The ELRC Repository pair detector examines documents in a directory with the aim of identifying
             pairs of documents that could be considered parallel (i.e. pairs of documents that are translations of each
@@ -144,7 +144,7 @@
         </output>
         <chain position="0">None</chain>
     </service>
-    <service name="Sentence Alignment" id="8" mixed_content="true" codename="SENTALIGN_ID">
+    <!--<service name="Sentence Alignment" id="8" mixed_content="true" codename="SENTALIGN_ID">
         <description>This service uses language identification as an internal preprocessing step if this information
             is not available in the list of document pairs. The service then sentence splits both documents in each
             document pair and aligns them to generate sentence pairs.
@@ -185,5 +185,5 @@
             <data_format label="TMX">application/x-tmx+xml</data_format>
         </output>
         <chain position="0">None</chain>
-    </service>
+    </service>-->
 </services>

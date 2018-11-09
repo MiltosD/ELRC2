@@ -11,7 +11,7 @@ class ProcessingObjectAdmin(admin.ModelAdmin):
     readonly_fields = ('id', 'job_uuid', 'service', 'source', 'elrc_resource',
                        'status', 'date_created', 'user')
 
-    list_filter = ('active', 'status',)
+    list_filter = ('active', 'status', 'service', 'source', 'user')
 
     actions = ('deactivate_processing_object',)
 

@@ -64,7 +64,7 @@
                                 <td>{{ processing.status }}</td>
                                 <td>{% if processing.link_active and processing.status in 'successful,partial'%}
                                         NO
-                                    {% elif processing.status in 'failed' %}
+                                    {% elif processing.status in 'failed,pending,progress' %}
                                         {# void output#}
                                     {% else %}
                                         YES

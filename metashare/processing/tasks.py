@@ -3,23 +3,20 @@ from __future__ import absolute_import, division
 
 import json
 import logging
-import urllib2
-
 import time
+import urllib2
+from shutil import copyfile
 
 import os
 import requests
 from celery import states
 from celery.exceptions import Ignore
-from celery.result import AsyncResult
-from shutil import copyfile
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from metashare.processing.celery_app import app
 from metashare.processing.models import Processing
 from metashare.repository.models import resourceInfoType_model
-from metashare.settings import CAMEL_IP, CAMEL_PORT, UNITTESTING, MONITOR_TASK_IP, PROCESSING_OUTPUT_PATH, DJANGO_BASE, \
-    DJANGO_URL, PROCESSING_INPUT_PATH
+from metashare.settings import CAMEL_IP, CAMEL_PORT, UNITTESTING, MONITOR_TASK_IP, DJANGO_URL, PROCESSING_INPUT_PATH
 
 # Setup logging support.
 LOGGER = logging.getLogger(__name__)
@@ -80,25 +77,27 @@ def test_celery(self, num):
         raise Ignore()
 
 
-def _monitor_processing(input_id):
+def _monitor_processing(input_id, resource_object=None):
     monitor = requests.get("{}{}".format(MONITOR_TASK_IP, input_id))
     monitor_dict = _parse_monitor_content(monitor.content)
+    if resource_object:
+        monitor_dict.update(resource={"id": resource_object.id, "name": resource_object})
     return monitor_dict
 
 
-def monitor_processing(processing_object):
+def monitor_processing(processing_object, resource_object=None):
     time.sleep(2)
-    monitor = _monitor_processing(processing_object.job_uuid)
+    monitor = _monitor_processing(processing_object.job_uuid, resource_object)
     # check if the dataset zip is extracted successfully
     if monitor['archiveExtrSuccesfully'] == 1:
-        while monitor['SuccesfullyProcessed'] == 0 and monitor['Errors'] == 0:
-            monitor = _monitor_processing(processing_object.job_uuid)
-            time.sleep(MONITOR_SLEEP)
         processing_object.status = "progress"
         processing_object.save()
+        while monitor['SuccesfullyProcessed'] == 0 and monitor['Errors'] == 0:
+            monitor = _monitor_processing(processing_object.job_uuid, resource_object)
+            time.sleep(MONITOR_SLEEP)
 
         while monitor['SuccesfullyProcessed'] + monitor['Errors'] < monitor['Total']:
-            monitor = _monitor_processing(processing_object.job_uuid)
+            monitor = _monitor_processing(processing_object.job_uuid, resource_object)
             time.sleep(MONITOR_SLEEP)
 
         if monitor['SuccesfullyProcessed'] == monitor['Total']:
@@ -116,13 +115,20 @@ def monitor_processing(processing_object):
 @app.task(name='send-failure-mail', ignore_result=False, bind=True)
 def send_failure_mail(self, processing_id):
     processing_object = Processing.objects.get(job_uuid=processing_id)
+    # deactivate the object
+    processing_object.active = False
+    processing_object.save()
+    resource = None
     # init email
     email_subject = "[ELRC-SHARE] Processing Result Failed"
-    email_body = "Dear {},\n\nYour processing request for '{}', (id: {}), has not been completed.\n" \
+    # if processing object source is elrc resource get the name
+    if processing_object and processing_object.elrc_resource:
+        resource = processing_object.elrc_resource
+    email_body = "Dear {},\n\nYour processing request for '{}', (id: {}), {} has not been completed.\n" \
                  "Please check that your data files are in the processable formats \n" \
                  "and the zip archive does not contain subdirectories.\n\n" \
                  "The ELRC-SHARE Team".format(processing_object.user.username, processing_object.service,
-                                              processing_id)
+                                              processing_id, "on '{}'".format(resource) if resource else '')
     sender = "no-reply@elrc-share.eu"
     to = [processing_object.user.email]
     logger.info("Sending Failure email to {}".format(processing_object.user.username))
@@ -133,11 +139,15 @@ def send_failure_mail(self, processing_id):
 @app.task(name='build-link', ignore_result=False, bind=True)
 def build_link(self, processing_id):
     processing_object = Processing.objects.get(job_uuid=processing_id)
+    resource = None
     data_link = "{}/repository/processing/download/{}/".format(DJANGO_URL, processing_id)
 
     # init email
     email_subject = "[ELRC-SHARE] Processing Result {}"
-    email_body = "Dear {},\n\nYour processing request for '{}', (id: {}), has {}.\n" \
+    # if processing object source is elrc resource get the name
+    if processing_object and processing_object.elrc_resource:
+        resource = processing_object.elrc_resource
+    email_body = "Dear {},\n\nYour processing request for '{}', (id: {}), {} has {}.\n" \
                  "You can download the result of your request, within two (2) days, by clicking " \
                  "on the following link:\n\n" \
                  "{}\n\nPlease note that after 2 days your processing results will be deleted and " \
@@ -149,13 +159,15 @@ def build_link(self, processing_id):
     if processing_object.status == "successful":
         email_subject = email_subject.format('Successful')
         email_body = email_body.format(processing_object.user.username, processing_object.service,
-                                       processing_id, "been completed successfully",
+                                       processing_id, "on '{}'".format(resource) if resource else '',
+                                       "been completed successfully",
                                        data_link)
     else:
         email_subject = email_subject.format('Partially Successful')
         email_body = email_body.format(processing_object.user.username,
                                        processing_object.service,
-                                       processing_id, "been partially completed",
+                                       processing_id, "on '{}'".format(resource) if resource else '',
+                                       "been partially completed",
                                        data_link)
     logger.info("Sending Success email to {}".format(processing_object.user.username))
     send_mail(email_subject, email_body, sender, to, fail_silently=False)
@@ -214,7 +226,7 @@ def process_existing(self, resource_id, service_name, input_id, service_id, user
         status="pending",
         active=True
     )
-    monitor = monitor_processing(processing_object)
+    monitor = monitor_processing(processing_object, resource_object)
     if monitor == 'failed':
         self.update_state(state=states.FAILURE)
         logger.error("Task with id {} has failed".format(input_id))

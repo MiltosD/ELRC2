@@ -8,6 +8,6 @@ class ProcessingObjectAdmin(admin.ModelAdmin):
                     'date_created', 'user', 'active', 'status',)
 
     readonly_fields = ('id', 'job_uuid', 'service', 'source', 'elrc_resource',
-                       'status', 'date_created', 'user', 'active',)
+                       'status', 'date_created', 'user')
 
     list_filter = ('active', 'status',)

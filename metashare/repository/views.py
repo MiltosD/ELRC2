@@ -37,7 +37,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.files import File
 from django.core.urlresolvers import reverse
-from django.http import HttpResponse, HttpResponseNotFound
+from django.http import HttpResponse, HttpResponseNotFound, StreamingHttpResponse
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
 from django.template.loader import render_to_string
@@ -336,7 +336,7 @@ def _provide_download(request, resource, access_links, bypass_stats):
             # build HTTP response with a guessed mime type; the response
             # content is a stream of the download file
             filemimetype = guess_type(dl_path)[0] or "application/octet-stream"
-            response = HttpResponse(dl_stream_generator(),
+            response = StreamingHttpResponse(dl_stream_generator(),
                                     content_type=filemimetype)
             response['Content-Length'] = getsize(dl_path)
             response['Content-Disposition'] = 'attachment; filename={0}' \

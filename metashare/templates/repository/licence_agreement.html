@@ -38,7 +38,7 @@
                                     <h3>Conditions of Use</h3>
                                     <ul>
                                         {% for r in l_conditions %}
-                                            <li>{{ r|pretty_camel}}</li>
+                                            <li>{{ r|pretty_camel }}</li>
                                         {% endfor %}
                                     </ul>
                                 </div>
@@ -49,8 +49,10 @@
             </div>
             <div class="licence_agreement_form">
                 {% if not request.user.is_authenticated %}
-                    <div style="font-size: 1.25em; font-weight: bold;background: #f2e89db3;padding: 10px;margin-top: 10px;border-radius: 5px;">Stay in touch with ELRC!
-                    Register <a target="_blank" href="/accounts/create">here</a>.</div>
+                    <div style="font-size: 1.25em; font-weight: bold;background: #f2e89db3;padding: 10px;margin-top: 10px;border-radius: 5px;">
+                        Stay in touch with ELRC!
+                        Register <a target="_blank" href="/accounts/create">here</a>.
+                    </div>
                 {% endif %}
                 {% if not download_available %}
                     <p>
@@ -60,6 +62,14 @@
                 {% else %}
                     <form action="{% url 'download' resource.storage_object.identifier %}" method="post">
                         {% csrf_token %}
+                        <style>
+                            .errorlist {
+                                color: #ff0000cc;
+                                font-weight: bold;
+                                list-style: none;
+                                padding-left: 0;
+                            }
+                        </style>
                         <br/>
                         {{ form.as_p }}
                         <button class="span-4 button middle_button">

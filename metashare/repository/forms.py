@@ -204,7 +204,8 @@ class LicenseAgreementForm(forms.Form):
     in_licence_agree_form = forms.BooleanField(initial=True,
                                                widget=forms.HiddenInput())
     licence_agree = forms.BooleanField(label=_('I agree to these licence ' \
-                            'terms and would like to download the resource.'))
+                            'terms and would like to download the resource.'),
+                    error_messages={'required': 'To download the resource, you have to accept the licence terms'})
 
     def __init__(self, licence, *args, **kwargs):
         """

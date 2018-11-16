@@ -9,7 +9,7 @@ from django.contrib.admin.views.main import ChangeList
 from django.contrib.auth.decorators import permission_required
 from django.core.exceptions import ValidationError, PermissionDenied, ObjectDoesNotExist
 from django.db.models import Q
-from django.http import Http404, HttpResponseNotFound, HttpResponseRedirect, HttpResponse
+from django.http import Http404, HttpResponseNotFound, HttpResponseRedirect, HttpResponse, StreamingHttpResponse
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 from django.utils.decorators import method_decorator
@@ -1157,8 +1157,7 @@ class ResourceModelAdmin(SchemaModelAdmin):
                 # build HTTP response with a guessed mime type; the response
                 # content is a stream of the download file
                 filemimetype = guess_type(dl_path)[0] or "application/octet-stream"
-                response = HttpResponse(dl_stream_generator(),
-                                        content_type=filemimetype)
+                response = StreamingHttpResponse(dl_stream_generator(), content_type=filemimetype)
                 response['Content-Length'] = getsize(dl_path)
                 response['Content-Disposition'] = 'attachment; filename={0}' \
                     .format(split(dl_path)[1])

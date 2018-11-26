@@ -189,8 +189,7 @@ class personInfo_model_inline(SchemaModelInline):
 # pylint: disable-msg=C0103
 class relationInfo_model_inline(SchemaModelInline):
     model = relationInfoType_model
-    collapse = True
-
+    collapse = False
 
 # pylint: disable-msg=C0103
 class sizeInfo_model_inline_corpusTextInfoType_model(SchemaModelInline):

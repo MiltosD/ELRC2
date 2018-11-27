@@ -65,7 +65,8 @@ LOGGING = {
 # The default is a cautious value in order to protect the server
 # against resource starvation; if you think your server can handle
 # bigger files, feel free to try and increase this value.
-MAXIMUM_UPLOAD_SIZE = 400 * 1024 * 1024
+# MAXIMUM_UPLOAD_SIZE = 400 * 1024 * 1024
+MAXIMUM_UPLOAD_SIZE = 40 * 1024 * 1024 * 1024
 
 # Synchronization info:
 SYNC_NEEDS_AUTHENTICATION = True

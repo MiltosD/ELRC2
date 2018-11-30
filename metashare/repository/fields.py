@@ -353,7 +353,6 @@ class MultiSelectField(models.Field):
         # If the value is empty or None, we return an empty list.
         if not value:
             return []
-
         # If the value is already a list, we simply return the value.
         if isinstance(value, list):
             return value

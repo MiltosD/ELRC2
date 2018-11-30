@@ -7,7 +7,8 @@ from metashare.repository.forms import FacetedBrowseForm
 from metashare.repository.views import MetashareFacetedSearchView
 
 from tastypie.api import Api
-from metashare.repository.api.resources import LrResource, MetadataInfoResource
+from metashare.repository.api.resources import \
+    LrResource, MetadataInfoResource, FullLrResource
 
 sqs = SearchQuerySet() \
     .facet("languageNameFilter") \
@@ -38,8 +39,12 @@ sqs = SearchQuerySet() \
     .facet("textTextGenreFilter") \
     .facet("textTextTypeFilter") \
     .facet("appropriatenessForDSIFilter") \
+    .facet("publicationStatusFilter")
     .facet("publicationStatusFilter") \
     .facet("processabilityFilter")
+
+update_api = Api(api_name='editor')
+update_api.register(FullLrResource())
     # .facet("availabilityFilter") \
     # .facet("bestPracticesFilter") \
     # .facet("languageVarietyFilter") \
@@ -63,6 +68,8 @@ urlpatterns = patterns('metashare.repository.views',
                                                template='repository/search.html',
                                                searchqueryset=sqs)),
                        url(r'api/', include(v1_api.urls)),
+                       url(r'api/', include(update_api.urls)),
+                       url(r'api/operations/', include('metashare.repository.api.urls')),
                        url(r'contribute', 'contribute', name='contribute'),
                        url(r'contributions', 'manage_contributed_data', name='manage_contributed_data'),
                        url(r'repo_report', 'repo_report'),

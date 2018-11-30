@@ -36,6 +36,7 @@ from metashare.repository.models import resourceComponentTypeType_model, \
     lexicalConceptualResourceMediaTypeType_model, resourceInfoType_model, \
     licenceInfoType_model, User
 from metashare.repository.supermodel import SchemaModel
+from metashare.repository.templatetags.is_member import is_member
 from metashare.stats.model_utils import saveLRStats, UPDATE_STAT, INGEST_STAT, DELETE_STAT
 from metashare.storage.models import PUBLISHED, INGESTED, INTERNAL, \
     ALLOWED_ARCHIVE_EXTENSIONS, ALLOWED_VALIDATION_EXTENSIONS, ALLOWED_LEGAL_DOCUMENTATION_EXTENSIONS
@@ -797,6 +798,7 @@ class ResourceModelAdmin(SchemaModelAdmin):
 
         if request.method == 'POST':
             form = StorageObjectUploadForm(request.POST, request.FILES)
+            api_request = request.POST.get('api')
             form_validated = form.is_valid()
 
             if form_validated:
@@ -834,7 +836,9 @@ class ResourceModelAdmin(SchemaModelAdmin):
                       storage_object)
 
                     self.log_change(request, obj, change_message)
-
+                # first check if the request was made from an api client, so that we just return a simple response
+                if api_request:
+                    return HttpResponse(status=200, content='Dataset upload successful')
                 return self.response_change(request, obj)
 
         else:
@@ -1196,7 +1200,6 @@ class ResourceModelAdmin(SchemaModelAdmin):
         opts = model._meta
 
         obj = self.get_object(request, unquote(object_id))
-
         if not self.has_change_permission(request, obj):
             raise PermissionDenied
 
@@ -1332,7 +1335,11 @@ class ResourceModelAdmin(SchemaModelAdmin):
         result = result.distinct().filter(storage_object__deleted=False)
         # all users but the superusers may only see resources for which they are
         # either owner or editor group member:
-        if not request.user.is_superuser \
+        # EC members can view only published and ingested resources
+        if is_member(request.user, 'ecmembers'):
+            result = result.distinct().filter(Q(storage_object__publication_status__in=['g','p']) |
+                                              Q(owners=request.user))
+        elif not request.user.is_superuser \
                 and not request.user.groups.filter(name='elrcReviewers').exists():
             result = result.distinct().filter(Q(owners=request.user)
                     | Q(editor_groups__name__in=

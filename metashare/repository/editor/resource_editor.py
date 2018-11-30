@@ -47,6 +47,19 @@ from os.path import split, getsize
 csrf_protect_m = method_decorator(csrf_protect)
 
 
+# Fix for large file upload - mattkamp - Start
+from django.template import loader
+def render_to_streamresponse(*args, **kwargs):
+    """
+    Returns a StreamingHttpResponse whose content is filled with the result of calling
+    django.template.loader.render_to_string() with the passed arguments.
+    """
+    httpresponse_kwargs = {'content_type': kwargs.pop('content_type', None)}
+
+    return StreamingHttpResponse(loader.render_to_string(*args, **kwargs), **httpresponse_kwargs)
+# Fix for large file upload - mattkamp - Stop
+
+
 class ResourceComponentInlineFormSet(ReverseInlineFormSet):
     '''
     A formset with custom save logic for resources.
@@ -161,7 +174,7 @@ class ResourceComponentInlineFormSet(ReverseInlineFormSet):
         if self.forms[0].instance.pk is not None:
             actual_instance = self.forms[0].instance
         else:
-            actual_instance = resourceComponentTypeType_model.objects.get(pk=self.data['resourceComponentId'])
+            actual_instance = resourceComponentTypeType_model.objects.pk=self.data['resourceComponentId']
             self.forms[0].instance = actual_instance # we need to use the resourceComponentType we created earlier
         actual_instance = actual_instance.as_subclass()
         return actual_instance
@@ -856,9 +869,12 @@ class ResourceModelAdmin(SchemaModelAdmin):
         context.update(extra_context or {})
         context_instance = RequestContext(request,
           current_app=self.admin_site.name)
-        return render_to_response(
+        # Fix for large file upload - mattkamp - Start
+        # return render_to_response(
+        return render_to_streamresponse(
           ['admin/repository/resourceinfotype_model/upload_resource.html'], context,
           context_instance)
+        # Fix for large file upload - mattkamp - Stop
 
     ## VALIDATION REPORT
     @csrf_protect_m

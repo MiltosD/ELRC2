@@ -48,7 +48,7 @@ def upload_data(request, object_id):
         resource.storage_object.compute_checksum()
         resource.storage_object.save()
 
-        return HttpResponse("Dataset {}. has been uploaded".format(dataset))
+        return HttpResponse("Dataset {} has been uploaded".format(dataset))
         # return admin.uploaddata_view(request, object_id)
     else:
         return HttpResponseForbidden()

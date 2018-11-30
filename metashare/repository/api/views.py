@@ -37,11 +37,8 @@ def upload_data(request, object_id):
         dataset = request.FILES['resource']
         with open(_out_filename, 'wb') as _out_file:
             # pylint: disable-msg=E1101
-            count = 0
             for _chunk in dataset.chunks():
-                print count
                 _out_file.write(_chunk)
-                count += 1
 
             # Update the corresponding StorageObject to update its
             # download data checksum.

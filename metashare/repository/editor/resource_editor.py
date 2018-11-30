@@ -173,7 +173,7 @@ class ResourceComponentInlineFormSet(ReverseInlineFormSet):
         if self.forms[0].instance.pk is not None:
             actual_instance = self.forms[0].instance
         else:
-            actual_instance = resourceComponentTypeType_model.objects.pk=self.data['resourceComponentId']
+            actual_instance = resourceComponentTypeType_model.objects.get(pk=self.data['resourceComponentId'])
             self.forms[0].instance = actual_instance # we need to use the resourceComponentType we created earlier
         actual_instance = actual_instance.as_subclass()
         return actual_instance

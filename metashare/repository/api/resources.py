@@ -1,3 +1,5 @@
+import json
+
 from django.conf.urls import url
 from django.contrib.admin.options import get_content_type_for_model
 from django.core.exceptions import ObjectDoesNotExist
@@ -974,7 +976,7 @@ class CreationResource(ModelResource):
         authorization = Authorization()
         validation = validators.ELRCValidation(model=queryset.model)
 
-    creationModeDetails = fields.CharField(attribute='creationModeDetails')
+    creationModeDetails = fields.CharField(attribute='creationModeDetails', null=True)
     originalSource = fields.ToManyField(TargetResourceNameResource, 'originalSource', full=True, null=True)
     creationTool = fields.ToManyField(TargetResourceNameResource, 'creationTool', full=True, null=True)
 
@@ -982,7 +984,10 @@ class CreationResource(ModelResource):
         return clean_bundle(bundle)
 
     def save(self, bundle, skip_errors=False):
-        bundle.data['creationModeDetails'] = bundle.data['creationModeDetails'].replace('\n', '')
+        try:
+            bundle.data['creationModeDetails'] = bundle.data['creationModeDetails'].replace('\n', '')
+        except KeyError:
+            pass
         super(CreationResource, self).save(bundle)
 
 

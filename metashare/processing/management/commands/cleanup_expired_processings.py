@@ -28,6 +28,7 @@ class Command(BaseCommand):
             pass
 
     def handle(self, *args, **options):
+        LOGGER.info("Checking for expired jobs...")
         for d in os.listdir(PROCESSING_INPUT_PATH):
             self._cleanup_dir(PROCESSING_INPUT_PATH, d, identifier=d)
         for d in os.listdir(PROCESSING_OUTPUT_PATH):

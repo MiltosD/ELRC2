@@ -51,6 +51,7 @@ licences = {
     u'openUnder-PSI': [0, 0, 0], u'CC-BY-3.0': [0, 0, 0], u'CC-BY-NC-3.0': [0, 0, 0], u'CC-BY-NC-ND-3.0': [0, 0, 0],
     u'CC-BY-NC-SA-3.0': [0, 0, 0],
     u'CC-BY-ND-3.0': [0, 0, 0], u'CC-BY-SA-3.0': [0, 0, 0], u'CC-BY-SA-2.5_Sl': [0, 0, 0],
+    u'CC-BY-2.5-SE': [0, 0, 0],
     u'CC-BY-2.0': [0, 0, 0], u'CC-BY-NC-2.0': [0, 0, 0], u'CC-BY-NC-ND-2.0': [0, 0, 0],
     u'CC-BY-NC-SA-2.0': [0, 0, 0],
     u'CC-BY-ND-2.0': [0, 0, 0], u'CC-BY-SA-2.0': [0, 0, 0],

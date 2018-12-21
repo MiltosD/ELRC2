@@ -1812,7 +1812,7 @@ LICENCEINFOTYPE_LICENCE_CHOICES = _make_choices_from_list([
     u'NCGL-1.0',
     u'NLOD-1.0',
     u'CC-BY-SA-2.5_Sl',
-    u'CC-BY-2.5-SE'
+    u'CC-BY-2.5-SE',
     # International Software Licences
     u'AGPL-3.0',
     u'Apache-2.0',

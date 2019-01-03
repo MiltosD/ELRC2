@@ -489,6 +489,17 @@
                                 </xs:appinfo>
                             </xs:annotation>
                         </xs:enumeration>
+                        <xs:enumeration value="CC-BY-2.5-SE">
+                            <xs:annotation>
+                                <xs:documentation>Creative Commons Attribution 2.5 Sweden cf.
+                                    https://creativecommons.org/licenses/by/2.5/se/deed.en
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>Creative Commons Attribution 2.5 Sweden</label>
+                                    <recomUsage>data</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
                         <xs:enumeration value="PDDL-1.0">
                             <xs:annotation>
                                 <xs:documentation>Open Data Commons Public Domain Dedication and License; cf.

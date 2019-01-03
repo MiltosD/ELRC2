@@ -143,6 +143,8 @@ LICENCEINFOTYPE_URLS_LICENCE_CHOICES = {
     'CC-BY-ND-2.0': (STATIC_URL + 'metashare/licences/CC-BY-ND-3.0.pdf', MEMBER_TYPES.NON),
     'CC-BY-SA-2.0': (STATIC_URL + 'metashare/licences/CC-BY-SA-3.0.pdf', MEMBER_TYPES.NON),
     'CC-BY-SA-2.5_Sl': (STATIC_URL + 'metashare/licences/CC-BY-SA-2.5_Sl.pdf', MEMBER_TYPES.NON),
+    'CC-BY-2.5-SE': (STATIC_URL + 'metashare/licences/CC-BY-2.5-SE.pdf', MEMBER_TYPES.NON),
+
     # TODO: PDDL
     'PDDL-1.0': (STATIC_URL + 'metashare/licences/PDDL-1.0.pdf', MEMBER_TYPES.NON),
     # TODO: ODC-BY

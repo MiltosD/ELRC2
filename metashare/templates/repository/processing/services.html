@@ -47,6 +47,13 @@
                                 <option value="{{ service.id }}">{{ service.name }}</option>
                             {% endfor %}
                         </select>
+                        <div id="service_info">
+                            {% for service in info.service %}
+                                <div id="service_{{ service.id }}" style="display:none" class="service_info_detail">
+                                    {% include "repository/processing/service_info.html" with service=service %}
+                                </div>
+                            {% endfor %}
+                        </div>
                     </div>
                     <!-- File Button or resource-->
                     {% if not info.resource %}
@@ -72,7 +79,7 @@
                         <label class="control-label" for="submit"></label>
                         <div>
                             <input type="submit" value="Submit" name="submit" class="btn btn-success"/>
-                            <button id="reset-form" type="reset" class="btn btn-warning">Reset</button>
+                            <button id="reset-form" type="reset" class="btn btn-warning" onclick="clearAll()">Reset</button>
                         </div>
                     </div>
                 </fieldset>
@@ -92,29 +99,7 @@
                                 <h4 style="color: #1b6d85">{{ service.name }}</h4>
                                 <p>{{ service.description }}</p>
                                 <b>Input formats</b>:
-                                <em>
-                                    {% for input in service.input.data_format %}
-                                        {% if forloop.last %}
-                                            {{ input.label }}
-                                        {% else %}
-                                            {{ input.label }},
-                                        {% endif %}
-                                    {% endfor %}
-                                </em>
-                                <br/>
-                                <b>Output</b>:
-                                <em>
-                                    {% for output in service.output.data_format %}
-                                        {% if forloop.last %}
-                                            {{ output.label }}
-                                        {% else %}
-                                            {% if output.label %}
-                                                {{ output.label }},
-                                            {% endif %}
-                                        {% endif %}
-                                    {% endfor %}
-                                    {{ service.output.data_format.label }}
-                                </em>
+                                {% include "repository/processing/service_info.html" with service=service %}
                                 <hr/>
                             </div>
                         {% endfor %}
@@ -123,4 +108,14 @@
             </div>
         </div>
     </div>
+    <script>
+        $('#service_select').change(function () {
+            service_id = $("#service_select option:selected").val();
+            $('#service_info').children().hide();
+            $('#service_'+service_id).show();
+        });
+        function clearAll() {
+            $('#service_info').children().hide();
+        }
+    </script>
 {% endblock %}

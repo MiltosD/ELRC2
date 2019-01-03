@@ -915,3 +915,10 @@ div.jsddm {
     position: relative;
     top: 71px;
 }
+
+.service_info_detail {
+    background: #cdecf770;
+    margin: 10px 0 10px 0;
+    border-radius: 5px;
+    padding: 10px;
+}

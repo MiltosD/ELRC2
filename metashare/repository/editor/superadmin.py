@@ -6,16 +6,17 @@ import logging
 
 from django import template
 from django.conf import settings
-from django.contrib import admin
+from django.contrib import admin, messages
 from django.contrib.admin import helpers
 from django.contrib.admin.exceptions import DisallowedModelAdminToField
 from django.contrib.admin.options import IS_POPUP_VAR, TO_FIELD_VAR
+from django.contrib.admin.templatetags.admin_urls import add_preserved_filters
 from django.contrib.admin.utils import unquote
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 from django.db import transaction, models, router
 from django.forms.formsets import all_valid
-from django.http import Http404, HttpResponse
+from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.utils.decorators import method_decorator
 from django.utils.encoding import force_unicode, force_text
@@ -195,6 +196,14 @@ class SchemaModelAdmin(MetaShareSearchModelAdmin, RelatedAdminMixin, SchemaModel
         We customize this to allow closing edit popups in the same way
         as response_add deals with add popups.
         '''
+
+        # Custom messages for upload actions. A dictionary using POST._back-from as key
+        BACK_FROM_SUCCESS = {
+            '/upload-legal/': 'The legal documentation',
+            '/upload-data/': 'The dataset',
+            '/upload-report/': 'The validation report'
+        }
+
         if IS_POPUP_O2M_VAR in request.REQUEST:
             caller = None
             if '_caller' in request.REQUEST:
@@ -204,6 +213,17 @@ class SchemaModelAdmin(MetaShareSearchModelAdmin, RelatedAdminMixin, SchemaModel
             if request.POST.has_key("_continue"):
                 return self.save_and_continue_in_popup(obj, request)
             return self.edit_response_close_popup_magic(obj)
+        elif "_back-from" in request.POST:
+            opts = self.model._meta
+
+            msg = "{} for LR #{} was uploaded successfully. You may continue editing the resource metadata.".format(
+                BACK_FROM_SUCCESS[request.POST['_back-from']], obj.id
+            )
+            preserved_filters = self.get_preserved_filters(request)
+            self.message_user(request, msg, messages.SUCCESS)
+            redirect_url = request.META['HTTP_REFERER'].replace(request.POST['_back-from'], '')
+            redirect_url = add_preserved_filters({'preserved_filters': preserved_filters, 'opts': opts}, redirect_url)
+            return HttpResponseRedirect(redirect_url)
         else:
             return super(SchemaModelAdmin, self).response_change(request, obj)
 

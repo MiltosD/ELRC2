@@ -811,6 +811,7 @@ class ResourceModelAdmin(SchemaModelAdmin):
         if request.method == 'POST':
             form = StorageObjectUploadForm(request.POST, request.FILES)
             form_validated = form.is_valid()
+            request.POST['_back-from'] = "/upload-data/"
 
             if form_validated:
                 # Check if a new file has been uploaded to resource.
@@ -905,6 +906,7 @@ class ResourceModelAdmin(SchemaModelAdmin):
         if request.method == 'POST':
             form = ValidationUploadForm(request.POST, request.FILES)
             form_validated = form.is_valid()
+            request.POST['_back-from'] = "/upload-report/"
 
             if form_validated:
                 # Check if a new file has been uploaded to resource.
@@ -1045,6 +1047,7 @@ class ResourceModelAdmin(SchemaModelAdmin):
         if request.method == 'POST':
             form = LegalDocumetationUploadForm(request.POST, request.FILES)
             form_validated = form.is_valid()
+            request.POST['_back-from'] = "/upload-legal/"
 
             if form_validated:
                 # Check if a new file has been uploaded to resource.

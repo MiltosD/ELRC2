@@ -1,6 +1,7 @@
 from django.http import HttpResponseForbidden, HttpResponse
 from metashare.repository.editor.resource_editor import ResourceModelAdmin
 from metashare.repository.models import resourceInfoType_model
+from metashare.repository.templatetags.is_member import is_member
 
 admin = ResourceModelAdmin(model=resourceInfoType_model, admin_site=None)
 
@@ -13,7 +14,8 @@ def get_data(request, object_id):
     :return: dataset in zip format or 403
     """
     resource = resourceInfoType_model.objects.get(pk=object_id)
-    if resource and (request.user.is_superuser or request.user in resource.owners.all()):
+    if resource and (request.user.is_superuser or request.user in resource.owners.all()
+                     or is_member(request.user, 'elrcReviewers')):
         data = admin.datadl(request, object_id)
         return data
     else:

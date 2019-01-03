@@ -1547,7 +1547,7 @@ class FullLrResource(ModelResource):
             return bundle
         elif bundle.request.method in ['PUT', 'PATCH']:
             # bundle.data.clear()
-            # bundle.data.update({"messages": ["Resource Saved"]})
+            bundle.data.update({"messages": ["Resource Saved"]})
             return bundle
         resource = dict()
         resource['resourceInfo'] = bundle.data
@@ -1577,7 +1577,6 @@ class FullLrResource(ModelResource):
             messages.append('Resource {} has been marked as "IPR cleared". Distribution info updates have been ignored'.
                             format(original_bundle.obj.id))
         original_bundle.data.update(**dict_strip_unicode_keys(new_data))
-
         # Now we've got a bundle with the new data sitting in it and we're
         # we're basically in the same spot as a PUT request. SO the rest of this
         # function is cribbed from put_detail.
@@ -1610,8 +1609,7 @@ class FullLrResource(ModelResource):
                 raise NotFound("A model instance matching the provided arguments could not be found.")
 
         bundle = self.full_hydrate(bundle)
-        bundle.data.update({'messages':kwargs.pop('messages')})
-        print bundle.data['messages']
+        # bundle.data.update({'messages':kwargs.pop('messages')})
         return self.save(bundle, skip_errors=skip_errors)
 
     def save_m2m(self, bundle):

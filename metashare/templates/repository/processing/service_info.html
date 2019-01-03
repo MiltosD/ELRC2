@@ -1,0 +1,25 @@
+<p>{{ service.description }}</p>
+<b>Input formats</b>:
+<em>
+    {% for input in service.input.data_format %}
+        {% if forloop.last %}
+            {{ input.label }}
+        {% else %}
+            {{ input.label }},
+        {% endif %}
+    {% endfor %}
+</em>
+<br/>
+<b>Output</b>:
+<em>
+    {% for output in service.output.data_format %}
+        {% if forloop.last %}
+            {{ output.label }}
+        {% else %}
+            {% if output.label %}
+                {{ output.label }},
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+    {{ service.output.data_format.label }}
+</em>

@@ -1812,6 +1812,7 @@ LICENCEINFOTYPE_LICENCE_CHOICES = _make_choices_from_list([
     u'NCGL-1.0',
     u'NLOD-1.0',
     u'CC-BY-SA-2.5_Sl',
+    u'CC-BY-2.5-SE',
     # International Software Licences
     u'AGPL-3.0',
     u'Apache-2.0',
@@ -1842,10 +1843,10 @@ def licenceinfotype_licence_optgroup_choices():
     and the second group is the rest.
     """
     indl = ('International/National Data Licences', LICENCEINFOTYPE_LICENCE_CHOICES['choices'][:24])
-    ndl = ('National Data Licences', LICENCEINFOTYPE_LICENCE_CHOICES['choices'][24:31])
-    isl = ('International Software Licences', LICENCEINFOTYPE_LICENCE_CHOICES['choices'][31:43])
-    isdl = ('International Software & Data Licences', LICENCEINFOTYPE_LICENCE_CHOICES['choices'][43:46])
-    other = ('Other', LICENCEINFOTYPE_LICENCE_CHOICES['choices'][46:])
+    ndl = ('National Data Licences', LICENCEINFOTYPE_LICENCE_CHOICES['choices'][24:32])
+    isl = ('International Software Licences', LICENCEINFOTYPE_LICENCE_CHOICES['choices'][32:44])
+    isdl = ('International Software & Data Licences', LICENCEINFOTYPE_LICENCE_CHOICES['choices'][44:47])
+    other = ('Other', LICENCEINFOTYPE_LICENCE_CHOICES['choices'][47:])
     optgroup = [indl, ndl, isl, isdl, other]
     return optgroup
 
@@ -1875,6 +1876,7 @@ LICENCES_DETAILS = {
     u'CC-BY-SA-2.0': {"url": "https://creativecommons.org/licenses/by-sa/2.0/", "version": "2.0"},
 
     u'CC-BY-SA-2.5_Sl': {"url": "https://creativecommons.org/licenses/by-sa/2.5/si/deed.en", "version": "2.5"},
+    u'CC-BY-2.5-SE': {"url": "https://creativecommons.org/licenses/by/2.5/se/deed.en", "version": "2.5"},
 
     u'CC0-1.0': {"url": "https://creativecommons.org/publicdomain/zero/1.0/", "version": "1.0"},
     u'dl-de/by-2-0': {"url": "https://www.govdata.de/dl-de/by-2-0", "version": "2.0"},
@@ -1930,6 +1932,7 @@ LICENCES_TO_CONDITIONS = {
     u'CC-BY-ND-3.0': [u'attribution', u'noDerivatives'],
     u'CC-BY-SA-3.0': [u'attribution', u'shareAlike'],
     u'CC-BY-SA-2.5_Sl': [u'attribution', u'shareAlike'],
+    u'CC-BY-2.5-SE': [u'attribution'],
 
     u'CC-BY-2.0': [u'attribution'],
     u'CC-BY-NC-2.0': [u'attribution', u'nonCommercialUse'],

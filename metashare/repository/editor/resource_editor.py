@@ -947,7 +947,8 @@ class ResourceModelAdmin(SchemaModelAdmin):
                     change_message = u'Uploaded "{}" to "{}" in {}.'.format(
                         report.name, storage_object._storage_folder(),
                         storage_object)
-
+                    # save on management object to set_validated
+                    obj.management_object.save()
                     self.log_change(request, obj, change_message)
 
                 return self.response_change(request, obj)

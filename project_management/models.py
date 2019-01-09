@@ -9,7 +9,7 @@ DELIVERABLES = _make_choices_from_list(
      "ELRC Data D2.3", "ELRC Data D2.4",
      "ELRC Data D3.1", "ELRC Data D3.2",
      "ELRC Data D3.3", "ELRC Data D3.3.1",
-     "ELRC Data D3.3.2", "ELRC Data D3.4"
+     "ELRC Data D3.3.2", "ELRC Data D3.4",
      "ELRC Data D3.4.1", "ELRC Data D3.4.2"
      ]
 )

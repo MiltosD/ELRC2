@@ -89,10 +89,9 @@ class EditorUserAuthorization(DjangoAuthorization):
         )
 
         if self.check_user_perm(request.user, permission, obj_list):
-
             if get_module_name(klass._meta) is "resourceinfotype_model" and not \
-                    (is_member(request.user, 'ecmembers') or request.user,
-                     'elrcReviewers' or request.user.is_superuser):
+                    (is_member(request.user, 'ecmembers') or is_member(request.user, 'elrcReviewers')
+                     or request.user.is_superuser):
                 return obj_list.filter(owners__in=[request.user])
             else:
                 return obj_list

@@ -18,8 +18,8 @@ from metashare.repository.editor.widgets import MultiFieldWidget, MultiChoiceWid
 from metashare.repository.fields import MultiTextField, MetaBooleanField, \
   MultiSelectField, DictField, XmlCharField, best_lang_value_retriever
 from metashare.repository.validators import validate_lang_code_keys, \
-  validate_dict_values, validate_xml_schema_year, \
-  validate_matches_xml_char_production, validate_size_is_integer, validate_attribution_text
+    validate_dict_values, validate_xml_schema_year, \
+    validate_matches_xml_char_production, validate_size_is_integer, validate_attribution_text
 from metashare.settings import DJANGO_BASE, LOG_HANDLER, DJANGO_URL
 from metashare.stats.model_utils import saveLRStats, DELETE_STAT, UPDATE_STAT
 from metashare.storage.models import StorageObject, MASTER, COPY_CHOICES
@@ -1208,6 +1208,13 @@ class annotationInfoType_model(SchemaModel):
         _unicode = u'<{} id="{}">'.format(self.__schema_name__, self.id)
         return _unicode
 
+
+# Define validator here and not in validators.py to avoid circular import
+
+def validate_target_resource(value):
+    if value.isdigit() and not resourceInfoType_model.objects.filter(id=value).first():
+        raise ValidationError(u'The resource with id {} does not exist'.format(value))
+
 # pylint: disable-msg=C0103
 class targetResourceInfoType_model(SchemaModel):
     """
@@ -1229,13 +1236,14 @@ class targetResourceInfoType_model(SchemaModel):
       help_text='The full name or a url to a resource related to the one' \
       ' being described; to be used for identifiers also for this versio' \
       'n',
-      max_length=4500, )
+      max_length=4500, validators=[validate_target_resource])
 
     def real_unicode_(self):
         # pylint: disable-msg=C0301
         formatargs = ['targetResourceNameURI', ]
         formatstring = u'{}'
         return self.unicode_(formatstring, formatargs)
+
 
 RELATIONINFOTYPE_RELATIONTYPE_CHOICES = _make_choices_from_list([
   u'isPartOf', u'isPartWith', u'hasPart', u'isVersionOf', u'hasVersion',

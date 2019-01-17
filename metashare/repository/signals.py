@@ -66,7 +66,9 @@ def create_management_object(sender, instance, created, **kwargs):
         mo = ManagementObject.objects.get(resource=instance)
         mo.save()
     except ObjectDoesNotExist:
-        ManagementObject.objects.create(resource=instance, id=instance.id)
+        mo = ManagementObject.objects.create(resource=instance, id=instance.id)
+        # save again to set partner
+        mo.save()
 
 
 @receiver(pre_delete, sender=resourceInfoType_model)

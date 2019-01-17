@@ -455,9 +455,12 @@ class ResourceModelAdmin(SchemaModelAdmin):
         can_be_deleted = []
         cannot_be_deleted = []
         for resource in queryset:
-            if self.has_delete_permission(request, resource):
+            if self.has_delete_permission(request, resource) and not resource.has_relations():
                 can_be_deleted.append(resource)
             else:
+                if resource.has_relations():
+                    messages.error(request, "Resource {} ('{}') is related to other resources. Please remove all "
+                                            "relations before deleting this resource.".format(resource.id, resource))
                 cannot_be_deleted.append(resource)   
         if 'delete' in request.POST:
             form = self.ConfirmDeleteForm(request.POST)

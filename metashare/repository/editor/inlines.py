@@ -68,11 +68,11 @@ class SchemaModelInline(InlineModelAdmin, RelatedAdminMixin, SchemaModelLookup):
                 if obj.management_object.ipr_clearing == 'cleared':
                     self.cleared = True
                     self.readonly_fields = ('distributionMedium',)
-
-                    return ['PSI', 'allowsUsesBesidesDGT', 'attributionText', 'availability',
-                            'downloadLocation', 'executionLocation', 'fee', 'iprHolder',
-                            'licenceInfo', 'personalDataAdditionalInfo', 'personalDataIncluded',
-                            'sensitiveDataAdditionalInfo', 'sensitiveDataIncluded', 'back_to_resourceinfotype_model']
+                    read_only = list(set(
+                        [field.name for field in self.opts.local_fields] +
+                        [field.name for field in self.opts.local_many_to_many]
+                    ))
+                    return read_only
                 else:
                     return super(SchemaModelInline, self).get_readonly_fields(request, obj)
             except AttributeError:

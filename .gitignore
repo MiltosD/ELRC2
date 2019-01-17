@@ -31,3 +31,4 @@ venv
 /metashare/tmx_management/settings.py
 /metashare/tmp/*
 /metashare/edelivery/files/*
+.idea

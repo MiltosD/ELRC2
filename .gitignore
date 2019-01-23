@@ -32,3 +32,4 @@ venv
 /metashare/tmp/*
 /metashare/edelivery/files/*
 .idea
+/metashare/odp/opd_settings.py

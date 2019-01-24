@@ -1,6 +1,9 @@
 import base64
 import logging
 import urlparse
+
+from django.utils.html import format_html
+
 try:
     import cPickle as pickle
 except:
@@ -12,7 +15,7 @@ from django.contrib.admin.widgets import RelatedFieldWidgetWrapper, \
 from django.forms import widgets, TextInput, Textarea, Media, Select
 from django.forms.util import flatatt
 from django.template.loader import render_to_string
-from django.utils.encoding import force_unicode
+from django.utils.encoding import force_unicode, force_text
 from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
 
@@ -908,4 +911,21 @@ class AutoCompleteSelectSingleWidget(MetaShareAutoCompleteSelectWidget):
         # All of the texts are not true in django-selectable==0.9.0, so we don't need dirty modifications in lib
         super(MetaShareAutoCompleteSelectWidget, self).__init__(lookup_class, allow_new=self.allow_new,
                 limit=self.limit, query_params=query_params, attrs=attrs)
-    
+
+
+class LinkedAutoCompleteWidget(AutoCompleteWidget):
+
+    def render(self, name, value, attrs=None):
+        if value is None:
+            value = ''
+        final_attrs = self.build_attrs(attrs, type=self.input_type, name=name)
+        if value != '':
+            # Only add the 'value' attribute if a value is non-empty.
+            final_attrs['value'] = force_text(self._format_value(value))
+            return format_html(
+                '<input{0} /> '                               
+                '<div style="display: inline-block; margin: 0 5px 0 5px">'
+                '<a target="_blank" href="/editor/repository/resourceinfotype_model/{1}/">Edit Related Resource {2}</a>'
+                '</div> ',
+                               flatatt(final_attrs), value, value)
+        return format_html('<input{0} />', flatatt(final_attrs))

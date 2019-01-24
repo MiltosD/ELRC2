@@ -8,18 +8,18 @@ from django.utils.translation import ugettext as _
 
 from metashare.recommendations.recommendations import get_more_from_same_creators, \
     get_more_from_same_projects
-from metashare.repository.models import resourceInfoType_model
+from metashare.repository.editor.lookups import TargetResourceLookup
+from metashare.repository.editor.widgets import LinkedAutoCompleteWidget
+from metashare.repository.models import resourceInfoType_model, relationInfoType_model
 from metashare.repository.search_indexes import resourceInfoType_modelIndex
 from metashare.settings import LOG_HANDLER
 
 from haystack.forms import FacetedSearchForm
 from haystack.query import SQ
 
-
 # Setup logging support.
 LOGGER = logging.getLogger(__name__)
 LOGGER.addHandler(LOG_HANDLER)
-
 
 # define special query prefixes
 MORE_FROM_SAME_CREATORS = "mfsc"
@@ -30,6 +30,7 @@ class FacetedBrowseForm(FacetedSearchForm):
     """
     A custom `FacetedSearchForm` for faceted browsing and searching.
     """
+
     def search(self):
         """
         A blend of its super methods with only a different base
@@ -39,7 +40,7 @@ class FacetedBrowseForm(FacetedSearchForm):
         if self.is_valid() and self.cleaned_data.get('q'):
             # extract special queries
             special_queries, query = \
-              _extract_special_queries(self.cleaned_data.get('q'))
+                _extract_special_queries(self.cleaned_data.get('q'))
             if query:
                 sqs = sqs.auto_query(query)
             if (special_queries):
@@ -98,10 +99,10 @@ def _extract_special_queries(query):
     """
     # here we collect the special queries
     special_queries = []
-    
+
     for _token in query.split():
-        if _token.startswith(MORE_FROM_SAME_CREATORS)\
-          or _token.startswith(MORE_FROM_SAME_PROJECTS):
+        if _token.startswith(MORE_FROM_SAME_CREATORS) \
+                or _token.startswith(MORE_FROM_SAME_PROJECTS):
             special_queries.append(_token)
     # remove special queries from original query
     if special_queries:
@@ -110,10 +111,10 @@ def _extract_special_queries(query):
         ws_pattern = re.compile(r'\s+')
         query = re.sub(ws_pattern, " ", query)
         query = query.strip()
-        
+
     return special_queries, query
-         
-         
+
+
 def _process_special_query(query):
     """
     Processes the given special query;
@@ -127,9 +128,9 @@ def _process_special_query(query):
             storage_object__identifier=resource_id)
     except resourceInfoType_model.DoesNotExist:
         LOGGER.info('Ignoring unknown storage identifier "%s" in "%s" query.',
-            resource_id, query_type)
+                    resource_id, query_type)
         return []
-    
+
     # get related resources
     if query_type == MORE_FROM_SAME_CREATORS:
         rel_res = get_more_from_same_creators(res)
@@ -140,17 +141,19 @@ def _process_special_query(query):
         return []
     # return internal ids from related resources
     return [x.id for x in rel_res]
-    
+
 
 class LicenseSelectionForm(forms.Form):
     """
     A `Form` for presenting download licenses and selecting exactly one of them.
     """
+
     def __init__(self, licences, *args, **kwargs):
         """
         Initializes the `LicenseSelectionForm` with the given licenses.
         """
         super(LicenseSelectionForm, self).__init__(*args, **kwargs)
+
         class _LicenseSelectionRenderer(forms.widgets.RadioFieldRenderer):
             """
             A custom `RadioSelectRenderer` for rendering license selections.
@@ -159,18 +162,19 @@ class LicenseSelectionForm(forms.Form):
             labels but additionally short license information blocks for each
             license.
             """
+
             def __iter__(self):
                 for i, choice in enumerate(self.choices):
                     yield (licences[choice[0]][0],
                            forms.widgets.RadioChoiceInput(self.name, self.value,
-                                                self.attrs.copy(), choice, i))
+                                                          self.attrs.copy(), choice, i))
 
             def render(self):
                 return mark_safe(u'<ul>{0}\n</ul>'.format(
                     u'\n'.join([u'<li><div>{0}</div>\n{1}</li>' \
-                                    .format(force_unicode(w),
-                                            self._create_restrictions_block(l,
-                                                                w.choice_value))
+                               .format(force_unicode(w),
+                                       self._create_restrictions_block(l,
+                                                                       w.choice_value))
                                 for (l, w) in self])))
 
             def _create_restrictions_block(self, licence_info, licence_name):
@@ -194,7 +198,7 @@ class LicenseSelectionForm(forms.Form):
         self.fields['licence'] = \
             forms.ChoiceField(choices=[(name, name) for name in licences],
                               widget=forms.widgets.RadioSelect(
-                                        renderer=_LicenseSelectionRenderer))
+                                  renderer=_LicenseSelectionRenderer))
 
 
 class LicenseAgreementForm(forms.Form):
@@ -204,8 +208,9 @@ class LicenseAgreementForm(forms.Form):
     in_licence_agree_form = forms.BooleanField(initial=True,
                                                widget=forms.HiddenInput())
     licence_agree = forms.BooleanField(label=_('I agree to these licence ' \
-                            'terms and would like to download the resource.'),
-                    error_messages={'required': 'To download the resource, you have to accept the licence terms'})
+                                               'terms and would like to download the resource.'),
+                                       error_messages={
+                                           'required': 'To download the resource, you have to accept the licence terms'})
 
     def __init__(self, licence, *args, **kwargs):
         """
@@ -222,3 +227,13 @@ class DownloadContactForm(forms.Form):
     """
     userEmail = forms.EmailField(label=_("Your e-mail"))
     message = forms.CharField(label=_("Your message"), widget=forms.Textarea())
+
+
+class RelationsForm(forms.ModelForm):
+    class Meta:
+        model = relationInfoType_model
+        fields = "__all__"
+
+        widgets = {
+            'relatedResource': LinkedAutoCompleteWidget(TargetResourceLookup)
+        }

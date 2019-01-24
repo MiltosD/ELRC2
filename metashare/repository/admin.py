@@ -4,8 +4,8 @@ from metashare.repository.editor.inlines import SchemaModelInline
 from metashare.repository.forms import RelationsForm
 
 from metashare.repository.models import documentUnstructuredString_model
-admin.site.register(documentUnstructuredString_model)
 
+admin.site.register(documentUnstructuredString_model)
 
 from metashare.repository.models import \
     actorInfoType_model, \
@@ -195,6 +195,7 @@ class relationInfo_model_inline(SchemaModelInline):
     min_num = 1
     extra = 0
 
+
 # pylint: disable-msg=C0103
 class sizeInfo_model_inline_corpusTextInfoType_model(SchemaModelInline):
     model = sizeInfoType_model
@@ -312,7 +313,6 @@ admin.site.register(toolServiceOperationInfoType_model, SchemaModelAdmin)
 admin.site.register(validationInfoType_model, SchemaModelAdmin)
 admin.site.register(versionInfoType_model, SchemaModelAdmin)
 
-
 from metashare.repository.editor import manual_admin_registration
-manual_admin_registration.register()
 
+manual_admin_registration.register()

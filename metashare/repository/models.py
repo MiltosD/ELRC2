@@ -1235,7 +1235,7 @@ class annotationInfoType_model(SchemaModel):
 # Define validator here and not in validators.py to avoid circular import
 
 def validate_target_resource(value):
-    if value.isdigit() and not resourceInfoType_model.objects.filter(id=value).first():
+    if value.isdigit() and not resourceInfoType_model.objects.filter(id=value, storage_object__deleted=False).first():
         raise ValidationError(u'The resource with id {} does not exist'.format(value))
 
 

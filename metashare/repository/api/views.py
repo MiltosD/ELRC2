@@ -40,7 +40,7 @@ def get_data(request, object_id):
     :param object_id: resource id to download dataset from
     :return: dataset in zip format or 403
     """
-    resource = resourceInfoType_model.objects.get(pk=object_id)
+    resource = resourceInfoType_model.objects.filter(pk=object_id).first()
     if not resource:
         LOGGER.error(
             "Invalid API dataset download from user {}. Resource with id {} does not exist"

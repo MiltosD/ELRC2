@@ -1,3 +1,5 @@
+import logging
+
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden, HttpResponse, HttpResponseBadRequest
 from django.utils.encoding import smart_str
@@ -6,8 +8,13 @@ from metashare.repository.editor.resource_editor import ResourceModelAdmin
 from metashare.repository.fields import best_lang_value_retriever
 from metashare.repository.models import resourceInfoType_model
 from metashare.repository.templatetags.is_member import is_member
+from metashare.settings import LOG_HANDLER
 
 admin = ResourceModelAdmin(model=resourceInfoType_model, admin_site=None)
+
+# Setup logging support.
+LOGGER = logging.getLogger(__name__)
+LOGGER.addHandler(LOG_HANDLER)
 
 publication_status = {
     'i': 'INTERNAL',
@@ -37,8 +44,10 @@ def get_data(request, object_id):
     if resource and (request.user.is_superuser or request.user in resource.owners.all()
                      or is_member(request.user, 'elrcReviewers')):
         data = admin.datadl(request, object_id)
+        LOGGER.info("Providing API dataset download for resource {} to user {}".format(resource.id, request.user))
         return data
     else:
+        LOGGER.error("Unauthorized API dataset download for resource {} from user {}".format(resource.id, request.user))
         return HttpResponseForbidden()
 
 
@@ -51,7 +60,7 @@ def upload_data(request, object_id):
 
     resource = resourceInfoType_model.objects.get(pk=object_id)
     if resource and (request.user.is_superuser or request.user in resource.owners.all()):
-
+        LOGGER.info("Providing API dataset upload for resource {} to user {}".format(resource.id, request.user))
         _storage_folder = resource.storage_object._storage_folder()
 
         _out_filename = '{}/archive.zip'.format(_storage_folder)
@@ -70,6 +79,7 @@ def upload_data(request, object_id):
         return HttpResponse("Dataset {} has been uploaded".format(dataset))
         # return admin.uploaddata_view(request, object_id)
     else:
+        LOGGER.error("Unauthorized API dataset upload for resource {} from user {}".format(resource.id, request.user))
         return HttpResponseForbidden()
 
 
@@ -82,8 +92,11 @@ def get_xml(request, object_id=None):
     :return:
     """
     if object_id:
+        LOGGER.info("Providing API XML export for resource {} to user {}".format(object_id, request.user))
+
         return admin.exportxml(request, object_id)
     else:
+        LOGGER.error("Invalid API for XML export for resource {} from user {}".format(object_id, request.user))
         return HttpResponseBadRequest(
             content='No resource id provided'
         )
@@ -99,6 +112,7 @@ def list(request):
             best_lang_value_retriever(q.identificationInfo.resourceName),
             publication_status.get(q.storage_object.publication_status))
     response += "\nTotal: {}".format(len(queryset))
+    LOGGER.info("Providing API resource list to user {}".format(request.user))
     return HttpResponse(response)
 
 
@@ -113,4 +127,5 @@ def list_my(request):
             publication_status.get(q.storage_object.publication_status))
 
     response += "\nTotal: {}".format(len(queryset))
+    LOGGER.info("Providing API user resource list to user {}".format(request.user))
     return HttpResponse(response)

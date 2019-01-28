@@ -46,7 +46,7 @@ def get_data(request, object_id):
         LOGGER.error(
             "Invalid API dataset download from user {}. Resource with id {} does not exist"
             .format(request.user, object_id))
-        return HttpResponseBadRequest()
+        return HttpResponse('Resource {} not found'.format(object_id))
     if resource and (request.user.is_superuser or request.user in resource.owners.all()
                      or is_member(request.user, 'elrcReviewers')):
         data = admin.datadl(request, object_id)

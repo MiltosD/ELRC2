@@ -1,9 +1,6 @@
-import json
-
-from metashare.bcp47.iana import get_language_subtag
+from metashare.bcp47 import iana
 from metashare.odp.opd_settings import odp_template, language_authority_seed_url, LANGUAGES_TREE, XPATH_TEMPLATE, \
     EUROVOC, EUROVOC_XPATH
-from metashare.repository.dataformat_choices import MIMETYPEVALUE_TO_MIMETYPELABEL
 from metashare.repository.models import lexicalConceptualResourceInfoType_model, \
     corpusInfoType_model, languageDescriptionInfoType_model
 from metashare.repository.views import _get_resource_lang_info, _get_resource_mimetypes
@@ -23,9 +20,6 @@ def _get_resource_domain_info(resource):
                 domain_level.append(d.domain)
                 if d.subdomain:
                     concepts.append(d.subdomain)
-            # domain_level.extend([d.domain for d in domains])
-            # if d.subdomain:
-            #     concepts.extend([d.subdomain for d in domains])
 
     elif isinstance(media, lexicalConceptualResourceInfoType_model):
         lcr_media_type = media.lexicalConceptualResourceMediaType
@@ -161,7 +155,7 @@ def create_package(resource):
 
     package_info['language'] = [
         "{}{}".format(language_authority_seed_url,
-                      LANGUAGES_TREE.find(XPATH_TEMPLATE.format(lang)).text) for lang in
+                      LANGUAGES_TREE.find(XPATH_TEMPLATE.format(iana.get_language_subtag(lang))).text) for lang in
         _get_resource_lang_info(resource)]
     # Get the proper language code
     metadata_language = LANGUAGES_TREE.find(XPATH_TEMPLATE.format(resource.metadataInfo.metadataLanguageId[0])).text

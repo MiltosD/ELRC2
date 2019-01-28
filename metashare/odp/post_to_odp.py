@@ -10,7 +10,7 @@ LOGGER = logging.getLogger(__name__)
 LOGGER.addHandler(LOG_HANDLER)
 
 # remote api to access
-odp_api = RemoteCKAN('https://data.europa.eu/euodp/data', user_agent=ODP_CKAN_USER_AGENT, apikey=ODP_API_KEY)
+opd_api = RemoteCKAN('https://data.europa.eu/euodp/data', user_agent=ODP_CKAN_USER_AGENT, apikey=ODP_API_KEY)
 
 # The ids of the resources of the repository to be added or updated in ODP
 # This is also going to be a list of resources selected in project_management admin
@@ -23,7 +23,7 @@ resources_actions = {
 }
 
 # get those resources from the repository
-resources = resourceInfoType_model.objects.filter(id__in=odp_resources)
+resources = resourceInfoType_model.objects.filter(storage_object__publication_status=u'p')
 
 
 # for r in resources:
@@ -33,7 +33,7 @@ def build_actions_dict():
     for r in resources:
         package_id = "elrc_{}".format(r.id)
         try:
-            resource = odp_api.action.package_show(id=package_id)
+            resource = opd_api.action.package_show(id=package_id)
             LOGGER.info("Dataset {} found in ODP".format(package_id))
             try:
                 if not resource['modified_date'] == r.metadataInfo.metadataLastDateUpdated.isoformat():
@@ -47,5 +47,6 @@ def build_actions_dict():
             LOGGER.warn("Dataset {} not found in ODP. Scheduled for adding.".format(package_id))
             resources_actions['add'].append(r)
     pprint.pprint(resources_actions)
-    return resources_actions
-
+# time.sleep(2)
+# x['title'] = x['title'].replace("(ELRC) ", "")
+# print opd_api.action.package_show(id="elrc_305")

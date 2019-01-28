@@ -189,10 +189,10 @@ class personInfo_model_inline(SchemaModelInline):
 
 # pylint: disable-msg=C0103
 class relationInfo_model_inline(SchemaModelInline):
-    form = RelationsForm
+    #form = RelationsForm
     model = relationInfoType_model
     collapse = False
-    min_num = 1
+    #min_num = 1
     extra = 0
 
 

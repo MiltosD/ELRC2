@@ -2,6 +2,7 @@ Django==1.7.11
 South==1.0.2
 Unidecode==0.04.18
 argparse==1.2.1
+ckanapi
 django-analytical==2.0.0
 django-haystack==2.4.1
 django-selenium==0.9.8
@@ -25,7 +26,9 @@ django-progressbarupload
 mock
 dicttoxml
 reportlab
-celery
+celery==3.1.25
 suds
 suds-requests
 pyjks
+xlsxwriter
+python-memcached

@@ -41,6 +41,11 @@ def get_data(request, object_id):
     :return: dataset in zip format or 403
     """
     resource = resourceInfoType_model.objects.get(pk=object_id)
+    if not resource:
+        LOGGER.error(
+            "Invalid API dataset download from user {}. Resource with id {} does not exist"
+            .format(request.user, resource.id))
+        return HttpResponseBadRequest()
     if resource and (request.user.is_superuser or request.user in resource.owners.all()
                      or is_member(request.user, 'elrcReviewers')):
         data = admin.datadl(request, object_id)

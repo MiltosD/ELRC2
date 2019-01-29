@@ -1,7 +1,6 @@
 from django.contrib import admin
 from metashare.repository.editor.superadmin import SchemaModelAdmin
 from metashare.repository.editor.inlines import SchemaModelInline
-from metashare.repository.forms import RelationsForm
 
 from metashare.repository.models import documentUnstructuredString_model
 
@@ -189,10 +188,8 @@ class personInfo_model_inline(SchemaModelInline):
 
 # pylint: disable-msg=C0103
 class relationInfo_model_inline(SchemaModelInline):
-    #form = RelationsForm
     model = relationInfoType_model
     collapse = False
-    #min_num = 1
     extra = 0
 
 

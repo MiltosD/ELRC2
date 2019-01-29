@@ -8,9 +8,7 @@ from django.utils.translation import ugettext as _
 
 from metashare.recommendations.recommendations import get_more_from_same_creators, \
     get_more_from_same_projects
-from metashare.repository.editor.lookups import TargetResourceLookup
-from metashare.repository.editor.widgets import LinkedAutoCompleteWidget
-from metashare.repository.models import resourceInfoType_model, relationInfoType_model
+from metashare.repository.models import resourceInfoType_model
 from metashare.repository.search_indexes import resourceInfoType_modelIndex
 from metashare.settings import LOG_HANDLER
 
@@ -228,12 +226,3 @@ class DownloadContactForm(forms.Form):
     userEmail = forms.EmailField(label=_("Your e-mail"))
     message = forms.CharField(label=_("Your message"), widget=forms.Textarea())
 
-
-class RelationsForm(forms.ModelForm):
-    class Meta:
-        model = relationInfoType_model
-        fields = "__all__"
-
-        widgets = {
-            'relatedResource': LinkedAutoCompleteWidget(TargetResourceLookup)
-        }

@@ -913,19 +913,3 @@ class AutoCompleteSelectSingleWidget(MetaShareAutoCompleteSelectWidget):
                 limit=self.limit, query_params=query_params, attrs=attrs)
 
 
-class LinkedAutoCompleteWidget(AutoCompleteWidget):
-
-    def render(self, name, value, attrs=None):
-        if value is None:
-            value = ''
-        final_attrs = self.build_attrs(attrs, type=self.input_type, name=name)
-        if value != '':
-            # Only add the 'value' attribute if a value is non-empty.
-            final_attrs['value'] = force_text(self._format_value(value))
-            return format_html(
-                '<input{0} /> '                               
-                '<div style="display: inline-block; margin: 0 5px 0 5px">'
-                '<a target="_blank" href="/editor/repository/resourceinfotype_model/{1}/">Edit Related Resource {2}</a>'
-                '</div> ',
-                               flatatt(final_attrs), value, value)
-        return format_html('<input{0} />', flatatt(final_attrs))

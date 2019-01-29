@@ -190,7 +190,6 @@ class personInfo_model_inline(SchemaModelInline):
 class relationInfo_model_inline(SchemaModelInline):
     model = relationInfoType_model
     collapse = False
-    extra = 0
 
 
 # pylint: disable-msg=C0103

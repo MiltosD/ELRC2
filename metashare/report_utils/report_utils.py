@@ -249,19 +249,19 @@ def _get_preferred_size(resource):
     if tu:
         return tu
     else:
-        tokens = next((size_info for size_info in size_infos if size_info.sizeUnit == u"tokens"), None)
+        tokens = next((size_info for size_info in size_infos if size_info.sizeUnit == u"sentences"), None)
         if tokens:
             return tokens
         else:
-            words = next((size_info for size_info in size_infos if size_info.sizeUnit == u"words"), None)
+            words = next((size_info for size_info in size_infos if size_info.sizeUnit == u"terms"), None)
             if words:
                 return words
             else:
-                entries = next((size_info for size_info in size_infos if size_info.sizeUnit == u"entries"), None)
+                entries = next((size_info for size_info in size_infos if size_info.sizeUnit == u"words"), None)
                 if entries:
                     return entries
                 else:
-                    terms = next((size_info for size_info in size_infos if size_info.sizeUnit == u"terms"), None)
+                    terms = next((size_info for size_info in size_infos if size_info.sizeUnit == u"tokens"), None)
                     if terms:
                         return terms
                     else:

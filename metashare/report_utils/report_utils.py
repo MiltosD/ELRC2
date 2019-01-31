@@ -245,30 +245,46 @@ def get_licenses(obj):
 
 def _get_preferred_size(resource):
     size_infos = _get_resource_size_infos(resource)
-    tu = next((size_info for size_info in size_infos if size_info.sizeUnit == u"translationUnits"), None)
-    if tu:
-        return tu
+    tus = next((size_info for size_info in size_infos if size_info.sizeUnit == u"translationUnits"), None)
+    if tus:
+        return tus
     else:
-        tokens = next((size_info for size_info in size_infos if size_info.sizeUnit == u"sentences"), None)
-        if tokens:
-            return tokens
+        sentences = next((size_info for size_info in size_infos if size_info.sizeUnit == u"sentences"), None)
+        if sentences:
+            return sentences
         else:
-            words = next((size_info for size_info in size_infos if size_info.sizeUnit == u"terms"), None)
-            if words:
-                return words
+            segments = next((size_info for size_info in size_infos if size_info.sizeUnit == u"segments"), None)
+            if segments:
+                return segments
             else:
-                entries = next((size_info for size_info in size_infos if size_info.sizeUnit == u"words"), None)
+                entries = next((size_info for size_info in size_infos if size_info.sizeUnit == u"entries"), None)
                 if entries:
                     return entries
                 else:
-                    terms = next((size_info for size_info in size_infos if size_info.sizeUnit == u"tokens"), None)
+                    terms = next((size_info for size_info in size_infos if size_info.sizeUnit == u"terms"), None)
                     if terms:
                         return terms
                     else:
-                        try:
-                            return size_infos[0]
-                        except IndexError:
-                            return None
+                        concepts = next((size_info for size_info in size_infos if size_info.sizeUnit == u"concepts"),
+                                        None)
+                        if concepts:
+                            return concepts
+                        else:
+                            words = next((size_info for size_info in size_infos if size_info.sizeUnit == u"words"),
+                                         None)
+                            if words:
+                                return words
+                            else:
+                                tokens = next(
+                                    (size_info for size_info in size_infos if size_info.sizeUnit == u"tokens"),
+                                    None)
+                                if tokens:
+                                    return tokens
+                                else:
+                                    try:
+                                        return size_infos[0]
+                                    except IndexError:
+                                        return None
 
 
 def _get_country(res):

@@ -244,47 +244,17 @@ def get_licenses(obj):
 
 
 def _get_preferred_size(resource):
+    units = [u'translationUnits', u'sentences', u'segments', u'entries', u'terms', u'concepts', u'words', u'tokens']
     size_infos = _get_resource_size_infos(resource)
-    tus = next((size_info for size_info in size_infos if size_info.sizeUnit == u"translationUnits"), None)
-    if tus:
-        return tus
-    else:
-        sentences = next((size_info for size_info in size_infos if size_info.sizeUnit == u"sentences"), None)
-        if sentences:
-            return sentences
+    for unit in units:
+        preferred_unit = next((size_info for size_info in size_infos if size_info.sizeUnit == unit), None)
+        if preferred_unit:
+            return preferred_unit
         else:
-            segments = next((size_info for size_info in size_infos if size_info.sizeUnit == u"segments"), None)
-            if segments:
-                return segments
-            else:
-                entries = next((size_info for size_info in size_infos if size_info.sizeUnit == u"entries"), None)
-                if entries:
-                    return entries
-                else:
-                    terms = next((size_info for size_info in size_infos if size_info.sizeUnit == u"terms"), None)
-                    if terms:
-                        return terms
-                    else:
-                        concepts = next((size_info for size_info in size_infos if size_info.sizeUnit == u"concepts"),
-                                        None)
-                        if concepts:
-                            return concepts
-                        else:
-                            words = next((size_info for size_info in size_infos if size_info.sizeUnit == u"words"),
-                                         None)
-                            if words:
-                                return words
-                            else:
-                                tokens = next(
-                                    (size_info for size_info in size_infos if size_info.sizeUnit == u"tokens"),
-                                    None)
-                                if tokens:
-                                    return tokens
-                                else:
-                                    try:
-                                        return size_infos[0]
-                                    except IndexError:
-                                        return None
+            try:
+                return size_infos[0]
+            except IndexError:
+                return None
 
 
 def _get_country(res):

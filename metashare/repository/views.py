@@ -1103,6 +1103,12 @@ def contribute(request):
         if 'languages[]' in request.POST:
             data['resourceInfo']['languages'] = request.POST.getlist('languages[]')
 
+        if 'licence' in request.POST:
+            data['resourceInfo']['licence'] = request.POST['licence']
+
+        if 'other_info' in request.POST:
+            data['resourceInfo']['other_info'] = request.POST['other_info']
+
         try:
             data['resourceInfo']['resourceUrl'] = request.POST['resourceUrl']
         except:
@@ -1248,6 +1254,8 @@ def manage_contributed_data(request):
             "title": doc.xpath("//resourceTitle//text()"),
             "description": doc.xpath("//shortDescription//text()"),
             "languages": doc.xpath("//languages/item/text()"),
+            "licence": doc.xpath("//licence/text()"),
+            "other_info": doc.xpath("//other_info/text()"),
             "userInfo": {
                 "firstname": doc.xpath("//userInfo/first_name/text()"),
                 "lastname": doc.xpath("//userInfo/last_name/text()"),
@@ -1321,7 +1329,7 @@ def addtodb(request):
     total_res = 0
     # get the list of maintainers from the dat file
     maintainers = {}
-    with open('{}/maintainers.dat'.format(CONTRIBUTION_FORM_DATA)) as f:
+    with open('{}/maintainers_test.dat'.format(CONTRIBUTION_FORM_DATA)) as f:
         for line in f:
             (key, val) = line.split(":")
             maintainers[key.strip()] = val.strip()
@@ -1469,6 +1477,7 @@ def create_description(xml_file, type, base, user):
         "title": ''.join(doc.xpath("//resourceTitle//text()")),
         "description": ''.join(doc.xpath("//shortDescription//text()")),
         "languages": doc.xpath("//languages/item/text()"),
+        "licence": doc.xpath("//licence/text()"),
         "userInfo": {
             "firstname": ''.join(doc.xpath("//userInfo/first_name/text()")),
             "lastname": ''.join(doc.xpath("//userInfo/last_name/text()")),
@@ -1632,10 +1641,18 @@ def create_description(xml_file, type, base, user):
                                                              (metadataCreationDate=datetime.date.today(),
                                                               metadataLastDateUpdated=datetime.date.today()))
     # create distributionInfo object
+    availability = u"underReview"
+    psi = False
+    licence = u"underReview"
+    if info['licence']:
+        availability = u'available'
+        licence = info['licence'][0]
+        if info['licence'] == u'openUnder-PSI':
+            psi = True
     distribution = distributionInfoType_model.objects.create(
-        availability=u"underReview",
-        PSI=False)
-    licence_obj = licenceInfoType_model.objects.create(licence=u"underReview")
+        availability=availability,
+        PSI=psi)
+    licence_obj = licenceInfoType_model.objects.create(licence=licence)
     distribution.licenceInfo.add(licence_obj)
     resource.distributioninfotype_model_set.add(distribution)
     resource.save()

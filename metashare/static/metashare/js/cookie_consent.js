@@ -1783,7 +1783,6 @@
 })(window.cookieconsent || {});
 
 gaEnable = function () {
-    console.log('Enabling Ga');
     window['ga-disable-UA-107199557-1'] = false;
 
     window.dataLayer = window.dataLayer || [];
@@ -1796,9 +1795,9 @@ gaEnable = function () {
 };
 
 gaDisable = function () {
-    document.cookie = "_ga=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    document.cookie = "_gid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    document.cookie = "_gat_gtag_UA_107199557_1=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    document.cookie = "_ga=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.elrc-share.eu";
+    document.cookie = "_gid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.elrc-share.eu";
+    document.cookie = "_gat_gtag_UA_107199557_1=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.elrc-share.eu";
     window['ga-disable-UA-107199557-1'] = true;
-}
+};
 

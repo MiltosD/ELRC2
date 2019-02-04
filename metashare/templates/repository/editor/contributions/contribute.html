@@ -6,8 +6,10 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>{% spaceless %}{% block title %}ELRC-SHARE Repository{% endblock %}{% endspaceless %}</title>
     <meta name="description" content="
+
             {% spaceless %}{% block description %}ELRC-SHARE: a repository used for documenting, storing, browsing and accessing Language Resources.{% endblock %}{% endspaceless %}"/>
     <meta name="keywords" content="
+
             {% spaceless %}{% block keywords %}ELRC-SHARE, language resources, language tools, ELRC, European Language Resource Coordination{% endblock %}{% endspaceless %}"/>
     <link rel="shortcut icon" href="{{ STATIC_URL }}metashare/images/favicon.ico"/>
     <link rel="stylesheet" href="{{ STATIC_URL }}metashare/css/blueprint/screen.css" type="text/css"
@@ -24,6 +26,30 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="{{ STATIC_URL }}metashare/js/upload.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}metashare/js/metashare.js"></script>
+    <link rel="stylesheet" type="text/css"
+          href="/static/metashare/css/cookie_consent.css"/>
+    <script src="/static/metashare/js/cookie_consent.js"></script>
+    <script>
+        window.addEventListener("load", function () {
+            window.cookieconsent.initialise({
+                "palette": {
+                    "popup": {
+                        "background": "#edeff5",
+                        "text": "#838391"
+                    },
+                    "button": {
+                        "background": "#4b81e8"
+                    }
+                },
+                "type": "opt-out",
+                "content": {
+                    "message": "We use cookies on this site to enhance your user experience. " +
+                        "By clicking any link on this page you are giving your consent for us to set cookies.",
+                    "dismiss": "OK, I aggree"
+                }
+            })
+        });
+    </script>
     <style>
         .menu_fontawesome {
             font-size: 1.4em;
@@ -36,10 +62,12 @@
             line-height: 1.5;
             color: #474747;
         }
+
         .discl_block {
             background: #058dbe1a;
             padding: 10px;
         }
+
         .discl_block li {
             font-size: 90%;
         }
@@ -255,15 +283,20 @@
                 <strong>By clicking on the Submit button, You represent and warrant that:</strong>
                 <ol>
                     <li>you have the necessary legal title in the <em>Resource</em> or you are have obtained
-                        permission to deposit the <em>Resource</em>;</li>
+                        permission to deposit the <em>Resource</em>;
+                    </li>
                     <li>the deposition of the <em>Resource</em> will not violate or be considered a breach of
-                        any obligation or right of a third party;</li>
+                        any obligation or right of a third party;
+                    </li>
                     <li>the deposition of the <em>Resource</em> will not violate any applicable law or
-                        regulation;</li>
+                        regulation;
+                    </li>
                     <li>the information you provide in the process of deposition does not contain any untrue statements
-                        of legal or material facts;</li>
+                        of legal or material facts;
+                    </li>
                     <li>the information you provide in the process of deposition does not contain any personal
-                        information you are not entitled to use;</li>
+                        information you are not entitled to use;
+                    </li>
                 </ol>
             </div>
             <!-- Button (Double) -->

@@ -8,8 +8,12 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <title>{% spaceless %}{% block title %}ELRC-SHARE{% endblock %}{% endspaceless %}</title>
         <meta name="description" content="
+
+
                 {% spaceless %}{% block description %}ELRC-SHARE: a repository used for documenting, storing, browsing and accessing Language Resources.{% endblock %}{% endspaceless %}"/>
         <meta name="keywords" content="
+
+
                 {% spaceless %}{% block keywords %}ELRC-SHARE, language resources, language tools, ELRC, European Language Resource Coordination{% endblock %}{% endspaceless %}"/>
         <link rel="shortcut icon" href="{% static "metashare/images/favicon.ico" %}"/>
         <link rel="stylesheet" href="{% static "metashare/css/blueprint/screen.css" %}" type="text/css"
@@ -26,20 +30,38 @@
         <script src="https://use.fontawesome.com/92573ad434.js"></script>
         {% block links %}{% endblock %}{% analytical_head_bottom %}
         <script async src="https://www.googletagmanager.com/gtag/js?id=UA-107199557-1"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag() {
-                dataLayer.push(arguments)
-            };
-            gtag('js', new Date());
-            gtag('config', 'UA-107199557-1');
-        </script>
         <style>
             .menu_fontawesome {
                 font-size: 1.4em;
                 color: #058dbe;
             }
         </style>
+        <link rel="stylesheet" type="text/css"
+              href="/static/metashare/css/cookie_consent.css"/>
+        <script src="/static/metashare/js/cookie_consent.js"></script>
+        <script>
+            window.addEventListener("load", function () {
+                window.cookieconsent.initialise({
+                    "palette": {
+                        "popup": {
+                            "background": "#edeff5",
+                            "text": "#838391"
+                        },
+                        "button": {
+                            "background": "#4b81e8"
+                        }
+                    },
+                    "type": "opt-out",
+                    "content": {
+                        "message": "We use cookies on this site to enhance your user experience. " +
+                            "By clicking any link on this page you are giving your consent for us to set cookies.",
+                        "dismiss": "OK, I aggree"
+                    }
+                })
+            });
+        </script>
+        <script>
+        </script>
         {% block extra_head %}{% endblock %}
     </head>
     <body>

@@ -286,7 +286,7 @@
                 allow: 'Allow cookies',
                 deny: 'Decline',
                 link: 'Learn more',
-                href: 'https://cookiesandyou.com',
+                href: '/info/#Privacy',
                 close: '&#x274c;',
                 target: '_blank',
                 policy: 'Cookie Policy'

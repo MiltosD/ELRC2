@@ -78,6 +78,8 @@
              <th class="sorting">Resource Title</th>
              <th>Short Description</th>
              <th class="sorting">Languages</th>
+             <th class="sorting">Licence</th>
+             <th class="sorting">Data owner and other information</th>
              <th class="sorting">Contributor</th>
              <th class="sorting">Country</th>
              <th>Phone Number</th>
@@ -99,6 +101,8 @@
         <td>{{ file.title|join:""}}</td>
         <td style="max-width:210px">{{ file.description|join:"" }}</td>
         <td>{{ file.languages|join:", "}}</td>
+        <td>{{ file.licence|join:"" }}</td>
+        <td>{{ file.other_info|join:", "}}</td>
         <td>
             {{ file.userInfo.firstname|join:"" }} {{ file.userInfo.lastname|join:"" }}
         </td>

@@ -1878,10 +1878,10 @@ def licenceinfotype_licence_optgroup_choices():
     and the second group is the rest.
     """
     indl = ('International/National Data Licences', LICENCEINFOTYPE_LICENCE_CHOICES['choices'][:23])
-    ndl = ('National Data Licences', LICENCEINFOTYPE_LICENCE_CHOICES['choices'][23:36])
-    isl = ('International Software Licences', LICENCEINFOTYPE_LICENCE_CHOICES['choices'][36:48])
-    isdl = ('International Software & Data Licences', LICENCEINFOTYPE_LICENCE_CHOICES['choices'][48:51])
-    other = ('Other', LICENCEINFOTYPE_LICENCE_CHOICES['choices'][51:])
+    ndl = ('National Data Licences', LICENCEINFOTYPE_LICENCE_CHOICES['choices'][23:37])
+    isl = ('International Software Licences', LICENCEINFOTYPE_LICENCE_CHOICES['choices'][37:49])
+    isdl = ('International Software & Data Licences', LICENCEINFOTYPE_LICENCE_CHOICES['choices'][49:52])
+    other = ('Other', LICENCEINFOTYPE_LICENCE_CHOICES['choices'][52:])
     optgroup = [indl, ndl, isl, isdl, other]
     return optgroup
 

@@ -354,6 +354,17 @@
                                 </xs:appinfo>
                             </xs:annotation>
                         </xs:enumeration>
+                        <xs:enumeration value="CC-BY-3.0-CZ">
+                            <xs:annotation>
+                                <xs:documentation>Creative Commons 3.0 Czech Republic; cf.
+                                    https://creativecommons.org/licenses/by/3.0/cz/deed.en
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>Creative Commons 3.0 Czech Republic</label>
+                                    <recomUsage>data</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
                         <xs:enumeration value="CC-BY-NC-3.0">
                             <xs:annotation>
                                 <xs:documentation>Creative Commons Attribution Non Commercial 3.0 Unported; cf.
@@ -753,13 +764,46 @@
                                 </xs:appinfo>
                             </xs:annotation>
                         </xs:enumeration>
-                        <xs:enumeration value="OGL-3.0">
+                        <xs:enumeration value="OGL-UK-3.0">
                             <xs:annotation>
-                                <xs:documentation>Open Government Licence v3.0, cf.
+                                <xs:documentation>Open Government License United Kingdom 3.0, cf.
                                     http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
                                 </xs:documentation>
                                 <xs:appinfo>
-                                    <label>Open Government Licence v3.0</label>
+                                    <label>Open Government License United Kingdom 3.0</label>
+                                    <recomUsage>data PSI - UK</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="OGL-UK-2.0">
+                            <xs:annotation>
+                                <xs:documentation>Open Government License United Kingdom 2.0, cf.
+                                    http://www.nationalarchives.gov.uk/doc/open-government-licence/version/2/
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>Open Government License United Kingdom 2.0</label>
+                                    <recomUsage>data PSI - UK</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="OGL-UK-1.0">
+                            <xs:annotation>
+                                <xs:documentation>Open Government License United Kingdom 1.0, cf.
+                                    http://www.nationalarchives.gov.uk/doc/open-government-licence/version/1/
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>Open Government License United Kingdom 1.0</label>
+                                    <recomUsage>data PSI - UK</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="OGL-CA-2.0">
+                            <xs:annotation>
+                                <xs:documentation>Open Government Licence Canada 2.0, cf.
+                                    https://open.canada.ca/en/open-government-licence-canada
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>Open Government Licence Canada 2.0</label>
                                     <recomUsage>data PSI - UK</recomUsage>
                                 </xs:appinfo>
                             </xs:annotation>

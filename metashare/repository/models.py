@@ -1819,7 +1819,6 @@ LICENCEINFOTYPE_LICENCE_CHOICES = _make_choices_from_list([
     u'CC-BY-SA-4.0',
     u'ODbL-1.0',
     u'ODC-BY-1.0',
-    u'OGL-3.0',
     u'PDDL-1.0',
     u'openUnder-PSI',
     u'CC-BY-3.0',
@@ -1841,6 +1840,11 @@ LICENCEINFOTYPE_LICENCE_CHOICES = _make_choices_from_list([
     u'LO-OL-v2',
     u'NCGL-1.0',
     u'NLOD-1.0',
+    u'OGL-UK-3.0',
+    u'OGL-UK-2.0',
+    u'OGL-UK-1.0',
+    u'OGL-CA-2.0',
+    u'CC-BY-3.0-CZ',
     u'CC-BY-SA-2.5_Sl',
     u'CC-BY-2.5-SE',
     # International Software Licences
@@ -1872,11 +1876,11 @@ def licenceinfotype_licence_optgroup_choices():
     Group the choices in groups. The first group is the most used choices
     and the second group is the rest.
     """
-    indl = ('International/National Data Licences', LICENCEINFOTYPE_LICENCE_CHOICES['choices'][:24])
-    ndl = ('National Data Licences', LICENCEINFOTYPE_LICENCE_CHOICES['choices'][24:32])
-    isl = ('International Software Licences', LICENCEINFOTYPE_LICENCE_CHOICES['choices'][32:44])
-    isdl = ('International Software & Data Licences', LICENCEINFOTYPE_LICENCE_CHOICES['choices'][44:47])
-    other = ('Other', LICENCEINFOTYPE_LICENCE_CHOICES['choices'][47:])
+    indl = ('International/National Data Licences', LICENCEINFOTYPE_LICENCE_CHOICES['choices'][:23])
+    ndl = ('National Data Licences', LICENCEINFOTYPE_LICENCE_CHOICES['choices'][23:36])
+    isl = ('International Software Licences', LICENCEINFOTYPE_LICENCE_CHOICES['choices'][36:48])
+    isdl = ('International Software & Data Licences', LICENCEINFOTYPE_LICENCE_CHOICES['choices'][48:51])
+    other = ('Other', LICENCEINFOTYPE_LICENCE_CHOICES['choices'][51:])
     optgroup = [indl, ndl, isl, isdl, other]
     return optgroup
 
@@ -1893,6 +1897,7 @@ LICENCES_DETAILS = {
     u'CC-BY-SA-4.0': {"url": "https://creativecommons.org/licenses/by-sa/4.0/", "version": "4.0"},
 
     u'CC-BY-3.0': {"url": "https://creativecommons.org/licenses/by/3.0/", "version": "3.0"},
+    u'CC-BY-3.0-CZ': {"url": "https://creativecommons.org/licenses/by/3.0/cz/deed.en", "version": "3.0"},
     u'CC-BY-NC-3.0': {"url": "https://creativecommons.org/licenses/by-nc/3.0/", "version": "3.0"},
     u'CC-BY-NC-ND-3.0': {"url": "https://creativecommons.org/licenses/by-nc-nd/3.0/", "version": "3.0"},
     u'CC-BY-NC-SA-3.0': {"url": "https://creativecommons.org/licenses/by-nc-sa/3.0/", "version": "3.0"},
@@ -1914,7 +1919,10 @@ LICENCES_DETAILS = {
     u'dl-de/zero-2-0': {"url": "https://www.govdata.de/dl-de/zero-2-0", "version": "2.0"},
     u'IODL-1.0': {"url": "http://www.formez.it/iodl/", "version": "1.0"},
     u'NLOD-1.0': {"url": "http://data.norge.no/nlod/en/1.0", "version": "1.0"},
-    u'OGL-3.0': {"url": "http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/", "version": "3.0"},
+    u'OGL-UK-3.0': {"url": "http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/", "version": "3.0"},
+    u'OGL-UK-2.0': {"url": "http://www.nationalarchives.gov.uk/doc/open-government-licence/version/2/", "version": "2.0"},
+    u'OGL-UK-1.0': {"url": "http://www.nationalarchives.gov.uk/doc/open-government-licence/version/1/", "version": "1.0"},
+    u'OGL-CA-2.0': {"url": "https://open.canada.ca/en/open-government-licence-canada", "version": "2.0"},
     u'NCGL-1.0': {
         "url": "http://www.nationalarchives.gov.uk/doc/"
                "non-commercial-government-licence/non-commercial-government-licence.htm",
@@ -1959,6 +1967,7 @@ LICENCES_TO_CONDITIONS = {
     u'CC-BY-SA-4.0': [u'attribution', u'shareAlike'],
 
     u'CC-BY-3.0': [u'attribution'],
+    u'CC-BY-3.0-CZ': [u'attribution'],
     u'CC-BY-NC-3.0': [u'attribution', u'nonCommercialUse'],
     u'CC-BY-NC-ND-3.0': [u'attribution', u'nonCommercialUse', u'noDerivatives'],
     u'CC-BY-NC-SA-3.0': [u'attribution', u'nonCommercialUse', u'shareAlike'],
@@ -1977,7 +1986,10 @@ LICENCES_TO_CONDITIONS = {
     u'dl-de/by-2-0': [u'attribution'],
     u'IODL-1.0': [u'attribution'],
     u'NLOD-1.0': [u'attribution'],
-    u'OGL-3.0': [u'attribution'],
+    u'OGL-UK-3.0': [u'attribution'],
+    u'OGL-UK-2.0': [u'attribution'],
+    u'OGL-UK-1.0': [u'attribution'],
+    u'OGL-CA-2.0': [u'attribution'],
     u'NCGL-1.0': [u'attribution', u'nonCommercialUse'],
 }
 

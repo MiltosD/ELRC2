@@ -143,6 +143,7 @@ LICENCEINFOTYPE_URLS_LICENCE_CHOICES = {
     'CC-BY-ND-2.0': (STATIC_URL + 'metashare/licences/CC-BY-ND-3.0.pdf', MEMBER_TYPES.NON),
     'CC-BY-SA-2.0': (STATIC_URL + 'metashare/licences/CC-BY-SA-3.0.pdf', MEMBER_TYPES.NON),
     'CC-BY-SA-2.5_Sl': (STATIC_URL + 'metashare/licences/CC-BY-SA-2.5_Sl.pdf', MEMBER_TYPES.NON),
+    'CC-BY-3.0-CZ': (STATIC_URL + 'metashare/licences/CC-BY-3.0-CZ.pdf', MEMBER_TYPES.NON),
     'CC-BY-2.5-SE': (STATIC_URL + 'metashare/licences/CC-BY-2.5-SE.pdf', MEMBER_TYPES.NON),
 
     # TODO: PDDL
@@ -170,7 +171,10 @@ LICENCEINFOTYPE_URLS_LICENCE_CHOICES = {
     'dl-de/zero-2-0': (STATIC_URL + 'metashare/licences/dl-de_zero-2-0.pdf', MEMBER_TYPES.NON),
     'IODL-1.0': (STATIC_URL + 'metashare/licences/IODL-1.0.pdf', MEMBER_TYPES.NON),
     'NLOD-1.0': (STATIC_URL + 'metashare/licences/NLOD-1.0.pdf', MEMBER_TYPES.NON),
-    'OGL-3.0': (STATIC_URL + 'metashare/licences/OGL-3.0.pdf', MEMBER_TYPES.NON),
+    'OGL-UK-3.0': (STATIC_URL + 'metashare/licences/OGL-UK-3.0.pdf', MEMBER_TYPES.NON),
+    'OGL-UK-2.0': (STATIC_URL + 'metashare/licences/OGL-UK-2.0.pdf', MEMBER_TYPES.NON),
+    'OGL-UK-1.0': (STATIC_URL + 'metashare/licences/OGL-UK-1.0.pdf', MEMBER_TYPES.NON),
+    'OGL-CA-2.0': (STATIC_URL + 'metashare/licences/OGL-CA-2.0.pdf', MEMBER_TYPES.NON),
     'NCGL-1.0': (STATIC_URL + 'metashare/licences/NCGL-1.0.pdf', MEMBER_TYPES.GOD),
     'openUnder-PSI': ('', MEMBER_TYPES.NON),
     'publicDomain': ('', MEMBER_TYPES.NON),

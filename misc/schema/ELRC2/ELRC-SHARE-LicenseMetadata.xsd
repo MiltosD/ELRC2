@@ -354,6 +354,17 @@
                                 </xs:appinfo>
                             </xs:annotation>
                         </xs:enumeration>
+                        <xs:enumeration value="CC-BY-3.0-AT">
+                            <xs:annotation>
+                                <xs:documentation>Creative Commons 3.0 Austria; cf.
+                                    https://creativecommons.org/licenses/by/3.0/at/deed.en
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>Creative Commons 3.0 Austria</label>
+                                    <recomUsage>data</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
                         <xs:enumeration value="CC-BY-3.0-CZ">
                             <xs:annotation>
                                 <xs:documentation>Creative Commons 3.0 Czech Republic; cf.

@@ -1844,6 +1844,7 @@ LICENCEINFOTYPE_LICENCE_CHOICES = _make_choices_from_list([
     u'OGL-UK-2.0',
     u'OGL-UK-1.0',
     u'OGL-CA-2.0',
+    u'CC-BY-3.0-AT',
     u'CC-BY-3.0-CZ',
     u'CC-BY-SA-2.5_Sl',
     u'CC-BY-2.5-SE',
@@ -1897,6 +1898,7 @@ LICENCES_DETAILS = {
     u'CC-BY-SA-4.0': {"url": "https://creativecommons.org/licenses/by-sa/4.0/", "version": "4.0"},
 
     u'CC-BY-3.0': {"url": "https://creativecommons.org/licenses/by/3.0/", "version": "3.0"},
+    u'CC-BY-3.0-AT': {"url": "https://creativecommons.org/licenses/by/3.0/at/deed.en", "version": "3.0"},
     u'CC-BY-3.0-CZ': {"url": "https://creativecommons.org/licenses/by/3.0/cz/deed.en", "version": "3.0"},
     u'CC-BY-NC-3.0': {"url": "https://creativecommons.org/licenses/by-nc/3.0/", "version": "3.0"},
     u'CC-BY-NC-ND-3.0': {"url": "https://creativecommons.org/licenses/by-nc-nd/3.0/", "version": "3.0"},
@@ -1967,6 +1969,7 @@ LICENCES_TO_CONDITIONS = {
     u'CC-BY-SA-4.0': [u'attribution', u'shareAlike'],
 
     u'CC-BY-3.0': [u'attribution'],
+    u'CC-BY-3.0-AT': [u'attribution'],
     u'CC-BY-3.0-CZ': [u'attribution'],
     u'CC-BY-NC-3.0': [u'attribution', u'nonCommercialUse'],
     u'CC-BY-NC-ND-3.0': [u'attribution', u'nonCommercialUse', u'noDerivatives'],

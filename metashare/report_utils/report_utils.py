@@ -250,11 +250,11 @@ def _get_preferred_size(resource):
         preferred_unit = next((size_info for size_info in size_infos if size_info.sizeUnit == unit), None)
         if preferred_unit:
             return preferred_unit
-        else:
-            try:
-                return size_infos[0]
-            except IndexError:
-                return None
+    # default to first occurrence or None
+    try:
+        return size_infos[0]
+    except IndexError:
+        return None
 
 
 def _get_country(res):

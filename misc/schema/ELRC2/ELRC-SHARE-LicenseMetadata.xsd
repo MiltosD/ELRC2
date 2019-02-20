@@ -360,7 +360,18 @@
                                     https://creativecommons.org/licenses/by/3.0/at/deed.en
                                 </xs:documentation>
                                 <xs:appinfo>
-                                    <label>Creative Commons 3.0 Austria</label>
+                                    <label>Creative Commons Attribution 3.0 Austria</label>
+                                    <recomUsage>data</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="CC-BY-3.0-IT">
+                            <xs:annotation>
+                                <xs:documentation>Creative Commons 3.0 Italy; cf.
+                                    https://creativecommons.org/licenses/by/3.0/it/
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>Creative Commons Attribution 3.0 Italy</label>
                                     <recomUsage>data</recomUsage>
                                 </xs:appinfo>
                             </xs:annotation>
@@ -371,7 +382,18 @@
                                     https://creativecommons.org/licenses/by/3.0/cz/deed.en
                                 </xs:documentation>
                                 <xs:appinfo>
-                                    <label>Creative Commons 3.0 Czech Republic</label>
+                                    <label>Creative Commons Attribution 3.0 Czech Republic</label>
+                                    <recomUsage>data</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="CC-BY-SA-3.0-PL">
+                            <xs:annotation>
+                                <xs:documentation>Creative Commons Attribution Share Alike 3.0 Poland; cf.
+                                    https://creativecommons.org/licenses/by-sa/3.0/pl/
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>Creative Commons Attribution Share Alike 3.0 Poland</label>
                                     <recomUsage>data</recomUsage>
                                 </xs:appinfo>
                             </xs:annotation>
@@ -406,6 +428,17 @@
                                 </xs:documentation>
                                 <xs:appinfo>
                                     <label>Creative Commons Attribution Non Commercial Share Alike 3.0 Unported</label>
+                                    <recomUsage>data</recomUsage>
+                                </xs:appinfo>
+                            </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="CC-BY-NC-SA-3.0-PL">
+                            <xs:annotation>
+                                <xs:documentation>Creative Commons Attribution Non Commercial Share Alike 3.0 Poland; cf.
+                                   https://creativecommons.org/licenses/by-nc-sa/3.0/pl/
+                                </xs:documentation>
+                                <xs:appinfo>
+                                    <label>Creative Commons Attribution Non Commercial Share Alike 3.0 Poland</label>
                                     <recomUsage>data</recomUsage>
                                 </xs:appinfo>
                             </xs:annotation>

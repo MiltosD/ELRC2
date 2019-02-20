@@ -1846,6 +1846,9 @@ LICENCEINFOTYPE_LICENCE_CHOICES = _make_choices_from_list([
     u'OGL-CA-2.0',
     u'CC-BY-3.0-AT',
     u'CC-BY-3.0-CZ',
+    u'CC-BY-3.0-IT',
+    u'CC-BY-SA-3.0-PL',
+    u'CC-BY-NC-SA-3.0-PL',
     u'CC-BY-SA-2.5_Sl',
     u'CC-BY-2.5-SE',
     # International Software Licences
@@ -1878,10 +1881,10 @@ def licenceinfotype_licence_optgroup_choices():
     and the second group is the rest.
     """
     indl = ('International/National Data Licences', LICENCEINFOTYPE_LICENCE_CHOICES['choices'][:23])
-    ndl = ('National Data Licences', LICENCEINFOTYPE_LICENCE_CHOICES['choices'][23:37])
-    isl = ('International Software Licences', LICENCEINFOTYPE_LICENCE_CHOICES['choices'][37:49])
-    isdl = ('International Software & Data Licences', LICENCEINFOTYPE_LICENCE_CHOICES['choices'][49:52])
-    other = ('Other', LICENCEINFOTYPE_LICENCE_CHOICES['choices'][52:])
+    ndl = ('National Data Licences', LICENCEINFOTYPE_LICENCE_CHOICES['choices'][23:40])
+    isl = ('International Software Licences', LICENCEINFOTYPE_LICENCE_CHOICES['choices'][40:52])
+    isdl = ('International Software & Data Licences', LICENCEINFOTYPE_LICENCE_CHOICES['choices'][52:55])
+    other = ('Other', LICENCEINFOTYPE_LICENCE_CHOICES['choices'][55:])
     optgroup = [indl, ndl, isl, isdl, other]
     return optgroup
 
@@ -1900,16 +1903,20 @@ LICENCES_DETAILS = {
     u'CC-BY-3.0': {"url": "https://creativecommons.org/licenses/by/3.0/", "version": "3.0"},
     u'CC-BY-3.0-AT': {"url": "https://creativecommons.org/licenses/by/3.0/at/deed.en", "version": "3.0"},
     u'CC-BY-3.0-CZ': {"url": "https://creativecommons.org/licenses/by/3.0/cz/deed.en", "version": "3.0"},
+    u'CC-BY-3.0-IT': {"url": "https://creativecommons.org/licenses/by/3.0/it/", "version": "3.0"},
     u'CC-BY-NC-3.0': {"url": "https://creativecommons.org/licenses/by-nc/3.0/", "version": "3.0"},
     u'CC-BY-NC-ND-3.0': {"url": "https://creativecommons.org/licenses/by-nc-nd/3.0/", "version": "3.0"},
     u'CC-BY-NC-SA-3.0': {"url": "https://creativecommons.org/licenses/by-nc-sa/3.0/", "version": "3.0"},
     u'CC-BY-ND-3.0': {"url": "https://creativecommons.org/licenses/by-nd/3.0/", "version": "3.0"},
     u'CC-BY-SA-3.0': {"url": "https://creativecommons.org/licenses/by-sa/3.0/", "version": "3.0"},
+    u'CC-BY-SA-3.0-PL': {"url": "https://creativecommons.org/licenses/by-sa/3.0/pl/", "version": "3.0"},
 
     u'CC-BY-2.0': {"url": "https://creativecommons.org/licenses/by/2.0/", "version": "2.0"},
     u'CC-BY-NC-2.0': {"url": "https://creativecommons.org/licenses/by-nc/2.0/", "version": "2.0"},
     u'CC-BY-NC-ND-2.0': {"url": "https://creativecommons.org/licenses/by-nc-nd/2.0/", "version": "2.0"},
     u'CC-BY-NC-SA-2.0': {"url": "https://creativecommons.org/licenses/by-nc-sa/2.0/", "version": "2.0"},
+    u'CC-BY-NC-SA-3.0-PL': {"url": "https://creativecommons.org/licenses/by-nc-sa/3.0/pl/", "version": "2.0"},
+
     u'CC-BY-ND-2.0': {"url": "https://creativecommons.org/licenses/by-nd/2.0/", "version": "2.0"},
     u'CC-BY-SA-2.0': {"url": "https://creativecommons.org/licenses/by-sa/2.0/", "version": "2.0"},
 
@@ -1971,11 +1978,13 @@ LICENCES_TO_CONDITIONS = {
     u'CC-BY-3.0': [u'attribution'],
     u'CC-BY-3.0-AT': [u'attribution'],
     u'CC-BY-3.0-CZ': [u'attribution'],
+    u'CC-BY-3.0-IT': [u'attribution'],
     u'CC-BY-NC-3.0': [u'attribution', u'nonCommercialUse'],
     u'CC-BY-NC-ND-3.0': [u'attribution', u'nonCommercialUse', u'noDerivatives'],
     u'CC-BY-NC-SA-3.0': [u'attribution', u'nonCommercialUse', u'shareAlike'],
     u'CC-BY-ND-3.0': [u'attribution', u'noDerivatives'],
     u'CC-BY-SA-3.0': [u'attribution', u'shareAlike'],
+    u'CC-BY-SA-3.0-PL': [u'attribution', u'shareAlike'],
     u'CC-BY-SA-2.5_Sl': [u'attribution', u'shareAlike'],
     u'CC-BY-2.5-SE': [u'attribution'],
 
@@ -1983,6 +1992,7 @@ LICENCES_TO_CONDITIONS = {
     u'CC-BY-NC-2.0': [u'attribution', u'nonCommercialUse'],
     u'CC-BY-NC-ND-2.0': [u'attribution', u'nonCommercialUse', u'noDerivatives'],
     u'CC-BY-NC-SA-2.0': [u'attribution', u'nonCommercialUse', u'shareAlike'],
+    u'CC-BY-NC-SA-3.0-PL': [u'attribution', u'nonCommercialUse', u'shareAlike'],
     u'CC-BY-ND-2.0': [u'attribution', u'noDerivatives'],
     u'CC-BY-SA-2.0': [u'attribution', u'shareAlike'],
 

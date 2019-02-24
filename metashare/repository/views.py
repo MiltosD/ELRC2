@@ -1337,7 +1337,7 @@ def addtodb(request):
     total_res = 0
     # get the list of maintainers from the dat file
     maintainers = {}
-    with open('{}/maintainers_test.dat'.format(CONTRIBUTION_FORM_DATA)) as f:
+    with open('{}/maintainers.dat'.format(CONTRIBUTION_FORM_DATA)) as f:
         for line in f:
             (key, val) = line.split(":")
             maintainers[key.strip()] = val.strip()
